@@ -1,4 +1,4 @@
-package passwordmanager.android0;
+package passwordmanager.android;
 
 import org.junit.Test;
 
