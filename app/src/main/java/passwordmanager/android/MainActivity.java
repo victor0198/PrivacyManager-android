@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.TextView;
 
 import passwordmanager.android.data.login.Login;
+import passwordmanager.android.UI.login.LoginUI;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void Authenticate(View v){
-        Intent i = new Intent(this, Login.class);
+    public void authenticateActivity(View v){
+        Intent i = new Intent(this, LoginUI.class);
         startActivityForResult(i, AUTH_ME);
     }
 
@@ -31,9 +32,14 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == AUTH_ME) {
             if (resultCode == RESULT_OK) {
-                String nickname = data.getStringExtra("NICKNAME");
+                String username = data.getStringExtra("username");
+                int id = data.getIntExtra("id", -1);
                 TextView welcomingText = (TextView) findViewById(R.id.textViewWelcoming);
-                welcomingText.setText(getString(R.string.welcoming).concat(nickname));
+                welcomingText.setText(getString(R.string.welcoming).
+                        concat(username).
+                        concat("! ID:").
+                        concat(String.valueOf(id))
+                );
             }
         }
     }
