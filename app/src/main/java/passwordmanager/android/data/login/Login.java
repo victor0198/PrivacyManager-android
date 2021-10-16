@@ -8,40 +8,26 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import passwordmanager.android.R;
+import passwordmanager.android.UI.login.LoginUI;
 
-public class Login extends AppCompatActivity {
+public class Login {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+    public static int authLogic(String nickname, String password){
+        // -1 -> not registered
+        // 0  -> local account
+        // >0  -> userId
+        int id = -1;
+
+        // check android key storage
+        id = 0;
+
+
+        return id;
     }
 
-    public void authenticate(View v){
-        Intent i = getIntent();
-        EditText name = (EditText) findViewById(R.id.editTextPersonName);
-        i.putExtra("NICKNAME", name.getText().toString());
-
-        EditText pass = (EditText) findViewById(R.id.editTexPassword);
-
-        if (name.getText().toString().equals("me") && pass.getText().toString().equals("pass")){
-            passAuth();
-            setResult(RESULT_OK, i);
-            finish();
-        }
-        else{
-            failAuth();
-        }
-    }
-
-    public void failAuth(){
-        TextView txtView = (TextView)findViewById(R.id.textViewFail);
-        txtView.setVisibility(View.VISIBLE);
-    }
-
-    public void passAuth(){
-        TextView txtView = (TextView)findViewById(R.id.textViewFail);
-        txtView.setVisibility(View.INVISIBLE);
-    }
 }

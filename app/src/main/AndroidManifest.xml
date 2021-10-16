@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PasswordManager">
         <activity
-            android:name=".data.login.Login"
+            android:name=".UI.login.LoginUI"
             android:exported="true" />
         <activity android:name=".MainActivity">
             <intent-filter>
