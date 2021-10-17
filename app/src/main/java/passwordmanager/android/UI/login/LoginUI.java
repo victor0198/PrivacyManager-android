@@ -27,10 +27,6 @@ public class LoginUI extends AppCompatActivity {
         i = getIntent();
 
         checkAccount();
-
-        findViewById(R.id.clearAccount).setOnClickListener((view) -> {
-            SharedPreferencesEditor.clear(this);
-        });
     }
 
     public void checkAccount(){
@@ -40,10 +36,7 @@ public class LoginUI extends AppCompatActivity {
             boolean x = identifier.equals("");
             // if previous statement is executed, an account does exist
             this.registered = true;
-            Toast.makeText(this,
-                    "|".concat(identifier).concat("|"),
-                    Toast.LENGTH_LONG)
-                    .show();
+
         }catch (Exception e){
             this.registered = false;
         }

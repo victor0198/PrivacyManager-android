@@ -1,9 +1,6 @@
 package passwordmanager.android.data.account;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
 import android.app.Activity;
-import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 

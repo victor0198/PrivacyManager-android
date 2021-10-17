@@ -3,10 +3,12 @@ package passwordmanager.android;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import passwordmanager.android.UI.login.LoginUI;
+import passwordmanager.android.data.account.SharedPreferencesEditor;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +21,10 @@ public class MainActivity extends AppCompatActivity {
 
         Intent i = new Intent(this, LoginUI.class);
         startActivityForResult(i, AUTH_ME);
+
+        findViewById(R.id.deleteAccount).setOnClickListener((view)->{
+            SharedPreferencesEditor.clear(this);
+        });
     }
 
     protected void onActivityResult(int requestCode, int resultCode,

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -44,11 +45,13 @@ public class RegisterUI extends AppCompatActivity {
         try{
 
             // TODO: replace the strings with text from the user input
-            String passwordString = "pass";
-            String username = "nick";
+            EditText username = (EditText) findViewById(R.id.rPersonName);
+            EditText password = (EditText) findViewById(R.id.rPassword);
 
             // make account identifier
-            String encryptedTextBase64 = Crypto.encrypt(username.getBytes(UTF_8), passwordString);
+            String encryptedTextBase64 = Crypto.encrypt(
+                    username.getText().toString().getBytes(UTF_8),
+                    password.getText().toString());
 
             // store identifier
             SharedPreferencesEditor.saveInSharedPreferences(this, "identifier", encryptedTextBase64);
