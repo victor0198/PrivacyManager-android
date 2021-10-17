@@ -1,28 +1,11 @@
 package passwordmanager.android.data.login;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
-import android.util.Base64;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-
-import passwordmanager.android.R;
-import passwordmanager.android.UI.login.LoginUI;
 import passwordmanager.android.data.account.Crypto;
 import passwordmanager.android.data.account.SharedPreferencesEditor;
 
@@ -61,10 +44,6 @@ public class Login {
 
         // authenticate on cloud
         // TODO: request server to register, receive the userId and set "id" value.
-        Toast.makeText(ctx,
-                username.concat(" authenticated successfully. ID ").concat(String.valueOf(id)),
-                Toast.LENGTH_LONG)
-                .show();
 
         return id;
     }
