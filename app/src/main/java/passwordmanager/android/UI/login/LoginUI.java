@@ -16,15 +16,14 @@ import passwordmanager.android.data.account.SharedPreferencesEditor;
 import passwordmanager.android.data.login.Login;
 
 public class LoginUI extends AppCompatActivity {
-    private Intent i;
-
+    private Intent intent;
     private boolean registered = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        i = getIntent();
+        intent = getIntent();
 
         checkAccount();
     }
@@ -67,17 +66,17 @@ public class LoginUI extends AppCompatActivity {
         EditText pass = (EditText) findViewById(R.id.editTexPassword);
 
         Login loginService = new Login();
-        int result = loginService.authLogic(
+        boolean result = loginService.authLogic(
                 this,
                 name.getText().toString(),
                 pass.getText().toString()
         );
 
-        if (result >= 0){
-            i.putExtra("username", name.getText().toString());
-            i.putExtra("password", pass.getText().toString());
-            i.putExtra("id", result);
-            setResult(RESULT_OK, this.i);
+        if (result){
+//            intent.putExtra("username", name.getText().toString());
+//            intent.putExtra("password", pass.getText().toString());
+//            intent.putExtra("id", result);
+            setResult(RESULT_OK, this.intent);
             finish();
         }
     }
