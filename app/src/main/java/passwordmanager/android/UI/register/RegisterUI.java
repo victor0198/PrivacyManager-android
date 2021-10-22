@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import passwordmanager.android.R;
 import passwordmanager.android.data.account.Crypto;
 import passwordmanager.android.data.account.SharedPreferencesEditor;
+import passwordmanager.android.data.register.InternetConnection;
 
 public class RegisterUI extends AppCompatActivity {
     private static final String TAG = RegisterUI.class.getSimpleName();
@@ -44,6 +45,15 @@ public class RegisterUI extends AppCompatActivity {
         findViewById(R.id.register).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Context ctx = getApplicationContext();
+
+                if (!InternetConnection.checkConnection(ctx)){
+                    Toast.makeText(ctx,
+                            "Connect to the internet for registration.",
+                            Toast.LENGTH_LONG)
+                            .show();
+                    return;
+                }
 
                 String url = "http://10.0.2.2:8080/api/v1/registration";
                 EditText username = (EditText) findViewById(R.id.rPersonName);
@@ -57,7 +67,7 @@ public class RegisterUI extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                RequestQueue requestQueue = Volley.newRequestQueue(ctx);
 
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, bodyParameters,
                         response -> {
