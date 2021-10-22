@@ -12,11 +12,7 @@ import passwordmanager.android.data.account.SharedPreferencesEditor;
 public class Login {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public int authLogic(Context ctx, String username, String password){
-        // -1 -> not registered
-        // 0  -> local account
-        // >0  -> userId
-        int id = -1;
+    public boolean authLogic(Context ctx, String username, String password){
 
         // check android key storage
         String encryptedPassword = SharedPreferencesEditor.getFromSharedPreferences(ctx, "identifier");
@@ -28,24 +24,20 @@ public class Login {
                     "Wrong credentials",
                     Toast.LENGTH_LONG)
                     .show();
-            return -1;
+            return false;
         }
 
         // locally authenticate
         if (decryptedText.equals(username)){
-            id = 0;
+            return true;
         }else{
             Toast.makeText(ctx,
                     "Wrong credentials",
                     Toast.LENGTH_LONG)
                     .show();
-            return -1;
         }
 
-        // authenticate on cloud
-        // TODO: request server to register, receive the userId and set "id" value.
-
-        return id;
+        return false;
     }
 
 }
