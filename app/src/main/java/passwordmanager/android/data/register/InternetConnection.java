@@ -5,6 +5,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 public class InternetConnection {
+    /**
+     * Test if the device is conected to the internet through WIFI or mobile data.
+     *
+     * @param context    application context
+     * @return connection status
+     */
     public static boolean checkConnection(Context context) {
         final ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 

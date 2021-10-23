@@ -1,5 +1,6 @@
 package passwordmanager.android.UI.login;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -7,6 +8,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,7 +22,20 @@ import passwordmanager.android.data.login.Login;
 
 public class LoginUI extends AppCompatActivity {
     private Intent intent;
-    private boolean registered = false;
+
+    protected ActivityResultLauncher<Intent> launchActivity = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Toast.makeText(getApplicationContext(),
+                                "Registered successfully",
+                                Toast.LENGTH_LONG)
+                                .show();
+                    }
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,24 +46,27 @@ public class LoginUI extends AppCompatActivity {
         checkAccount();
     }
 
-    public void checkAccount(){
+    /**
+     * Check if the user is registered. If not, start the register activity.
+     */
+    private void checkAccount(){
         String identifier = SharedPreferencesEditor.getFromSharedPreferences(this, "identifier");
 
+        boolean registered = true;
         try{
-            boolean x = identifier.equals("");
+            identifier.equals("");
             // if previous statement is executed, an account does exist
-            this.registered = true;
-
         }catch (Exception e){
-            this.registered = false;
+            registered = false;
         }
 
         if (!registered){
-            Intent i = new Intent(this, RegisterUI.class);
-            startActivityForResult(i, 0);
+            Intent intent = new Intent(this, RegisterUI.class);
+            launchActivity.launch(intent);
         }
-
     }
+
+
 
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
@@ -59,7 +80,9 @@ public class LoginUI extends AppCompatActivity {
             }
         }
     }
-
+    /**
+     * Check the entered credentials and offer access to the app by returning to the main menu activity.
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void authenticate(View v){
         EditText name = (EditText) findViewById(R.id.editTextPersonName);
@@ -73,9 +96,6 @@ public class LoginUI extends AppCompatActivity {
         );
 
         if (result){
-//            intent.putExtra("username", name.getText().toString());
-//            intent.putExtra("password", pass.getText().toString());
-//            intent.putExtra("id", result);
             setResult(RESULT_OK, this.intent);
             finish();
         }

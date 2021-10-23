@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import passwordmanager.android.UI.login.LoginUI;
+import passwordmanager.android.data.account.GeneratePassword;
 import passwordmanager.android.data.account.SharedPreferencesEditor;
 
 public class MainActivity extends AppCompatActivity {
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
                 Context ctx = getApplicationContext();
                 String username = SharedPreferencesEditor.getFromSharedPreferences(ctx, "username");
                 String id = SharedPreferencesEditor.getFromSharedPreferences(ctx, "id");
+
+
 
                 TextView welcomingText = (TextView) findViewById(R.id.textViewWelcoming);
                 welcomingText.setText("Hi ".
