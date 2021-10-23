@@ -23,20 +23,6 @@ import passwordmanager.android.data.login.Login;
 public class LoginUI extends AppCompatActivity {
     private Intent intent;
 
-    protected ActivityResultLauncher<Intent> launchActivity = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Toast.makeText(getApplicationContext(),
-                                "Registered successfully",
-                                Toast.LENGTH_LONG)
-                                .show();
-                    }
-                }
-            });
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +31,17 @@ public class LoginUI extends AppCompatActivity {
 
         checkAccount();
     }
+
+    protected ActivityResultLauncher<Intent> launchRegistration = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Toast.makeText(getApplicationContext(),
+                            "Registered successfully",
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
+            });
 
     /**
      * Check if the user is registered. If not, start the register activity.
@@ -62,11 +59,9 @@ public class LoginUI extends AppCompatActivity {
 
         if (!registered){
             Intent intent = new Intent(this, RegisterUI.class);
-            launchActivity.launch(intent);
+            launchRegistration.launch(intent);
         }
     }
-
-
 
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
