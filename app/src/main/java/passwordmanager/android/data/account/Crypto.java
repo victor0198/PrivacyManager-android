@@ -22,7 +22,13 @@ public class Crypto {
     private static final int SALT_LENGTH_BYTE = 16;
     private static final Charset UTF_8 = StandardCharsets.UTF_8;
 
-    // return a base64 encoded AES encrypted text
+    /**
+     * Encrypt a text with AES encoding
+     *
+     * @param pText      text to encrypt
+     * @param password   encryption password
+     * @return encrypted text
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static String encrypt(byte[] pText, String password) throws Exception {
 
@@ -54,7 +60,13 @@ public class Crypto {
 
     }
 
-    // we need the same password, salt and iv to decrypt it
+    /**
+     * Decrypt a text with AES encoding, giving the encoded text and the encryption password
+     *
+     * @param cText      text to decrypt
+     * @param password   encryption password
+     * @return decrypted text
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static String decrypt(String cText, String password) throws Exception {
 

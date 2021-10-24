@@ -11,6 +11,14 @@ import passwordmanager.android.data.account.SharedPreferencesEditor;
 
 public class Login {
 
+    /**
+     * Save the @id in SP and close the current activity.
+     *
+     * @param ctx      application context
+     * @param username username
+     * @param password main password
+     * @return authentication status
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public boolean authLogic(Context ctx, String username, String password){
 

@@ -40,72 +40,83 @@ public class RegisterUI extends AppCompatActivity {
         intent = getIntent();
 
         checkSecureLock();
-        // TODO: check internet access
 
-        findViewById(R.id.register).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context ctx = getApplicationContext();
+        findViewById(R.id.register).setOnClickListener(view -> {
+            Context ctx = getApplicationContext();
 
-                if (!InternetConnection.checkConnection(ctx)){
-                    Toast.makeText(ctx,
-                            "Connect to the internet for registration.",
-                            Toast.LENGTH_LONG)
-                            .show();
-                    return;
-                }
-
-                String url = "http://10.0.2.2:8080/api/v1/registration";
-                EditText username = (EditText) findViewById(R.id.rPersonName);
-                EditText password = (EditText) findViewById(R.id.rPassword);
-
-                JSONObject bodyParameters = new JSONObject();
-                try {
-                    bodyParameters.put("username", username.getText().toString());
-                    bodyParameters.put("password", password.getText().toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                RequestQueue requestQueue = Volley.newRequestQueue(ctx);
-
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, bodyParameters,
-                        response -> {
-                            Log.d(TAG, "createRegisterRequest() :: onResponse() ::" + response);
-
-                            try {
-                                closeActivity(response.get("id").toString());
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                closeActivity("0");
-                            }
-
-                            boolean stored = storeAccount();
-                            Log.d(TAG, "createRegisterRequest() :: storeAccount : " + (stored?"stored":"not sored"));
-
-                        },
-                        error -> {
-                            Log.d(TAG, "createBookingRequest() :: onErrorResponse() ::" + error);
-                        }
-                );
-
-                requestQueue.add(jsonObjectRequest);
-
-
+            if (!InternetConnection.checkConnection(ctx)){
+                Toast.makeText(ctx,
+                        "Connect to the internet for registration.",
+                        Toast.LENGTH_LONG)
+                        .show();
+                return;
             }
+
+            // registration url
+            String url = "http://10.0.2.2:8080/api/v1/registration";
+
+            EditText username = (EditText) findViewById(R.id.rPersonName);
+            EditText password = (EditText) findViewById(R.id.rPassword);
+
+            // registration payload
+            JSONObject bodyParameters = new JSONObject();
+            try {
+                bodyParameters.put("username", username.getText().toString());
+                bodyParameters.put("password", password.getText().toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            // build the request
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, bodyParameters,
+                    response -> {
+                        Log.d(TAG, "createRegisterRequest() :: onResponse() ::" + response);
+
+                        try {
+                            closeActivity(response.get("id").toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            closeActivity("0");
+                        }
+
+                        boolean stored = storeAccount();
+                        Log.d(TAG, "createRegisterRequest() :: storeAccount : " + (stored?"stored":"not sored"));
+
+                    },
+                    error -> {
+                        Log.d(TAG, "createBookingRequest() :: onErrorResponse() ::" + error);
+                    }
+            );
+
+            // make request
+            RequestQueue requestQueue = Volley.newRequestQueue(ctx);
+            requestQueue.add(jsonObjectRequest);
+
         });
     }
 
-    public void checkSecureLock(){
+    /**
+     * Check if the screen lock feature is enabled on the device.
+     *
+     * @return secured status
+     */
+    private boolean checkSecureLock(){
         KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-        if(!keyguardManager.isKeyguardSecure()){
-            Toast.makeText(this,
-                    "Secure lock screen was not set up.",
-                    Toast.LENGTH_LONG)
-                    .show();
+        if(keyguardManager.isKeyguardSecure()){
+            return true;
         }
+        Toast.makeText(this,
+                "Secure lock screen was not set up.",
+                Toast.LENGTH_LONG)
+                .show();
+        return false;
     }
 
+    /**
+     * Stores the account username and identifier
+     *
+     * @return stored status
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     private boolean storeAccount(){
         try{
@@ -139,6 +150,11 @@ public class RegisterUI extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Save the @id in SP and close the current activity.
+     *
+     * @param id user id
+     */
     private void closeActivity(String id){
         // store id
         SharedPreferencesEditor.saveInSharedPreferences(this, "id", id);
