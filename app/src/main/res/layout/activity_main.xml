@@ -7,26 +7,202 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textViewWelcoming"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="24dp"
-        android:text="Please register"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/deleteAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:backgroundTint="#FF4B4B"
         android:text="delete account"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewWelcoming" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:background="#d75c23"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/logo_svg" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="18dp"
+            android:foregroundTint="#383d40"
+            android:text="Privacy manager"
+            android:textSize="22sp"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_popup_reminder" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout3"
+        android:layout_width="322dp"
+        android:layout_height="520dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+
+        <TextView
+            android:id="@+id/textViewWelcoming"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:foregroundTint="#383d40"
+            android:text="Username"
+            android:textSize="22sp"
+            app:layout_constraintStart_toEndOf="@+id/imageView5"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/credentialsBtn"
+            android:layout_width="320dp"
+            android:layout_height="63dp"
+            android:layout_marginTop="40dp"
+            android:backgroundTint="#d75c23"
+            android:drawableLeft="@android:drawable/ic_popup_reminder"
+            android:drawableRight="@android:drawable/ic_media_ff"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingTop="13dp"
+            android:paddingRight="3dp"
+            android:paddingBottom="16dp"
+            android:text="Credentials"
+            android:textColor="#383d40"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewWelcoming" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="320dp"
+            android:layout_height="63dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#d75c23"
+            android:drawableLeft="@android:drawable/ic_popup_reminder"
+            android:drawableRight="@android:drawable/ic_media_ff"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingTop="13dp"
+            android:paddingRight="3dp"
+            android:paddingBottom="16dp"
+            android:text="Encrypt file"
+            android:textColor="#383d40"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/credentialsBtn" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="320dp"
+            android:layout_height="63dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#d75c23"
+            android:drawableLeft="@android:drawable/ic_popup_reminder"
+            android:drawableRight="@android:drawable/ic_media_ff"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingTop="13dp"
+            android:paddingRight="3dp"
+            android:paddingBottom="16dp"
+            android:text="Encrypted files"
+            android:textColor="#383d40"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button4" />
+
+        <Button
+            android:id="@+id/button6"
+            android:layout_width="320dp"
+            android:layout_height="63dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#d75c23"
+            android:drawableLeft="@android:drawable/ic_popup_reminder"
+            android:drawableRight="@android:drawable/ic_media_ff"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingTop="13dp"
+            android:paddingRight="3dp"
+            android:paddingBottom="16dp"
+            android:text="Friends list"
+            android:textColor="#383d40"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button5" />
+
+        <Button
+            android:id="@+id/button7"
+            android:layout_width="320dp"
+            android:layout_height="63dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#d75c23"
+            android:drawableLeft="@android:drawable/ic_popup_reminder"
+            android:drawableRight="@android:drawable/ic_media_ff"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingTop="13dp"
+            android:paddingRight="3dp"
+            android:paddingBottom="16dp"
+            android:text="Keys list"
+            android:textColor="#383d40"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button6" />
+
+        <Button
+            android:id="@+id/button8"
+            android:layout_width="320dp"
+            android:layout_height="63dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#d75c23"
+            android:drawableLeft="@android:drawable/ic_popup_reminder"
+            android:drawableRight="@android:drawable/ic_media_ff"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingTop="13dp"
+            android:paddingRight="3dp"
+            android:paddingBottom="16dp"
+            android:text="Settings"
+            android:textColor="#383d40"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button7" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

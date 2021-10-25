@@ -8,16 +8,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import passwordmanager.android.UI.credentials.CredentialsUI;
 import passwordmanager.android.UI.login.LoginUI;
 import passwordmanager.android.UI.register.RegisterUI;
 import passwordmanager.android.data.account.SharedPreferencesEditor;
 
 public class MainActivity extends AppCompatActivity {
 
-    static final int AUTH_ME = 1;
+    private static final String TAG = RegisterUI.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,25 +28,39 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginUI.class);
         launchAuthentication.launch(intent);
 
-        findViewById(R.id.deleteAccount).setOnClickListener((view)->{
+        setListeners();
+    }
+
+    private void setListeners() {
+        findViewById(R.id.deleteAccount).setOnClickListener(view->{
             SharedPreferencesEditor.clear(this);
+        });
+
+        findViewById(R.id.credentialsBtn).setOnClickListener(view->{
+            Intent intent = new Intent(this, CredentialsUI.class);
+            launchFunctionality.launch(intent);
         });
     }
 
-    protected ActivityResultLauncher<Intent> launchAuthentication = registerForActivityResult(
+    private final ActivityResultLauncher<Intent> launchAuthentication = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
                     Context ctx = getApplicationContext();
                     String username = SharedPreferencesEditor.getFromSharedPreferences(ctx, "username");
-                    String id = SharedPreferencesEditor.getFromSharedPreferences(ctx, "id");
 
                     TextView welcomingText = (TextView) findViewById(R.id.textViewWelcoming);
                     welcomingText.setText("Hi ".
                             concat(username)
-                            .concat(" ID:")
-                            .concat(id)
                     );
+                }
+            });
+
+    private final ActivityResultLauncher<Intent> launchFunctionality = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Log.d(TAG, "StartActivityForResult() :: result -> Back to menu");
                 }
             });
 
