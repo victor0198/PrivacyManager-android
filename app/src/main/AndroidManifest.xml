@@ -16,6 +16,9 @@
         <activity
             android:name=".UI.register.RegisterUI"
             android:exported="true" />
+        <activity
+            android:name=".UI.credentials.CredentialsUI"
+            android:exported="true" />
         <activity android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

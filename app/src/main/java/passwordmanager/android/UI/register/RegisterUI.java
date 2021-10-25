@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -135,13 +134,13 @@ public class RegisterUI extends AppCompatActivity {
             }
 
             // make account identifier
-            String encryptedTextBase64 = Crypto.encrypt(
+            String encryptedIdentifier = Crypto.encrypt(
                     name.getBytes(UTF_8),
                     pass);
 
             // store account identifier
             SharedPreferencesEditor.saveInSharedPreferences(this, "username", name);
-            SharedPreferencesEditor.saveInSharedPreferences(this, "identifier", encryptedTextBase64);
+            SharedPreferencesEditor.saveInSharedPreferences(this, "identifier", encryptedIdentifier);
 
         }catch (Exception e){
             throw new RuntimeException(e);
