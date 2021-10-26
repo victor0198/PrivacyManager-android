@@ -19,7 +19,7 @@
         <activity
             android:name=".UI.credentials.CredentialsUI"
             android:exported="true" />
-        <activity android:name=".MainActivity"
+        <activity android:name=".UI.menu.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
