@@ -25,7 +25,7 @@ import org.json.JSONObject;
 import passwordmanager.android.R;
 import passwordmanager.android.data.account.Crypto;
 import passwordmanager.android.data.account.SharedPreferencesEditor;
-import passwordmanager.android.data.register.InternetConnection;
+import passwordmanager.android.data.internet.InternetConnection;
 
 public class RegisterUI extends AppCompatActivity {
     private static final String TAG = RegisterUI.class.getSimpleName();
@@ -40,6 +40,11 @@ public class RegisterUI extends AppCompatActivity {
 
         checkSecureLock();
 
+        findViewById(R.id.toAuth).setOnClickListener(view -> {
+            setResult(RESULT_CANCELED, intent);
+            finish();
+        });
+
         findViewById(R.id.register).setOnClickListener(view -> {
             Context ctx = getApplicationContext();
 
@@ -52,7 +57,7 @@ public class RegisterUI extends AppCompatActivity {
             }
 
             // registration url
-            String url = "http://10.0.2.2:8080/api/v1/registration";
+            String url = "http://10.0.2.2:8080/api/auth/signup";
 
             EditText username = (EditText) findViewById(R.id.rPersonName);
             EditText password = (EditText) findViewById(R.id.rPassword);
@@ -72,10 +77,10 @@ public class RegisterUI extends AppCompatActivity {
                         Log.d(TAG, "createRegisterRequest() :: onResponse() ::" + response);
 
                         try {
-                            closeActivity(response.get("id").toString());
+                            closeActivityWithId(response.get("ownerId").toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            closeActivity("0");
+                            closeActivityWithId("0");
                         }
 
                         boolean stored = storeAccount();
@@ -154,7 +159,7 @@ public class RegisterUI extends AppCompatActivity {
      *
      * @param id user id
      */
-    private void closeActivity(String id){
+    private void closeActivityWithId(String id){
         // store id
         SharedPreferencesEditor.saveInSharedPreferences(this, "id", id);
 
