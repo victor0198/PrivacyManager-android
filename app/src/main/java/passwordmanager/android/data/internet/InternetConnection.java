@@ -1,4 +1,4 @@
-package passwordmanager.android.data.register;
+package passwordmanager.android.data.internet;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
