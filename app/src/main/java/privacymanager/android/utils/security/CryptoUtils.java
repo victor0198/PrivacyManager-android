@@ -1,4 +1,4 @@
-package passwordmanager.android.data.account;
+package privacymanager.android.utils.security;
 
 import android.os.Build;
 
@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CryptoUtils {
+    private static final String KEY_ALGORITHM = "AES";
+    private static final String KEY_FACTORY_ALGORITHM = "PBKDF2WithHmacSHA256";
+
     public static byte[] getRandomNonce(int numBytes) {
         byte[] nonce = new byte[numBytes];
         new SecureRandom().nextBytes(nonce);
@@ -26,7 +29,7 @@ public class CryptoUtils {
     // AES secret key
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static SecretKey getAESKey(int keysize) throws NoSuchAlgorithmException {
-        KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+        KeyGenerator keyGen = KeyGenerator.getInstance(KEY_ALGORITHM);
         keyGen.init(keysize, SecureRandom.getInstanceStrong());
         return keyGen.generateKey();
     }
@@ -35,11 +38,11 @@ public class CryptoUtils {
     public static SecretKey getAESKeyFromPassword(char[] password, byte[] salt)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
 
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+        SecretKeyFactory factory = SecretKeyFactory.getInstance(KEY_FACTORY_ALGORITHM);
         // iterationCount = 65536
         // keyLength = 256
         KeySpec spec = new PBEKeySpec(password, salt, 65536, 256);
-        SecretKey secret = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
+        SecretKey secret = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), KEY_ALGORITHM);
         return secret;
 
     }

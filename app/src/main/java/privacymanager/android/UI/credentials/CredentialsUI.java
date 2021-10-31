@@ -1,9 +1,9 @@
-package passwordmanager.android.UI.credentials;
+package privacymanager.android.UI.credentials;
 
 import android.app.Activity;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
-import passwordmanager.android.R;
+import privacymanager.android.R;
 
 public class CredentialsUI extends Activity {
     @Override

@@ -1,4 +1,4 @@
-package passwordmanager.android.UI.dialogs;
+package privacymanager.android.UI.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

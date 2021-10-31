@@ -1,4 +1,4 @@
-package passwordmanager.android;
+package privacymanager.android;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("passwordmanager.android0", appContext.getPackageName());
+        assertEquals("privacymanager.android0", appContext.getPackageName());
     }
 }
