@@ -32,6 +32,10 @@ import privacymanager.android.utils.account.SharedPreferencesEditor;
 import privacymanager.android.utils.internet.InternetConnection;
 
 public class LoginUI extends AppCompatActivity {
+    private final String USERNAME_SP = "username";
+    private final String IDENTIFIER_SP = "identifier";
+    private final String ID_SP = "id";
+    private final String JWT_SP = "JWT";
     private Intent intent;
 
     @Override
@@ -138,10 +142,10 @@ public class LoginUI extends AppCompatActivity {
                 return false;
             }
 
-            // registration url
+            // authentication url
             String url = "http://10.0.2.2:8080/api/auth/signin";
 
-            // registration payload
+            // authentication payload
             JSONObject bodyParameters = new JSONObject();
             try {
                 bodyParameters.put("username", username);
@@ -153,42 +157,47 @@ public class LoginUI extends AppCompatActivity {
             // build the request
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, bodyParameters,
                     response -> {
-                        Log.d(LoginUI.class.toString(), "Auth online:" + response);
+                        Log.d(LoginUI.class.toString(), "AuthLogin() :: " + response);
 
-                        String id;
+                        String id, jwt;
                         try {
                             id = response.get("ownerId").toString();
+                            Log.d(LoginUI.class.toString(), "AuthLogin() :: storeAccount id: " + id);
+                        } catch (JSONException e) {
+                            Log.d(LoginUI.class.toString(), "AuthLogin() :: was not able to get id ");
+                            e.printStackTrace();
+                            return;
+                        }
+
+                        try {
+                            jwt = response.get("accessToken").toString();
+                            Log.d(LoginUI.class.toString(), "AuthLogin() :: Got JWT: " + jwt);
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            id = "0";
+                            return;
                         }
 
-                        if (!id.equals("0")){
-                            String encryptedIdentifier = "";
-                            // make account identifier
-                            try {
-                                encryptedIdentifier = Crypto.encrypt(
-                                        username.getBytes(UTF_8),
-                                        password);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-                            // store account identifier
-                            if (!encryptedIdentifier.equals("")){
-                                SharedPreferencesEditor.saveInSharedPreferences(ctx, "username", username);
-                                SharedPreferencesEditor.saveInSharedPreferences(ctx, "identifier", encryptedIdentifier);
-                                SharedPreferencesEditor.saveInSharedPreferences(ctx, "id", id);
-                                Log.d(LoginUI.class.toString(), "Auth online: :: storeAccount id: " + id);
-                            }
-
-                            setResult(RESULT_OK, this.intent);
-                            finish();
-
-                        }else {
-
-                            Log.d(LoginUI.class.toString(), "Auth online: :: was not able to get id ");
+                        String encryptedIdentifier;
+                        // make account identifier
+                        try {
+                            encryptedIdentifier = Crypto.encrypt(
+                                    username.getBytes(UTF_8),
+                                    password);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            return;
                         }
+
+                        SharedPreferencesEditor.saveInSharedPreferences(ctx, USERNAME_SP, username);
+                        SharedPreferencesEditor.saveInSharedPreferences(ctx, IDENTIFIER_SP, encryptedIdentifier);
+                        SharedPreferencesEditor.saveInSharedPreferences(ctx, ID_SP, id);
+                        SharedPreferencesEditor.saveInSharedPreferences(ctx, JWT_SP, jwt);
+
+                        Log.d(LoginUI.class.toString(), "AuthLogin() :: Account stored.");
+
+                        setResult(RESULT_OK, this.intent);
+                        finish();
+
                     },
                     error -> {
                         Toast.makeText(ctx,
@@ -202,7 +211,7 @@ public class LoginUI extends AppCompatActivity {
             RequestQueue requestQueue = Volley.newRequestQueue(ctx);
             requestQueue.add(jsonObjectRequest);
 
-            Log.d(LoginUI.class.toString(), "Reached the end of online authentication.");
+            Log.d(LoginUI.class.toString(), "AuthLogin() :: Reached the end of online authentication.");
 
         }
 
