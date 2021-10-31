@@ -36,6 +36,7 @@ public class AddCredentialsUI extends AppCompatActivity {
     private final String SERVICE_PARAM = "service";
     private final String LOGIN_PARAM = "login";
     private final String PASSWORD_PARAM = "password";
+    private final String JWT_SP = "JWT";
     private EditText serviceET;
     private EditText loginET;
     private EditText passwordET;
@@ -135,8 +136,8 @@ public class AddCredentialsUI extends AppCompatActivity {
                     public Map<String, String> getHeaders() throws AuthFailureError {
                         Map<String, String> headerMap = new HashMap<String, String>();
                         headerMap.put("Content-Type", "application/json");
-                        String JWT_SP = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ2aWN0aG9yIiwiaWF0IjoxNjM1NzA3NDE2LCJleHAiOjE2MzU3OTM4MTZ9.NXMBXoNR-h8ZGbqZkz8hKDNbLF5tVqnmX3_J02J5nNFwOM7PlVCoTLWtSyOuLBfMBdpZckMo2avv3hN5gpEUog";
-                        String authorisationValue = "Bearer " + JWT_SP;
+                        String JWT = SharedPreferencesEditor.getFromSharedPreferences(ctx, JWT_SP);
+                        String authorisationValue = "Bearer " + JWT;
                         Log.d(LoginUI.class.toString(), "Auth value: " + authorisationValue);
                         headerMap.put("Authorization", authorisationValue);
                         return headerMap;
