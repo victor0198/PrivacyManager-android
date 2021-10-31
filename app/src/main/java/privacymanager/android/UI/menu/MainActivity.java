@@ -13,16 +13,16 @@ import android.util.Log;
 import android.widget.TextView;
 
 import privacymanager.android.R;
-import privacymanager.android.UI.credentials.AddCredentialsUI;
+import privacymanager.android.UI.credentials.CredentialsUI;
 import privacymanager.android.UI.dialogs.ConfirmExit;
 import privacymanager.android.UI.login.LoginUI;
-import privacymanager.android.UI.register.RegisterUI;
 import privacymanager.android.utils.account.SharedPreferencesEditor;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = RegisterUI.class.getSimpleName();
+    private static final String TAG = MainActivity.class.getSimpleName();
     private static final String USERNAME_SP = "username";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.credentialsBtn).setOnClickListener(view->{
-            Intent intent = new Intent(this, AddCredentialsUI.class);
+            Intent intent = new Intent(this, CredentialsUI.class);
             launchFunctionality.launch(intent);
         });
     }

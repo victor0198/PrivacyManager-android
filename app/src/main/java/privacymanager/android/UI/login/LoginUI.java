@@ -32,6 +32,9 @@ import privacymanager.android.utils.account.SharedPreferencesEditor;
 import privacymanager.android.utils.internet.InternetConnection;
 
 public class LoginUI extends AppCompatActivity {
+    private final String USERNAME_SP = "username";
+    private final String IDENTIFIER_SP = "identifier";
+    private final String ID_SP = "id";
     private Intent intent;
 
     @Override
@@ -138,10 +141,10 @@ public class LoginUI extends AppCompatActivity {
                 return false;
             }
 
-            // registration url
+            // authentication url
             String url = "http://10.0.2.2:8080/api/auth/signin";
 
-            // registration payload
+            // authentication payload
             JSONObject bodyParameters = new JSONObject();
             try {
                 bodyParameters.put("username", username);
@@ -176,9 +179,9 @@ public class LoginUI extends AppCompatActivity {
 
                             // store account identifier
                             if (!encryptedIdentifier.equals("")){
-                                SharedPreferencesEditor.saveInSharedPreferences(ctx, "username", username);
-                                SharedPreferencesEditor.saveInSharedPreferences(ctx, "identifier", encryptedIdentifier);
-                                SharedPreferencesEditor.saveInSharedPreferences(ctx, "id", id);
+                                SharedPreferencesEditor.saveInSharedPreferences(ctx, USERNAME_SP, username);
+                                SharedPreferencesEditor.saveInSharedPreferences(ctx, IDENTIFIER_SP, encryptedIdentifier);
+                                SharedPreferencesEditor.saveInSharedPreferences(ctx, ID_SP, id);
                                 Log.d(LoginUI.class.toString(), "Auth online: :: storeAccount id: " + id);
                             }
 

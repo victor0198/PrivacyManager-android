@@ -70,4 +70,26 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         return insert != -1;
     }
+
+    public Integer getCredentialsId(String service, String login, String password){
+        // check database for already existing credentials
+        SQLiteDatabase dbRead = this.getReadableDatabase();
+        List<CredentialModel> credentialsList = new ArrayList<>();
+        String getCredentialsQuery = "SELECT * FROM " + CREDENTIALS_TABLE +
+                " WHERE " + COLUMN_CREDENTIAL_SERVICE + " LIKE \"" + service + "\"" +
+                " AND " + COLUMN_CREDENTIAL_LOGIN + " LIKE \"" + login + "\"" +
+                " AND " + COLUMN_CREDENTIAL_PASSWORD + " LIKE \"" +  password + "\"";
+        Cursor cursor = dbRead.rawQuery(getCredentialsQuery, null);
+
+        Integer credentialsId = 0;
+        if (cursor.getCount() > 0){
+            cursor.moveToFirst();
+            credentialsId = cursor.getInt(0);
+        }
+
+        cursor.close();
+        dbRead.close();
+
+        return credentialsId;
+    }
 }
