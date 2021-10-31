@@ -1,4 +1,4 @@
-package passwordmanager.android.data.account;
+package privacymanager.android.utils.security;
 
 import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;

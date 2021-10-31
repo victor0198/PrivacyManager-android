@@ -1,4 +1,4 @@
-package passwordmanager.android.UI.register;
+package privacymanager.android.UI.register;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -22,13 +22,15 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import passwordmanager.android.R;
-import passwordmanager.android.data.account.Crypto;
-import passwordmanager.android.data.account.SharedPreferencesEditor;
-import passwordmanager.android.data.internet.InternetConnection;
+import privacymanager.android.R;
+import privacymanager.android.utils.security.Crypto;
+import privacymanager.android.utils.account.SharedPreferencesEditor;
+import privacymanager.android.utils.internet.InternetConnection;
 
 public class RegisterUI extends AppCompatActivity {
     private static final String TAG = RegisterUI.class.getSimpleName();
+    private static final String USERNAME = "username";
+    private static final String PASSWORD = "password";
     private Intent intent;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -40,6 +42,11 @@ public class RegisterUI extends AppCompatActivity {
 
         checkSecureLock();
 
+        setListeners();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void setListeners() {
         findViewById(R.id.toAuth).setOnClickListener(view -> {
             setResult(RESULT_CANCELED, intent);
             finish();
@@ -65,8 +72,8 @@ public class RegisterUI extends AppCompatActivity {
             // registration payload
             JSONObject bodyParameters = new JSONObject();
             try {
-                bodyParameters.put("username", username.getText().toString());
-                bodyParameters.put("password", password.getText().toString());
+                bodyParameters.put(USERNAME, username.getText().toString());
+                bodyParameters.put(PASSWORD, password.getText().toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }

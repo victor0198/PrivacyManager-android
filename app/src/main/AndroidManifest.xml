@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="passwordmanager.android">
+    package="privacymanager.android">
 
     <application
         android:allowBackup="true"
@@ -11,15 +11,18 @@
         android:theme="@style/Theme.PasswordManager"
         android:fullBackupContent="true">
         <activity
-            android:name=".UI.login.LoginUI"
+            android:name="privacymanager.android.UI.login.LoginUI"
             android:exported="true" />
         <activity
-            android:name=".UI.register.RegisterUI"
+            android:name="privacymanager.android.UI.register.RegisterUI"
             android:exported="true" />
         <activity
-            android:name=".UI.credentials.CredentialsUI"
+            android:name="privacymanager.android.UI.credentials.CredentialsUI"
             android:exported="true" />
-        <activity android:name=".UI.menu.MainActivity"
+        <activity
+            android:name="privacymanager.android.UI.credentials.AddCredentialsUI"
+            android:exported="true" />
+        <activity android:name="privacymanager.android.UI.menu.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

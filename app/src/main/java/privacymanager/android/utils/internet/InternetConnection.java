@@ -1,4 +1,4 @@
-package passwordmanager.android.data.internet;
+package privacymanager.android.utils.internet;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

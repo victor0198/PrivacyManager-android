@@ -5,7 +5,7 @@
     android:id="@+id/firstActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.menu.MainActivity">
+    tools:context="privacymanager.android.UI.menu.MainActivity">
 
     <Button
         android:id="@+id/deleteAccount"

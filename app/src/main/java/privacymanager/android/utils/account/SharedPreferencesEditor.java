@@ -1,4 +1,4 @@
-package passwordmanager.android.data.account;
+package privacymanager.android.utils.account;
 
 import android.app.Activity;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package passwordmanager.android.UI.login;
+package privacymanager.android.UI.login;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -25,11 +25,11 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import passwordmanager.android.R;
-import passwordmanager.android.UI.register.RegisterUI;
-import passwordmanager.android.data.account.Crypto;
-import passwordmanager.android.data.account.SharedPreferencesEditor;
-import passwordmanager.android.data.internet.InternetConnection;
+import privacymanager.android.R;
+import privacymanager.android.UI.register.RegisterUI;
+import privacymanager.android.utils.security.Crypto;
+import privacymanager.android.utils.account.SharedPreferencesEditor;
+import privacymanager.android.utils.internet.InternetConnection;
 
 public class LoginUI extends AppCompatActivity {
     private Intent intent;

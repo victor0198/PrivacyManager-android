@@ -1,4 +1,4 @@
-package passwordmanager.android.UI.menu;
+package privacymanager.android.UI.menu;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -12,17 +12,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
-import passwordmanager.android.R;
-import passwordmanager.android.UI.credentials.CredentialsUI;
-import passwordmanager.android.UI.dialogs.ConfirmExit;
-import passwordmanager.android.UI.login.LoginUI;
-import passwordmanager.android.UI.register.RegisterUI;
-import passwordmanager.android.data.account.SharedPreferencesEditor;
+import privacymanager.android.R;
+import privacymanager.android.UI.credentials.AddCredentialsUI;
+import privacymanager.android.UI.dialogs.ConfirmExit;
+import privacymanager.android.UI.login.LoginUI;
+import privacymanager.android.UI.register.RegisterUI;
+import privacymanager.android.utils.account.SharedPreferencesEditor;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = RegisterUI.class.getSimpleName();
-
+    private static final String USERNAME_SP = "username";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.credentialsBtn).setOnClickListener(view->{
-            Intent intent = new Intent(this, CredentialsUI.class);
+            Intent intent = new Intent(this, AddCredentialsUI.class);
             launchFunctionality.launch(intent);
         });
     }
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
                     Context ctx = getApplicationContext();
-                    String username = SharedPreferencesEditor.getFromSharedPreferences(ctx, "username");
+                    String username = SharedPreferencesEditor.getFromSharedPreferences(ctx, USERNAME_SP);
 
                     TextView welcomingText = (TextView) findViewById(R.id.textViewWelcoming);
                     welcomingText.setText("Hi ".
