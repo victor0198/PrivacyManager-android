@@ -22,10 +22,18 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.NoSuchPaddingException;
+
 import privacymanager.android.R;
 import privacymanager.android.utils.security.Crypto;
 import privacymanager.android.utils.account.SharedPreferencesEditor;
 import privacymanager.android.utils.internet.InternetConnection;
+import privacymanager.android.utils.security.FileSecurityUtils;
 
 public class RegisterUI extends AppCompatActivity {
     private static final String TAG = RegisterUI.class.getSimpleName();
@@ -64,6 +72,7 @@ public class RegisterUI extends AppCompatActivity {
             }
 
             // registration url
+            // FIXME Proposition: create another file to store required urls/globals.
             String url = "http://10.0.2.2:8080/api/auth/signup";
 
             EditText username = (EditText) findViewById(R.id.rPersonName);
