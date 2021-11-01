@@ -49,7 +49,6 @@ public class GeneratePassword {
     }
 
     /**
-     * Gets the employee’s last name.
      *
      * @param passwordLength      length of the password
      * @param lowerCharQuantity   the number of lower-case characters in the password
