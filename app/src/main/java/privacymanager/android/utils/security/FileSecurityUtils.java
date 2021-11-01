@@ -22,8 +22,8 @@ import javax.crypto.spec.IvParameterSpec;
  * Class made for working with encryption/decryption of user files.
  */
 public class FileSecurityUtils {
-    private final SecretKey secretKey;
-    private final Cipher cipher;
+    private SecretKey secretKey;
+    private Cipher cipher;
 
 
     public FileSecurityUtils() throws NoSuchPaddingException, NoSuchAlgorithmException {
@@ -87,5 +87,21 @@ public class FileSecurityUtils {
 
         }
         return content;
+    }
+
+    public void setSecretKey(SecretKey secret)  {
+        this.secretKey = secret;
+    }
+
+    public void setCipher(String cipherAlgorithm) throws NoSuchPaddingException, NoSuchAlgorithmException {
+        this.cipher = Cipher.getInstance(cipherAlgorithm);
+    }
+
+    public SecretKey getSecretKey()  {
+        return this.secretKey;
+    }
+
+    public Cipher getCipher() {
+        return this.cipher;
     }
 }
