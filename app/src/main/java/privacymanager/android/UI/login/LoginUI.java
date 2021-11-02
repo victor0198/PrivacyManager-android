@@ -16,6 +16,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,24 +26,33 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.Properties;
+
 import privacymanager.android.R;
 import privacymanager.android.UI.register.RegisterUI;
+import privacymanager.android.utils.props.Props;
 import privacymanager.android.utils.security.Crypto;
 import privacymanager.android.utils.account.SharedPreferencesEditor;
 import privacymanager.android.utils.internet.InternetConnection;
 
 public class LoginUI extends AppCompatActivity {
     private final String USERNAME_SP = "username";
+    private final String PASSWORD_SP = "password";
     private final String IDENTIFIER_SP = "identifier";
     private final String ID_SP = "id";
     private final String JWT_SP = "JWT";
+    private String HOST_ADDRESS;
     private Intent intent;
+    private Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         intent = getIntent();
+        ctx = getApplicationContext();
+        HOST_ADDRESS = Props.getAppProperty(ctx,"HOST_ADDRESS");
 
         checkAccount();
     }
@@ -51,7 +61,7 @@ public class LoginUI extends AppCompatActivity {
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
-                    Toast.makeText(getApplicationContext(),
+                    Toast.makeText(ctx,
                             "Registered successfully",
                             Toast.LENGTH_LONG)
                             .show();
@@ -62,7 +72,7 @@ public class LoginUI extends AppCompatActivity {
      * Check if the user is registered. If not, start the register activity.
      */
     private void checkAccount(){
-        String identifier = SharedPreferencesEditor.getFromSharedPreferences(this, "identifier");
+        String identifier = SharedPreferencesEditor.getFromSharedPreferences(this, IDENTIFIER_SP);
 
         boolean registered = true;
         try{
@@ -143,13 +153,13 @@ public class LoginUI extends AppCompatActivity {
             }
 
             // authentication url
-            String url = "http://10.0.2.2:8080/api/auth/signin";
+            String url = HOST_ADDRESS.concat(Props.getAppProperty(ctx,"AUTHENTICATION"));
 
             // authentication payload
             JSONObject bodyParameters = new JSONObject();
             try {
-                bodyParameters.put("username", username);
-                bodyParameters.put("password", password);
+                bodyParameters.put(USERNAME_SP, username);
+                bodyParameters.put(PASSWORD_SP, password);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

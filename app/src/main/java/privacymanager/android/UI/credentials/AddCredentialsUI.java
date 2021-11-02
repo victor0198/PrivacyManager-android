@@ -29,6 +29,7 @@ import privacymanager.android.UI.login.LoginUI;
 import privacymanager.android.models.CredentialModel;
 import privacymanager.android.utils.account.SharedPreferencesEditor;
 import privacymanager.android.utils.database.DataBaseHelper;
+import privacymanager.android.utils.props.Props;
 
 public class AddCredentialsUI extends AppCompatActivity {
     private final String USER_ID_PARAM = "userId";
@@ -37,6 +38,7 @@ public class AddCredentialsUI extends AppCompatActivity {
     private final String LOGIN_PARAM = "login";
     private final String PASSWORD_PARAM = "password";
     private final String JWT_SP = "JWT";
+    private String HOST_ADDRESS;
     private EditText serviceET;
     private EditText loginET;
     private EditText passwordET;
@@ -50,6 +52,7 @@ public class AddCredentialsUI extends AppCompatActivity {
         setContentView(R.layout.activity_credentials_add);
         ctx = getApplicationContext();
         intent = getIntent();
+        HOST_ADDRESS = Props.getAppProperty(ctx,"HOST_ADDRESS");
 
         checkUpload = findViewById(R.id.cCheckUpload);
         checkUpload.setChecked(true);
@@ -106,7 +109,7 @@ public class AddCredentialsUI extends AppCompatActivity {
                     return;
                 }
 
-                String url = "http://10.0.2.2:8080/api/new_credential";
+                String url = HOST_ADDRESS.concat(Props.getAppProperty(ctx,"ADD_CREDENTIAL"));
 
                 JSONObject bodyParameters = new JSONObject();
                 try {
@@ -121,7 +124,7 @@ public class AddCredentialsUI extends AppCompatActivity {
 
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, bodyParameters,
                         response -> {
-                            Log.d(LoginUI.class.toString(), "Auth online: :: was not able to get id ");
+                            Log.d(LoginUI.class.toString(), "Credentials uploaded.");
                             setResult(RESULT_OK, this.intent);
                             finish();
                         },
