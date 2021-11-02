@@ -26,10 +26,12 @@ import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Properties;
 
 import javax.crypto.NoSuchPaddingException;
 
 import privacymanager.android.R;
+import privacymanager.android.utils.props.Props;
 import privacymanager.android.utils.security.Crypto;
 import privacymanager.android.utils.account.SharedPreferencesEditor;
 import privacymanager.android.utils.internet.InternetConnection;
@@ -39,7 +41,9 @@ public class RegisterUI extends AppCompatActivity {
     private static final String TAG = RegisterUI.class.getSimpleName();
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
+    private String HOST_ADDRESS;
     private Intent intent;
+    private Context ctx;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -47,6 +51,8 @@ public class RegisterUI extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         intent = getIntent();
+        ctx = getApplicationContext();
+        HOST_ADDRESS = Props.getAppProperty(ctx,"HOST_ADDRESS");
 
         checkSecureLock();
 
@@ -72,8 +78,7 @@ public class RegisterUI extends AppCompatActivity {
             }
 
             // registration url
-            // FIXME Proposition: create another file to store required urls/globals.
-            String url = "http://10.0.2.2:8080/api/auth/signup";
+            String url = HOST_ADDRESS.concat(Props.getAppProperty(ctx, "REGISTRATION"));
 
             EditText username = (EditText) findViewById(R.id.rPersonName);
             EditText password = (EditText) findViewById(R.id.rPassword);
