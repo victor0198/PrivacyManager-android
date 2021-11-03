@@ -210,10 +210,17 @@ public class LoginUI extends AppCompatActivity {
 
                     },
                     error -> {
-                        Toast.makeText(ctx,
-                                "Server error.",
-                                Toast.LENGTH_LONG)
-                                .show();
+                        if (error.networkResponse.statusCode == 401){
+                            Toast.makeText(ctx,
+                                    "This account is not registered.",
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                        }else{
+                            Toast.makeText(ctx,
+                                    "Server error.",
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                        }
                     }
             );
 

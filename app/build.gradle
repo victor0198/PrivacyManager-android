@@ -42,5 +42,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation 'org.passay:passay:1.6.1'
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
 
 }
