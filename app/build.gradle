@@ -7,7 +7,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "passwordmanager.android0"
+        applicationId "privacymanager.android0"
         minSdkVersion 23
         targetSdkVersion 31
         versionCode 1

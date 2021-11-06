@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,6 +32,7 @@ import java.util.Properties;
 import javax.crypto.NoSuchPaddingException;
 
 import privacymanager.android.R;
+import privacymanager.android.UI.dialogs.ConfirmExit;
 import privacymanager.android.utils.props.Props;
 import privacymanager.android.utils.security.Crypto;
 import privacymanager.android.utils.account.SharedPreferencesEditor;
@@ -57,6 +59,13 @@ public class RegisterUI extends AppCompatActivity {
         checkSecureLock();
 
         setListeners();
+    }
+
+    @Override
+    public void onBackPressed() {
+        ConfirmExit confirmExit = new ConfirmExit();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        confirmExit.show(fragmentManager, "exitDialog");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -110,6 +119,10 @@ public class RegisterUI extends AppCompatActivity {
                     },
                     error -> {
                         Log.d(TAG, "createBookingRequest() :: onErrorResponse() ::" + error);
+                        Toast.makeText(ctx,
+                                "Could not connect to the server.",
+                                Toast.LENGTH_LONG)
+                                .show();
                     }
             );
 

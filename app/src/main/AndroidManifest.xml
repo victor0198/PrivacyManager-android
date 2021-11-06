@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PasswordManager"
-        android:fullBackupContent="true">
+        android:fullBackupContent="true"
+        android:usesCleartextTraffic="true">
         <activity
             android:name="privacymanager.android.UI.login.LoginUI"
             android:exported="true" />

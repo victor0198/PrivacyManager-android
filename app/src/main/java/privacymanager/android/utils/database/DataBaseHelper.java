@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -12,7 +13,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import privacymanager.android.models.CredentialModel;
+import privacymanager.android.models.CredentialsModel;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
     public String CREDENTIALS_TABLE = "my_credentials";
@@ -39,10 +40,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean addCredential(Context ctx, CredentialModel credentialModel){
+    public boolean addCredential(Context ctx, CredentialsModel credentialModel){
         // check database for already existing credentials
         SQLiteDatabase dbRead = this.getReadableDatabase();
-        List<CredentialModel> credentialsList = new ArrayList<>();
+        List<CredentialsModel> credentialsList = new ArrayList<>();
         String getCredentialsQuery = "SELECT * FROM " + CREDENTIALS_TABLE +
                 " WHERE " + COLUMN_CREDENTIAL_SERVICE + " LIKE \"" + credentialModel.getService() + "\"" +
                 " AND " + COLUMN_CREDENTIAL_LOGIN + " LIKE \"" + credentialModel.getLogin() + "\"" +
@@ -51,6 +52,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         if (cursor.getCount() > 0){
             Toast.makeText(ctx, "These credentials are already registered.",Toast.LENGTH_LONG).show();
+            Log.d(DataBaseHelper.class.toString(), "Credentials already registered.");
             return false;
         }
 
@@ -68,13 +70,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.close();
 
+        if (insert == -1){
+            Toast.makeText(ctx, "Credentials were not added.", Toast.LENGTH_LONG).show();
+        }
+
         return insert != -1;
     }
 
     public Integer getCredentialsId(String service, String login, String password){
         // check database for already existing credentials
         SQLiteDatabase dbRead = this.getReadableDatabase();
-        List<CredentialModel> credentialsList = new ArrayList<>();
+        List<CredentialsModel> credentialsList = new ArrayList<>();
         String getCredentialsQuery = "SELECT * FROM " + CREDENTIALS_TABLE +
                 " WHERE " + COLUMN_CREDENTIAL_SERVICE + " LIKE \"" + service + "\"" +
                 " AND " + COLUMN_CREDENTIAL_LOGIN + " LIKE \"" + login + "\"" +
@@ -89,6 +95,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         cursor.close();
         dbRead.close();
+
+        Log.d(DataBaseHelper.class.toString(), "Credentials ID:".concat(credentialsId.toString()));
 
         return credentialsId;
     }
