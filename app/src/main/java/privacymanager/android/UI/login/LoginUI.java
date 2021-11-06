@@ -200,6 +200,7 @@ public class LoginUI extends AppCompatActivity {
 
                         SharedPreferencesEditor.saveInSharedPreferences(ctx, USERNAME_SP, username);
                         SharedPreferencesEditor.saveInSharedPreferences(ctx, IDENTIFIER_SP, encryptedIdentifier);
+                        SharedPreferencesEditor.saveInSharedPreferences(ctx, PASSWORD_SP, password);
                         SharedPreferencesEditor.saveInSharedPreferences(ctx, ID_SP, id);
                         SharedPreferencesEditor.saveInSharedPreferences(ctx, JWT_SP, jwt);
 
@@ -237,11 +238,13 @@ public class LoginUI extends AppCompatActivity {
                 decryptedText = Crypto.decrypt(encryptedPassword, password);
             }catch (Exception e){
                 Toast.makeText(ctx,
-                        "Wrong credentials 1",
+                        "Wrong credentials",
                         Toast.LENGTH_LONG)
                         .show();
                 return false;
             }
+
+            SharedPreferencesEditor.saveInSharedPreferences(ctx, PASSWORD_SP, password);
 
             // locally authenticate
             if (decryptedText.equals(username)){
