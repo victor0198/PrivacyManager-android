@@ -101,7 +101,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textViewWelcoming" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/encryptBtn"
             android:layout_width="320dp"
             android:layout_height="63dp"
             android:layout_marginTop="10dp"
@@ -136,7 +136,7 @@
             android:textColor="#383d40"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button4" />
+            app:layout_constraintTop_toBottomOf="@+id/encryptBtn" />
 
         <Button
             android:id="@+id/button6"

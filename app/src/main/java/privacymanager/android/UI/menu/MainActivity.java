@@ -15,6 +15,8 @@ import android.widget.TextView;
 import privacymanager.android.R;
 import privacymanager.android.UI.credentials.CredentialsUI;
 import privacymanager.android.UI.dialogs.ConfirmExit;
+import privacymanager.android.UI.fileEncryption.FIleChoose;
+import privacymanager.android.UI.fileEncryption.FileChooserFragment;
 import privacymanager.android.UI.login.LoginUI;
 import privacymanager.android.utils.account.SharedPreferencesEditor;
 
@@ -52,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.credentialsBtn).setOnClickListener(view->{
             Intent intent = new Intent(this, CredentialsUI.class);
+            launchFunctionality.launch(intent);
+        });
+        findViewById(R.id.encryptBtn).setOnClickListener(view->{
+            Intent intent = new Intent(this, FIleChoose.class);
             launchFunctionality.launch(intent);
         });
     }
