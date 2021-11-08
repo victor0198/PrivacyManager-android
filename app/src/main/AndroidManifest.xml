@@ -32,6 +32,9 @@
         <activity
             android:name="privacymanager.android.UI.friendship.SearchUI"
             android:exported="true" />
+        <activity
+            android:name="privacymanager.android.UI.notifications.NotificationsUI"
+            android:exported="true" />
         <activity android:name="privacymanager.android.UI.menu.MenuUI"
             android:exported="true">
             <intent-filter>

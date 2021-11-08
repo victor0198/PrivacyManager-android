@@ -18,6 +18,7 @@ import privacymanager.android.UI.dialogs.ConfirmExit;
 import privacymanager.android.UI.fileEncryption.FIleChooseUI;
 import privacymanager.android.UI.friendship.FriendsListUI;
 import privacymanager.android.UI.login.LoginUI;
+import privacymanager.android.UI.notifications.NotificationsUI;
 import privacymanager.android.utils.account.SharedPreferencesEditor;
 
 public class MenuUI extends AppCompatActivity {
@@ -64,7 +65,13 @@ public class MenuUI extends AppCompatActivity {
             Intent intent = new Intent(this, FriendsListUI.class);
             launchFunctionality.launch(intent);
         });
+
+        findViewById(R.id.imageView4).setOnClickListener(view -> {
+            Intent intent = new Intent(this, NotificationsUI.class);
+            launchFunctionality.launch(intent);
+        });
     }
+
 
     private final ActivityResultLauncher<Intent> launchAuthentication = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
