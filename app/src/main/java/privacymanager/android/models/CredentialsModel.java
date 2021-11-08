@@ -1,13 +1,13 @@
 package privacymanager.android.models;
 
-public class CredentialModel {
-    private int credentialId;
+public class CredentialsModel {
+    private int credentialsId;
     private String service;
     private String login;
     private String password;
 
-    public CredentialModel(int credentialId, String service, String login, String password) {
-        this.credentialId = credentialId;
+    public CredentialsModel(int credentialId, String service, String login, String password) {
+        this.credentialsId = credentialId;
         this.service = service;
         this.login = login;
         this.password = password;
@@ -16,7 +16,7 @@ public class CredentialModel {
     @Override
     public String toString() {
         return "CustomerModel{" +
-                "credentialId=" + credentialId +
+                "credentialId=" + credentialsId +
                 ", service='" + service + '\'' +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
@@ -24,11 +24,11 @@ public class CredentialModel {
     }
 
     public int getCredentialId() {
-        return credentialId;
+        return credentialsId;
     }
 
     public void setCredentialId(int credentialId) {
-        this.credentialId = credentialId;
+        this.credentialsId = credentialId;
     }
 
     public String getService() {
