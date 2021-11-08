@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentManager;
 
 import privacymanager.android.R;
 
-public class FIleChoose extends AppCompatActivity {
+public class FIleChooseUI extends AppCompatActivity {
 
         private FileChooserFragment fragment;
 
