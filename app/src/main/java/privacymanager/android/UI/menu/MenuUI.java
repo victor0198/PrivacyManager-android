@@ -15,14 +15,14 @@ import android.widget.TextView;
 import privacymanager.android.R;
 import privacymanager.android.UI.credentials.CredentialsUI;
 import privacymanager.android.UI.dialogs.ConfirmExit;
-import privacymanager.android.UI.fileEncryption.FIleChoose;
-import privacymanager.android.UI.fileEncryption.FileChooserFragment;
+import privacymanager.android.UI.fileEncryption.FIleChooseUI;
+import privacymanager.android.UI.friendship.FriendsListUI;
 import privacymanager.android.UI.login.LoginUI;
 import privacymanager.android.utils.account.SharedPreferencesEditor;
 
-public class MainActivity extends AppCompatActivity {
+public class MenuUI extends AppCompatActivity {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = MenuUI.class.getSimpleName();
     private static final String USERNAME_SP = "username";
 
     @Override
@@ -57,7 +57,11 @@ public class MainActivity extends AppCompatActivity {
             launchFunctionality.launch(intent);
         });
         findViewById(R.id.encryptBtn).setOnClickListener(view->{
-            Intent intent = new Intent(this, FIleChoose.class);
+            Intent intent = new Intent(this, FIleChooseUI.class);
+            launchFunctionality.launch(intent);
+        });
+        findViewById(R.id.friendsBtn).setOnClickListener(view->{
+            Intent intent = new Intent(this, FriendsListUI.class);
             launchFunctionality.launch(intent);
         });
     }

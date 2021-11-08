@@ -24,9 +24,15 @@
             android:name="privacymanager.android.UI.credentials.AddCredentialsUI"
             android:exported="true" />
         <activity
-            android:name="privacymanager.android.UI.fileEncryption.FIleChoose"
+            android:name="privacymanager.android.UI.fileEncryption.FIleChooseUI"
             android:exported="true" />
-        <activity android:name="privacymanager.android.UI.menu.MainActivity"
+        <activity
+            android:name="privacymanager.android.UI.friendship.FriendsListUI"
+            android:exported="true" />
+        <activity
+            android:name="privacymanager.android.UI.friendship.SearchUI"
+            android:exported="true" />
+        <activity android:name="privacymanager.android.UI.menu.MenuUI"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
