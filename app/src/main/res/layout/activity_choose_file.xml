@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTintMode="add"
+    android:orientation="vertical"
+    app:layoutDescription="@xml/activity_choose_file_scene">
+
+    <Button
+        android:id="@+id/button_browse"
+        android:layout_width="340dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="3dp"
+        android:backgroundTint="#FFFFFF"
+        android:drawableEnd="@android:drawable/ic_menu_add"
+        android:text="Choose file"
+        android:textAlignment="viewStart"
+        android:textColor="#383d40"
+        android:textSize="20sp"
+        app:strokeColor="@color/gray"
+        app:strokeWidth="2dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="60sp">
+
+        <ImageView
+            android:id="@+id/check_icon"
+            android:layout_width="10dp"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:contentDescription="file checjed"
+            app:srcCompat="@mipmap/confirmation_check" />
+
+        <TextView
+            android:id="@+id/fileName"
+            android:layout_width="300dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="3dp"
+            android:layout_weight="1"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="600dp">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

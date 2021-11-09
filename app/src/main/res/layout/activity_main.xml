@@ -5,7 +5,7 @@
     android:id="@+id/firstActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="privacymanager.android.UI.menu.MainActivity">
+    tools:context="privacymanager.android.UI.menu.MenuUI">
 
     <Button
         android:id="@+id/deleteAccount"
@@ -34,7 +34,6 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:backgroundTint="@color/gray"
-            app:barrierMargin="2dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/logo_svg" />
@@ -94,7 +93,7 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="16dp"
             android:paddingTop="13dp"
-            android:paddingRight="3dp"
+            android:paddingRight="10dp"
             android:paddingBottom="16dp"
             android:text="   Credentials"
             android:textColor="#383d40"
@@ -103,7 +102,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textViewWelcoming" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/encryptBtn"
             android:layout_width="320dp"
             android:layout_height="63dp"
             android:layout_marginTop="10dp"
@@ -113,7 +112,7 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="16dp"
             android:paddingTop="13dp"
-            android:paddingRight="3dp"
+            android:paddingRight="10dp"
             android:paddingBottom="16dp"
             android:text="    Encrypt file"
             android:textColor="#383d40"
@@ -132,16 +131,16 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="16dp"
             android:paddingTop="13dp"
-            android:paddingRight="3dp"
+            android:paddingRight="10dp"
             android:paddingBottom="16dp"
             android:text="    Encrypted files"
             android:textColor="#383d40"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button4" />
+            app:layout_constraintTop_toBottomOf="@+id/encryptBtn" />
 
         <Button
-            android:id="@+id/button6"
+            android:id="@+id/friendsBtn"
             android:layout_width="320dp"
             android:layout_height="63dp"
             android:layout_marginTop="10dp"
@@ -151,7 +150,7 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="16dp"
             android:paddingTop="13dp"
-            android:paddingRight="3dp"
+            android:paddingRight="10dp"
             android:paddingBottom="16dp"
             android:text="  Friends list"
             android:textColor="#383d40"
@@ -170,13 +169,13 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="16dp"
             android:paddingTop="13dp"
-            android:paddingRight="3dp"
+            android:paddingRight="10dp"
             android:paddingBottom="16dp"
             android:text="    Keys list"
             android:textColor="#383d40"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button6" />
+            app:layout_constraintTop_toBottomOf="@+id/friendsBtn" />
 
         <Button
             android:id="@+id/button8"
@@ -189,7 +188,7 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="16dp"
             android:paddingTop="13dp"
-            android:paddingRight="3dp"
+            android:paddingRight="10dp"
             android:paddingBottom="16dp"
             android:text="    Settings"
             android:textColor="#383d40"
