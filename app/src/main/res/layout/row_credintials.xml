@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <ImageView
+
+        android:id="@+id/logoCredintial"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+
+        android:layout_row="0"
+        android:layout_rowSpan="2"
+        android:layout_column="0"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:textSize="20dp"
+        android:textColor="#272B2D"
+        android:id="@+id/textViewCredintialName"
+        android:layout_row="0"
+        android:layout_column="1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
+        android:textSize="15dp"
+        android:textColor="#272B2D"
+        android:id="@+id/textViewCredintialEmail"
+        android:layout_row="1"
+        android:layout_column="1" />
+    <ImageView
+        android:id="@+id/arrowCredintial"
+        android:layout_height="30dp"
+        android:layout_row="0"
+        android:layout_column="2"
+        android:layout_rowSpan="2"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="15dp"
+        app:srcCompat="@drawable/ic_arrow_forward"
+        />
+
+
+</GridLayout>
