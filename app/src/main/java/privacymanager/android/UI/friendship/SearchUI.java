@@ -29,7 +29,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import privacymanager.android.R;
-import privacymanager.android.UI.credentials.AddCredentialsUI;
 import privacymanager.android.utils.account.SharedPreferencesEditor;
 import privacymanager.android.utils.database.DataBaseHelper;
 import privacymanager.android.utils.props.Props;
@@ -59,7 +58,7 @@ public class SearchUI extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setListeners() {
-        findViewById(R.id.button2).setOnClickListener(view -> {
+        findViewById(R.id.choosedUser).setOnClickListener(view -> {
             sendFriendshipRequest(30);
         });
 
@@ -92,7 +91,7 @@ public class SearchUI extends AppCompatActivity {
             Log.d(TAG, "\nSTRING KEY::" + publicKeyString);
 
             try {
-                bodyParameters.put(RECEIVER_ID_PARAM, SharedPreferencesEditor.getFromSharedPreferences(ctx, "id"));
+                bodyParameters.put(RECEIVER_ID_PARAM, 27);
                 //TODO: make server app to accept key of length 1600-2000 characters
 //                bodyParameters.put(PUBLIC_KEY_PARAM, publicKeyString);
                 bodyParameters.put(PUBLIC_KEY_PARAM, publicKeyString.substring(0, 100));

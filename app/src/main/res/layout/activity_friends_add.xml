@@ -57,7 +57,7 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout8" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/choosedUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -83,7 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
-        android:text="chooseme30"
+        android:text="chooseme27"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
