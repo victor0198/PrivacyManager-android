@@ -11,8 +11,12 @@
         <entry key="..\:/PM/privacy.manager.android/app/src/main/res/drawable/logo_svg.xml" value="0.14270833333333333" />
         <entry key="..\:/PM/privacy.manager.android/app/src/main/res/layout/activity_credentials.xml" value="0.2" />
         <entry key="..\:/PM/privacy.manager.android/app/src/main/res/layout/activity_credentials_add.xml" value="0.264" />
+        <entry key="..\:/PM/privacy.manager.android/app/src/main/res/layout/activity_friends_list.xml" value="0.152" />
         <entry key="..\:/PM/privacy.manager.android/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/PM/privacy.manager.android/app/src/main/res/layout/activity_main.xml" value="0.176" />
+        <entry key="..\:/PM/privacy.manager.android/app/src/main/res/layout/activity_notifications.xml" value="0.2" />
+        <entry key="..\:/PM/privacy.manager.android/app/src/main/res/layout/row_credintials.xml" value="0.1265625" />
+        <entry key="..\:/PM/privacy.manager.android/app/src/main/res/layout/row_notifications.xml" value="0.2" />
         <entry key="..\:/Users/dcamb/StudioProjects/privacy.manager.android/app/src/main/res/layout/activity_main.xml" value="0.15104166666666666" />
         <entry key="..\:/Users/dcamb/StudioProjects/privacy.manager.android/app/src/main/res/layout/registration.xml" value="0.15104166666666666" />
       </map>

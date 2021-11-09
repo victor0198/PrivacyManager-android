@@ -1,10 +1,18 @@
 package privacymanager.android.UI.notifications;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 import privacymanager.android.R;
+import privacymanager.android.UI.credentials.CredentialsUI;
 import privacymanager.android.models.NotificationsModel;
 import privacymanager.android.utils.account.SharedPreferencesEditor;
 import privacymanager.android.utils.props.Props;
@@ -51,6 +60,7 @@ public class NotificationsUI extends AppCompatActivity {
         HOST_ADDRESS = Props.getAppProperty(ctx,"HOST_ADDRESS");
 
         getMyNotifications();
+        //dispatchPopulateAccessibilityEvent();
     }
 
 
@@ -93,8 +103,11 @@ public class NotificationsUI extends AppCompatActivity {
                     }catch (JSONException e) {
                         Log.d(TAG,"ERROR: One of object fields is missing.");
                     }
-                    TextView notificationsView = (TextView) findViewById(R.id.my_not);
-                    notificationsView.setText(notifications);
+                    //message if notificationsList is empty better to do with a Toast
+                    /*TextView notificationsView = (TextView) findViewById(R.id.my_not);
+                    notificationsView.setText(notifications);*/
+                    Toast toast = Toast.makeText(this, "Hello Android!",Toast.LENGTH_LONG);
+                    toast.show();
                 },
                 error -> {
 //                    Log.d(TAG,"ERROR:"+ error.toString());
@@ -120,7 +133,8 @@ public class NotificationsUI extends AppCompatActivity {
 
     }
 
-//    @RequiresApi(api = Build.VERSION_CODES.O)
+
+    //    @RequiresApi(api = Build.VERSION_CODES.O)
 //    private boolean saveFriendshihpPrivateKey(Integer futureFriendId, PrivateKey privateKey) {
 //        DataBaseHelper dataBaseHelper = new DataBaseHelper(SearchUI.this);
 //
@@ -132,5 +146,39 @@ public class NotificationsUI extends AppCompatActivity {
 //
 //        return true;
 //    }
+public void dispatchPopulateAccessibilityEvent() {
+    ListView listView = (ListView) findViewById(R.id.notificationList);
+    String Names[] = {
+            "erfghghhjh",
+            "fsgffcgcbc",
+            "xfghgfhgkjgh,",
+            "ydxcgjcfjhvjh"
+    };
 
+    NotificationsUI.CustomNotificationList customNotificationList = new NotificationsUI.CustomNotificationList(this, Names);
+    listView.setAdapter(customNotificationList);
+}
+
+    public class CustomNotificationList extends ArrayAdapter {
+        private String[] Name;
+        private Activity context;
+
+        public CustomNotificationList(Activity context, String[] Name) {
+            super(context, R.layout.row_notifications, Name);
+            this.context = context;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View row=convertView;
+            LayoutInflater inflater = context.getLayoutInflater();
+            if(convertView==null)
+                row = inflater.inflate(R.layout.row_notifications, null, true);
+            TextView textViewName = (TextView) row.findViewById(R.id.textViewNotification);
+
+            textViewName.setText(Name[position]);
+
+            return  row;
+        }
+    }
 }

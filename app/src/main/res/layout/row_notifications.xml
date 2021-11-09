@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:textSize="20dp"
+        android:textColor="#272B2D"
+        android:id="@+id/textViewNotification"
+        android:layout_row="0"
+        android:layout_column="1" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="1"
+        android:layout_column="1"
+        android:layout_columnWeight="1"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
+        android:text="send you a friend request"
+        android:textColor="#272B2D"
+        android:textSize="15dp" />
+
+    <Button
+        android:id="@+id/buttonAccept"
+        android:layout_width="25dp"
+        android:layout_height="wrap_content"
+        android:layout_row="0"
+        android:layout_column="2"
+        android:layout_columnWeight="1"
+        android:fontFamily="@font/lato_bold"
+        android:text="Accept"
+        android:textColor="#272B2D" />
+
+    <Button
+        android:id="@+id/buttonDecline"
+        android:layout_width="25dp"
+        android:layout_height="wrap_content"
+        android:layout_row="1"
+        android:layout_column="2"
+        android:layout_columnWeight="1"
+        android:backgroundTint="#272B2D"
+        android:fontFamily="@font/lato_bold"
+        android:text="Decline"
+        android:textColor="#ffffff" />
+
+
+</GridLayout>
