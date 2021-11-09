@@ -38,7 +38,7 @@ public class NotificationsUI extends AppCompatActivity {
     private String HOST_ADDRESS;
     private Context ctx;
     private Intent intent;
-//    private List<FriendshipRequestCreated> requestsList = ;
+    private List<NotificationsModel> notificationsModelList = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -51,6 +51,10 @@ public class NotificationsUI extends AppCompatActivity {
         HOST_ADDRESS = Props.getAppProperty(ctx,"HOST_ADDRESS");
 
         getMyNotifications();
+
+        findViewById(R.id.accept_last).setOnClickListener(view -> {
+            Log.d(TAG, notificationsModelList.toString());
+        });
     }
 
 
@@ -73,21 +77,23 @@ public class NotificationsUI extends AppCompatActivity {
 
                     try {
                         for (int i = 0 ; i < notificationsList.length(); i++) {
+                            NotificationsModel notification = new NotificationsModel();
                             JSONObject obj = notificationsList.getJSONObject(i);
-                            String createdRequestId = obj.getString("createdRequestId");
-                            String senderId = obj.getString("senderId");
-                            String receiverId = obj.getString("receiverId");
-                            String publicKey = obj.getString("publicKey");
-                            String status = obj.getString("status");
-                            notifications += "createdRequestId:" + createdRequestId
+                            notification.setCreatedRequestId(obj.getLong("createdRequestId"));
+                            notification.setSenderId(obj.getLong("senderId"));
+                            notification.setReceiverId(obj.getLong("receiverId"));
+                            notification.setPublicKey(obj.getString("publicKey"));
+                            notification.setStatus(obj.getString("status"));
+                            notificationsModelList.add(notification);
+                            notifications += "createdRequestId:" + notification.getCreatedRequestId()
                                     + "\n" +
-                                    "senderId:" + senderId
+                                    "senderId:" + notification.getSenderId()
                                     + "\n" +
-                                    "receiverId:" + receiverId
+                                    "receiverId:" + notification.getReceiverId()
                                     + "\n" +
-                                    "publicKey:" + publicKey.substring(0,10) + "..."
+                                    "publicKey:" + notification.getPublicKey().substring(0,10) + "..."
                                     + "\n" +
-                                    "status:" + status
+                                    "status:" + notification.getStatus()
                                     + "\n\n";
                         }
                     }catch (JSONException e) {
@@ -97,11 +103,15 @@ public class NotificationsUI extends AppCompatActivity {
                     notificationsView.setText(notifications);
                 },
                 error -> {
-//                    Log.d(TAG,"ERROR:"+ error.toString());
-//                    Toast.makeText(ctx,
-//                            "Could not get your notifications.",
-//                            Toast.LENGTH_LONG)
-//                            .show();
+                    Log.d(TAG,"ERROR:" + error.toString());
+
+                    if(error.toString().indexOf("JSONException: End of input at character 0")>0){
+                        return;
+                    }
+                    Toast.makeText(ctx,
+                            "Could not get your notifications.",
+                            Toast.LENGTH_LONG)
+                            .show();
                 }
         ){
             @Override
@@ -119,18 +129,5 @@ public class NotificationsUI extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
 
     }
-
-//    @RequiresApi(api = Build.VERSION_CODES.O)
-//    private boolean saveFriendshihpPrivateKey(Integer futureFriendId, PrivateKey privateKey) {
-//        DataBaseHelper dataBaseHelper = new DataBaseHelper(SearchUI.this);
-//
-//        byte[] byte_pubkey = privateKey.getEncoded();
-//        Log.d(TAG, "\nBYTE KEY::: " + Arrays.toString(byte_pubkey));
-//        String privateKeyString = Base64.getEncoder().encodeToString(byte_pubkey);
-//        Log.d(TAG, "\nSTRING KEY::" + privateKeyString);
-//        dataBaseHelper.addFriendshipReqest(ctx, futureFriendId, privateKeyString);
-//
-//        return true;
-//    }
 
 }
