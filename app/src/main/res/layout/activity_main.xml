@@ -34,7 +34,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:backgroundTint="@color/gray"
-            app:barrierMargin="2"
+            app:barrierMargin="2dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/logo_svg" />
