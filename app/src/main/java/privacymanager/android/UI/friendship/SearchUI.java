@@ -93,8 +93,8 @@ public class SearchUI extends AppCompatActivity {
             try {
                 bodyParameters.put(RECEIVER_ID_PARAM, 27);
                 //TODO: make server app to accept key of length 1600-2000 characters
-//                bodyParameters.put(PUBLIC_KEY_PARAM, publicKeyString);
-                bodyParameters.put(PUBLIC_KEY_PARAM, publicKeyString.substring(0, 100));
+                bodyParameters.put(PUBLIC_KEY_PARAM, publicKeyString);
+//                bodyParameters.put(PUBLIC_KEY_PARAM, publicKeyString.substring(0, 100));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

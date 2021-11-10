@@ -35,6 +35,9 @@
         <activity
             android:name="privacymanager.android.UI.notifications.NotificationsUI"
             android:exported="true" />
+        <activity
+            android:name="privacymanager.android.UI.credentials.CredentialsDetails"
+            android:exported="true" />
         <activity android:name="privacymanager.android.UI.menu.MenuUI"
             android:exported="true">
             <intent-filter>

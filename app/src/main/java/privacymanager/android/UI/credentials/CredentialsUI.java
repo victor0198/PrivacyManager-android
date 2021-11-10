@@ -7,10 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -18,63 +18,97 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import privacymanager.android.R;
+import privacymanager.android.UI.fileEncryption.FIleChooseUI;
+import privacymanager.android.models.CredentialsModel;
+import privacymanager.android.utils.database.DataBaseHelper;
 
 public class CredentialsUI extends AppCompatActivity {
     private static final String TAG = CredentialsUI.class.getSimpleName();
+    private List<CredentialsModel> credentialsList;
+    private ListView listView;
+    private Intent intent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_credentials);
+        intent = getIntent();
 
+        listView = (ListView) findViewById(R.id.credintialsList);
+
+        dispatchPopulateAccessibilityEvent();
+
+        setListeners();
+    }
+
+    private void setListeners() {
         findViewById(R.id.addCredentials).setOnClickListener(view -> {
             Intent intent = new Intent(this, AddCredentialsUI.class);
             launchAddCredentials.launch(intent);
         });
 
-        dispatchPopulateAccessibilityEvent();
+        findViewById(R.id.backCredintials).setOnClickListener(view -> {
+            setResult(RESULT_OK, this.intent);
+            finish();
+        });
+
+        this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView parent, View v, int position, long id){
+                CredentialsModel currentCredentials = credentialsList.get(position);
+                openDetails(currentCredentials);
+            }
+        });
+    }
+
+    private void openDetails(CredentialsModel currentCredentials) {
+        Intent intent = new Intent(this, CredentialsDetails.class);
+        intent.putExtra("credentialsId", currentCredentials.getCredentialId());
+        intent.putExtra("service", currentCredentials.getService());
+        intent.putExtra("login", currentCredentials.getLogin());
+        intent.putExtra("passwordToShow", currentCredentials.getPassword());
+        launchDetails.launch(intent);
     }
 
     public void dispatchPopulateAccessibilityEvent() {
-        ListView listView=(ListView)findViewById(R.id.credintialsList);
-        String credintialNames[] = {
-                "erfghghhjh",
-                "fsgffcgcbc",
-                "xfghgfhgkjgh,",
-                "ydxcgjcfjhvjh"
-        };
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(CredentialsUI.this);
+        this.credentialsList = dataBaseHelper.getCredentialsList();
 
-        String credintialEmail[] = {
-                "foo1@mail.com",
-                "foo2@mail.com",
-                "foo2@mail.com",
-                "foo2@mail.com"
-        };
+        List<String> credintialServices = new ArrayList<String>();
+        List<String> credintialNames = new ArrayList<String>();
+        List<Integer> imageid = new ArrayList<Integer>();
 
-        Integer imageid[] = {
-                R.drawable.ic_default_logo,
-                R.drawable.ic_facebook_logo,
-                R.drawable.ic_logo_google,
-                R.drawable.ic_default_logo
+        for (int i=0; i<credentialsList.size(); i++){
+            credintialServices.add(this.credentialsList.get(i).getService());
+            credintialNames.add(this.credentialsList.get(i).getLogin());
+            if (this.credentialsList.get(i).getService().contains("facebook")){
+                imageid.add(R.drawable.ic_facebook_logo);
+            }else if(this.credentialsList.get(i).getService().contains("google")){
+                imageid.add(R.drawable.ic_logo_google);
+            }else{
+                imageid.add(R.drawable.ic_default_logo);
+            }
 
-        };
+        }
 
-        CustomCredintialList customCountryList = new CustomCredintialList(this, credintialNames, credintialEmail, imageid);
-        listView.setAdapter(customCountryList);
+        CustomCredintialList customCountryList = new CustomCredintialList(this, credintialServices, credintialNames, imageid);
+        this.listView.setAdapter(customCountryList);
     }
 
     public class CustomCredintialList extends ArrayAdapter {
-        private String[] credintialNames;
-        private String[] credintialsEmail;
-        private Integer[] imageid;
+        private List<String> credintialServices;
+        private List<String> credintialNames;
+        private List<Integer> imageid;
         private Activity context;
 
-        public CustomCredintialList(Activity context, String[] credintialNames, String[] credintialsEmail, Integer[] imageid) {
+        public CustomCredintialList(Activity context, List<String> credintialServices, List<String> credintialNames, List<Integer> imageid) {
             super(context, R.layout.row_credintials, credintialNames);
             this.context = context;
+            this.credintialServices = credintialServices;
             this.credintialNames = credintialNames;
-            this.credintialsEmail = credintialsEmail;
             this.imageid = imageid;
 
         }
@@ -89,9 +123,9 @@ public class CredentialsUI extends AppCompatActivity {
             TextView textViewCapital = (TextView) row.findViewById(R.id.textViewCredintialEmail);
             ImageView imageFlag = (ImageView) row.findViewById(R.id.logoCredintial);
 
-            textViewCountry.setText(credintialNames[position]);
-            textViewCapital.setText(credintialsEmail[position]);
-            imageFlag.setImageResource(imageid[position]);
+            textViewCountry.setText(credintialServices.get(position));
+            textViewCapital.setText(credintialNames.get(position));
+            imageFlag.setImageResource(imageid.get(position));
             return  row;
         }
     }
@@ -100,7 +134,16 @@ public class CredentialsUI extends AppCompatActivity {
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
-                    Log.d(TAG, "StartActivityForResult() :: result -> Back to activities list.");
+                    dispatchPopulateAccessibilityEvent();
+                    Log.d(TAG, "StartActivityForResult() :: result -> Back to credentials list.");
+                }
+            });
+
+    private final ActivityResultLauncher<Intent> launchDetails = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    dispatchPopulateAccessibilityEvent();
                 }
             });
 }

@@ -59,7 +59,7 @@ public class AddCredentialsUI extends AppCompatActivity {
         HOST_ADDRESS = Props.getAppProperty(ctx,"HOST_ADDRESS");
 
         checkUpload = findViewById(R.id.cCheckUpload);
-        checkUpload.setChecked(true);
+        checkUpload.setChecked(false);
 
         serviceET = findViewById(R.id.cService);
         loginET = findViewById(R.id.cLogin);
@@ -78,6 +78,9 @@ public class AddCredentialsUI extends AppCompatActivity {
                 }else{
                     getJWTAndUpload();
                 }
+            }else if(credentialsModel != null){
+                setResult(RESULT_OK, this.intent);
+                finish();
             }
         });
     }

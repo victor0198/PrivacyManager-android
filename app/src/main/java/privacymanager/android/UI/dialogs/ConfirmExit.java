@@ -22,7 +22,7 @@ public class ConfirmExit extends DialogFragment {
                     }
                 })
                 .setNegativeButton(NEGATIVE_MESSAGE, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+                    public void onClick(DialogInterface dianfirmlog, int id) {
                         // User cancelled the dialog
                     }
                 });
