@@ -62,6 +62,10 @@ public class SearchUI extends AppCompatActivity {
             sendFriendshipRequest(30);
         });
 
+        findViewById(R.id.backEncryptBtn).setOnClickListener(view -> {
+            setResult(RESULT_OK, this.intent);
+            finish();
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

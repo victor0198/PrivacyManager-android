@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import privacymanager.android.R;
-import privacymanager.android.UI.fileEncryption.FIleChooseUI;
 import privacymanager.android.models.CredentialsModel;
 import privacymanager.android.utils.database.DataBaseHelper;
 
@@ -51,7 +50,7 @@ public class CredentialsUI extends AppCompatActivity {
             launchAddCredentials.launch(intent);
         });
 
-        findViewById(R.id.backCredintials).setOnClickListener(view -> {
+        findViewById(R.id.backNewCredintials).setOnClickListener(view -> {
             setResult(RESULT_OK, this.intent);
             finish();
         });

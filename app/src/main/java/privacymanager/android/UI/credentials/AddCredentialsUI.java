@@ -83,6 +83,11 @@ public class AddCredentialsUI extends AppCompatActivity {
                 finish();
             }
         });
+
+        findViewById(R.id.backNewCredintials).setOnClickListener(view -> {
+            setResult(RESULT_OK, this.intent);
+            finish();
+        });
     }
 
     private boolean checkJWT() {
