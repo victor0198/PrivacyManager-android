@@ -81,9 +81,7 @@ public class MenuUI extends AppCompatActivity {
                     String username = SharedPreferencesEditor.getFromSharedPreferences(ctx, USERNAME_SP);
 
                     TextView welcomingText = (TextView) findViewById(R.id.textViewWelcoming);
-                    welcomingText.setText("Hi ".
-                            concat(username)
-                    );
+                    welcomingText.setText(username);
                 }else{
                     Log.d(TAG, "StartAuthForResult() :: result -> skipped");
                     this.finish();
