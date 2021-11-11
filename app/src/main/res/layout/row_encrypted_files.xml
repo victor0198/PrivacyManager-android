@@ -6,10 +6,8 @@
     android:contextClickable="true"
     android:longClickable="true">
 
-
     <ImageView
-
-        android:id="@+id/logoCredintial"
+        android:id="@+id/logoEF"
         android:layout_width="44dp"
         android:layout_height="44dp"
 
@@ -20,7 +18,7 @@
         android:layout_marginTop="5dp" />
 
     <TextView
-        android:id="@+id/textViewCredintialName"
+        android:id="@+id/textViewEFName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_row="0"
@@ -29,23 +27,12 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
+        android:longClickable="true"
         android:textColor="#272B2D"
-        android:textSize="20dp" />
-
-    <TextView
-        android:id="@+id/textViewCredintialEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_row="1"
-        android:layout_column="1"
-        android:layout_columnWeight="1"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="10dp"
-        android:textColor="#272B2D"
-        android:textSize="15dp" />
+        android:textSize="30dp" />
 
     <ImageView
-        android:id="@+id/arrowCredintial"
+        android:id="@+id/arrowEF"
         android:layout_height="30dp"
         android:layout_row="0"
         android:layout_rowSpan="2"
@@ -53,6 +40,5 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="15dp"
         app:srcCompat="@drawable/ic_arrow_forward" />
-
 
 </GridLayout>

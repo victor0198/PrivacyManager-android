@@ -19,6 +19,7 @@ import privacymanager.android.UI.fileEncryption.FIleChooseUI;
 import privacymanager.android.UI.friendship.FriendsListUI;
 import privacymanager.android.UI.login.LoginUI;
 import privacymanager.android.UI.notifications.NotificationsUI;
+import privacymanager.android.UI.encryptedFiles.EncryptedFilesListUI;
 import privacymanager.android.utils.account.SharedPreferencesEditor;
 
 public class MenuUI extends AppCompatActivity {
@@ -66,10 +67,17 @@ public class MenuUI extends AppCompatActivity {
             launchFunctionality.launch(intent);
         });
 
+        findViewById(R.id.button5).setOnClickListener(view -> {
+            Intent intent = new Intent(this, EncryptedFilesListUI.class);
+            launchFunctionality.launch(intent);
+        });
+
         findViewById(R.id.imageView4).setOnClickListener(view -> {
             Intent intent = new Intent(this, NotificationsUI.class);
             launchFunctionality.launch(intent);
         });
+
+
     }
 
 

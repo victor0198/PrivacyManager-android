@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="152dp"
         android:text="Encrypt"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" />

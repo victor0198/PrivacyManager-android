@@ -1,10 +1,18 @@
 package privacymanager.android.UI.notifications;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 import privacymanager.android.R;
+import privacymanager.android.UI.credentials.CredentialsUI;
 import privacymanager.android.models.NotificationsModel;
 import privacymanager.android.utils.account.SharedPreferencesEditor;
 import privacymanager.android.utils.props.Props;
@@ -38,7 +47,7 @@ public class NotificationsUI extends AppCompatActivity {
     private String HOST_ADDRESS;
     private Context ctx;
     private Intent intent;
-    private List<NotificationsModel> notificationsModelList = new ArrayList<>();
+//    private List<FriendshipRequestCreated> requestsList = ;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -51,10 +60,7 @@ public class NotificationsUI extends AppCompatActivity {
         HOST_ADDRESS = Props.getAppProperty(ctx,"HOST_ADDRESS");
 
         getMyNotifications();
-
-        findViewById(R.id.accept_last).setOnClickListener(view -> {
-            Log.d(TAG, notificationsModelList.toString());
-        });
+        //dispatchPopulateAccessibilityEvent();
     }
 
 
@@ -77,41 +83,38 @@ public class NotificationsUI extends AppCompatActivity {
 
                     try {
                         for (int i = 0 ; i < notificationsList.length(); i++) {
-                            NotificationsModel notification = new NotificationsModel();
                             JSONObject obj = notificationsList.getJSONObject(i);
-                            notification.setCreatedRequestId(obj.getLong("createdRequestId"));
-                            notification.setSenderId(obj.getLong("senderId"));
-                            notification.setReceiverId(obj.getLong("receiverId"));
-                            notification.setPublicKey(obj.getString("publicKey"));
-                            notification.setStatus(obj.getString("status"));
-                            notificationsModelList.add(notification);
-                            notifications += "createdRequestId:" + notification.getCreatedRequestId()
+                            String createdRequestId = obj.getString("createdRequestId");
+                            String senderId = obj.getString("senderId");
+                            String receiverId = obj.getString("receiverId");
+                            String publicKey = obj.getString("publicKey");
+                            String status = obj.getString("status");
+                            notifications += "createdRequestId:" + createdRequestId
                                     + "\n" +
-                                    "senderId:" + notification.getSenderId()
+                                    "senderId:" + senderId
                                     + "\n" +
-                                    "receiverId:" + notification.getReceiverId()
+                                    "receiverId:" + receiverId
                                     + "\n" +
-                                    "publicKey:" + notification.getPublicKey().substring(0,10) + "..."
+                                    "publicKey:" + publicKey.substring(0,10) + "..."
                                     + "\n" +
-                                    "status:" + notification.getStatus()
+                                    "status:" + status
                                     + "\n\n";
                         }
                     }catch (JSONException e) {
                         Log.d(TAG,"ERROR: One of object fields is missing.");
                     }
-                    TextView notificationsView = (TextView) findViewById(R.id.my_not);
-                    notificationsView.setText(notifications);
+                    //message if notificationsList is empty better to do with a Toast
+                    /*TextView notificationsView = (TextView) findViewById(R.id.my_not);
+                    notificationsView.setText(notifications);*/
+                    Toast toast = Toast.makeText(this, "Hello Android!",Toast.LENGTH_LONG);
+                    toast.show();
                 },
                 error -> {
-                    Log.d(TAG,"ERROR:" + error.toString());
-
-                    if(error.toString().indexOf("JSONException: End of input at character 0")>0){
-                        return;
-                    }
-                    Toast.makeText(ctx,
-                            "Could not get your notifications.",
-                            Toast.LENGTH_LONG)
-                            .show();
+//                    Log.d(TAG,"ERROR:"+ error.toString());
+//                    Toast.makeText(ctx,
+//                            "Could not get your notifications.",
+//                            Toast.LENGTH_LONG)
+//                            .show();
                 }
         ){
             @Override
@@ -130,4 +133,52 @@ public class NotificationsUI extends AppCompatActivity {
 
     }
 
+
+    //    @RequiresApi(api = Build.VERSION_CODES.O)
+//    private boolean saveFriendshihpPrivateKey(Integer futureFriendId, PrivateKey privateKey) {
+//        DataBaseHelper dataBaseHelper = new DataBaseHelper(SearchUI.this);
+//
+//        byte[] byte_pubkey = privateKey.getEncoded();
+//        Log.d(TAG, "\nBYTE KEY::: " + Arrays.toString(byte_pubkey));
+//        String privateKeyString = Base64.getEncoder().encodeToString(byte_pubkey);
+//        Log.d(TAG, "\nSTRING KEY::" + privateKeyString);
+//        dataBaseHelper.addFriendshipReqest(ctx, futureFriendId, privateKeyString);
+//
+//        return true;
+//    }
+public void dispatchPopulateAccessibilityEvent() {
+    ListView listView = (ListView) findViewById(R.id.notificationList);
+    String Names[] = {
+            "erfghghhjh",
+            "fsgffcgcbc",
+            "xfghgfhgkjgh,",
+            "ydxcgjcfjhvjh"
+    };
+
+    NotificationsUI.CustomNotificationList customNotificationList = new NotificationsUI.CustomNotificationList(this, Names);
+    listView.setAdapter(customNotificationList);
+}
+
+    public class CustomNotificationList extends ArrayAdapter {
+        private String[] Name;
+        private Activity context;
+
+        public CustomNotificationList(Activity context, String[] Name) {
+            super(context, R.layout.row_notifications, Name);
+            this.context = context;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View row=convertView;
+            LayoutInflater inflater = context.getLayoutInflater();
+            if(convertView==null)
+                row = inflater.inflate(R.layout.row_notifications, null, true);
+            TextView textViewName = (TextView) row.findViewById(R.id.textViewNotification);
+
+            textViewName.setText(Name[position]);
+
+            return  row;
+        }
+    }
 }

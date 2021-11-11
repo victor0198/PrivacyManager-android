@@ -38,6 +38,12 @@
         <activity
             android:name="privacymanager.android.UI.credentials.CredentialsDetails"
             android:exported="true" />
+        <activity
+            android:name="privacymanager.android.UI.encryptedFiles.EncryptedFilesListUI"
+            android:exported="true" />
+        <activity
+            android:name="privacymanager.android.UI.encryptedFiles.EFChoosen"
+            android:exported="true" />
         <activity android:name="privacymanager.android.UI.menu.MenuUI"
             android:exported="true">
             <intent-filter>
