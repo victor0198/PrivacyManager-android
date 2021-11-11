@@ -167,6 +167,7 @@ public class LoginUI extends AppCompatActivity {
             // build the request
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, bodyParameters,
                     response -> {
+                        Log.d(LoginUI.class.toString(), "AuthLogin() :: ++++++++++++++++++++++++.");
                         Log.d(LoginUI.class.toString(), "AuthLogin() :: " + response);
 
                         String id, jwt;
@@ -180,7 +181,7 @@ public class LoginUI extends AppCompatActivity {
                         }
 
                         try {
-                            jwt = response.get("accessToken").toString();
+                            jwt = response.get("token").toString();
                             Log.d(LoginUI.class.toString(), "AuthLogin() :: Got JWT: " + jwt);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -211,14 +212,17 @@ public class LoginUI extends AppCompatActivity {
 
                     },
                     error -> {
+                        if (error.networkResponse == null){
+                            Toast.makeText(ctx,
+                                    "Server not available.",
+                                    Toast.LENGTH_LONG)
+                                    .show();
+
+                            return;
+                        }
                         if (error.networkResponse.statusCode == 401){
                             Toast.makeText(ctx,
                                     "This account is not registered.",
-                                    Toast.LENGTH_LONG)
-                                    .show();
-                        }else{
-                            Toast.makeText(ctx,
-                                    "Server error.",
                                     Toast.LENGTH_LONG)
                                     .show();
                         }
