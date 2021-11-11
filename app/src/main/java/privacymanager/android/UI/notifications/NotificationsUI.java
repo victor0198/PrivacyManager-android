@@ -49,6 +49,7 @@ import javax.crypto.SecretKey;
 import privacymanager.android.R;
 import privacymanager.android.UI.credentials.AddCredentialsUI;
 import privacymanager.android.UI.credentials.CredentialsUI;
+import privacymanager.android.UI.friendship.SearchUI;
 import privacymanager.android.models.NotificationsModel;
 import privacymanager.android.utils.account.SharedPreferencesEditor;
 import privacymanager.android.utils.database.DataBaseHelper;
@@ -174,17 +175,17 @@ public class NotificationsUI extends AppCompatActivity {
 
         NotificationsUI.CustomNotificationsList customCountryList = new NotificationsUI.CustomNotificationsList(this, intent, notificationsIds, notificationsKeys, notificationsTexts, notificationsUsername);
         this.listView.setAdapter(customCountryList);
-        this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    final int position, long id) {
-                Log.i("List View Clicked", "**********");
-                Toast.makeText(NotificationsUI.this,
-                        "List View Clicked:" + position, Toast.LENGTH_LONG)
-                        .show();
-            }
-        });
+//        this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View v,
+//                                    final int position, long id) {
+//                Log.i("List View Clicked", "**********");
+//                Toast.makeText(NotificationsUI.this,
+//                        "List View Clicked:" + position, Toast.LENGTH_LONG)
+//                        .show();
+//            }
+//        });
     }
 
     public static class CustomNotificationsList extends ArrayAdapter {
