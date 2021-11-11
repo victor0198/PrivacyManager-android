@@ -261,21 +261,18 @@ public class NotificationsUI extends AppCompatActivity {
         public void sendFriendshipResponse(long frInitiatorId, String publicKey, String status){
 
             String url = Props.getAppProperty(context,"HOST_ADDRESS").concat(Props.getAppProperty(context,"ANSWER_FRIENDSHIP_REQUEST"));
-            SecretKey secretKey = null;
 
-            try{
-                secretKey = CryptoUtils.getAESKeyFromPassword(CryptoUtils.getRandomNonce(128).toString().toCharArray(), CryptoUtils.getRandomNonce(64));
-
-            }catch (Exception e){
-                Toast.makeText(context,
-                        "Could not prepare response.",
-                        Toast.LENGTH_LONG)
-                        .show();
-                return;
-            }
 
             JSONObject bodyParameters = new JSONObject();
             if (status.equals("ACCEPT")) {
+                SecretKey secretKey = null;
+                try{
+                    secretKey = CryptoUtils.getAESKeyFromPassword(CryptoUtils.getRandomNonce(128).toString().toCharArray(), CryptoUtils.getRandomNonce(64));
+                }catch (Exception e){
+                    Log.d(AddCredentialsUI.class.toString(), "Could not create symmetric key.");
+                    return;
+                }
+
                 byte[] byte_secretKey = secretKey.getEncoded();
                 Log.d(TAG, "\nBYTE FR KEY::: " + Arrays.toString(byte_secretKey));
                 String secretKeyString = Base64.getEncoder().encodeToString(byte_secretKey);
@@ -284,6 +281,7 @@ public class NotificationsUI extends AppCompatActivity {
                 Log.d(TAG, "PUBLIC KEY STRING::" + publicKey);
                 byte[] byte_pubkey  = Base64.getDecoder().decode(publicKey);
                 System.out.println("PUBLIC BYTE KEY::" + Arrays.toString(byte_pubkey));
+
                 KeyFactory factory = null;
                 PublicKey public_key = null;
                 try{
@@ -291,6 +289,7 @@ public class NotificationsUI extends AppCompatActivity {
                     public_key = (PublicKey) factory.generatePublic(new X509EncodedKeySpec(byte_pubkey));
                 }catch (Exception e){
                     Log.d(AddCredentialsUI.class.toString(), "Could not recreate public key from string.");
+                    return;
                 }
 
                 byte[] Byte_keyResponse = null;
@@ -298,6 +297,7 @@ public class NotificationsUI extends AppCompatActivity {
                     Byte_keyResponse = AsymmetricCryptography.do_RSAEncryption( secretKeyString, public_key);
                 } catch (Exception e) {
                     Log.d(AddCredentialsUI.class.toString(), "Could not encrypt symmetric key with public key.");
+                    return;
                 }
 
                 String String_keyResponse = Base64.getEncoder().encodeToString(Byte_keyResponse);
@@ -308,7 +308,8 @@ public class NotificationsUI extends AppCompatActivity {
                     bodyParameters.put("status", status);
                     bodyParameters.put("symmetricKey", String_keyResponse);
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Log.d(AddCredentialsUI.class.toString(), "Could not prepare response payload.");
+                    return;
                 }
             }else{
                 try {
@@ -316,7 +317,8 @@ public class NotificationsUI extends AppCompatActivity {
                     bodyParameters.put("status", status);
                     bodyParameters.put("symmetricKey", "");
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Log.d(AddCredentialsUI.class.toString(), "Could not prepare response payload.");
+                    return;
                 }
             }
 
