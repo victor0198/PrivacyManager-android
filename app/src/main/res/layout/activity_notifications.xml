@@ -16,24 +16,57 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/my_not"
-        android:layout_width="344dp"
-        android:layout_height="504dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:text="You don't have notifications"
-        android:textSize="18sp"
+    <ListView
+        android:id="@+id/notificationsList"
+        android:layout_width="409dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginEnd="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout9" />
 
-    <Button
-        android:id="@+id/accept_last"
-        android:layout_width="111dp"
-        android:layout_height="85dp"
-        android:layout_marginStart="148dp"
+    <ImageView
+        android:id="@+id/imageViewNotif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="16dp"
-        android:text="Accept last one"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/my_not" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_icon_notifications" />
+
+    <ImageView
+    android:id="@+id/backNotificationsBtn"
+    android:layout_width="wrap_content"
+    android:layout_height="32dp"
+    android:layout_marginTop="16dp"
+    android:minWidth="48dp"
+    android:minHeight="48dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:srcCompat="@drawable/arrow_left" />
+
+    <TextView
+        android:id="@+id/textViewNotif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="16dp"
+        android:text="Notifications"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/notNmb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="You don't have any notifications"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout9" />
 </androidx.constraintlayout.widget.ConstraintLayout>

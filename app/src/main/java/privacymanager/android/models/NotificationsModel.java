@@ -3,6 +3,7 @@ package privacymanager.android.models;
 public class NotificationsModel {
     private long createdRequestId;
     private long senderId;
+    private String senderUsername;
     private long receiverId;
     private String publicKey;
     private String status;
@@ -14,6 +15,8 @@ public class NotificationsModel {
     public void setSenderId(long senderId) {
         this.senderId = senderId;
     }
+
+    public void setSenderUsername(String senderUsername) { this.senderUsername = senderUsername; }
 
     public void setReceiverId(long receiverId) {
         this.receiverId = receiverId;
@@ -29,6 +32,10 @@ public class NotificationsModel {
 
     public long getSenderId() {
         return senderId;
+    }
+
+    public String getSenderUsername() {
+        return senderUsername;
     }
 
     public long getReceiverId() {

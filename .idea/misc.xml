@@ -19,11 +19,15 @@
         <entry key="..\:/Users/dcamb/StudioProjects/privacy.manager.android/app/src/main/res/layout/registration.xml" value="0.15104166666666666" />
         <entry key="app/src/main/res/layout/activity_credentials.xml" value="0.26666666666666666" />
         <entry key="app/src/main/res/layout/activity_credentials_add.xml" value="0.29333333333333333" />
-        <entry key="app/src/main/res/layout/activity_encrypt_choose_file.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_encrypt_choose_file.xml" value="0.26666666666666666" />
         <entry key="app/src/main/res/layout/activity_friends_add.xml" value="0.24" />
         <entry key="app/src/main/res/layout/activity_friends_list.xml" value="0.26666666666666666" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.39010416666666664" />
         <entry key="app/src/main/res/layout/activity_notifications.xml" value="0.31431159420289856" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.1431159420289855" />
+        <entry key="app/src/main/res/layout/row_credintials.xml" value="0.2734375" />
+        <entry key="app/src/main/res/layout/row_notifications.xml" value="0.27291666666666664" />
+        <entry key="app/src/main/res/layout/row_search.xml" value="0.2942708333333333" />
       </map>
     </option>
   </component>
