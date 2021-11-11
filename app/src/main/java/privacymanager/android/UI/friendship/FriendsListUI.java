@@ -14,15 +14,26 @@ import privacymanager.android.R;
 
 public class FriendsListUI extends AppCompatActivity {
     private static final String TAG = FriendsListUI.class.getSimpleName();
+    private Intent intent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_list);
+        intent = getIntent();
 
-        findViewById(R.id.add_friend).setOnClickListener(view -> {
+        setListeners();
+    }
+
+    private void setListeners() {
+        findViewById(R.id.addFriend).setOnClickListener(view -> {
             Intent intent = new Intent(this, SearchUI.class);
             launchAddFriend.launch(intent);
+        });
+
+        findViewById(R.id.backFriendsBtn).setOnClickListener(view -> {
+            setResult(RESULT_OK, intent);
+            finish();
         });
     }
 

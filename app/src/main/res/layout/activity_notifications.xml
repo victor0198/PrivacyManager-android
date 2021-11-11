@@ -35,7 +35,7 @@
     </ListView>
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/accept_last"
         android:layout_width="111dp"
         android:layout_height="85dp"
         android:layout_marginStart="148dp"

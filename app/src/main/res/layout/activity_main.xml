@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:backgroundTint="#FF4B4B"
+        android:backgroundTint="#E5DBDB"
         android:text="delete account"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,19 +74,19 @@
             android:id="@+id/textViewWelcoming"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
             android:foregroundTint="#383d40"
             android:text="Username"
             android:textSize="22sp"
-            app:layout_constraintStart_toEndOf="@+id/imageView5"
+            app:layout_constraintStart_toEndOf="@+id/textView10"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/credentialsBtn"
             android:layout_width="320dp"
             android:layout_height="63dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="24dp"
             android:backgroundTint="#d75c23"
             android:drawableLeft="@drawable/credintials_logo"
             android:drawableRight="@drawable/ic_arrow_forward"
@@ -159,26 +159,7 @@
             app:layout_constraintTop_toBottomOf="@+id/button5" />
 
         <Button
-            android:id="@+id/button7"
-            android:layout_width="320dp"
-            android:layout_height="63dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="#d75c23"
-            android:drawableLeft="@drawable/key_list_logo"
-            android:drawableRight="@drawable/ic_arrow_forward"
-            android:gravity="left|center_vertical"
-            android:paddingLeft="16dp"
-            android:paddingTop="13dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="16dp"
-            android:text="    Keys list"
-            android:textColor="#383d40"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/friendsBtn" />
-
-        <Button
-            android:id="@+id/button8"
+            android:id="@+id/settingsBtn"
             android:layout_width="320dp"
             android:layout_height="63dp"
             android:layout_marginTop="10dp"
@@ -194,15 +175,35 @@
             android:textColor="#383d40"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button7" />
+            app:layout_constraintTop_toBottomOf="@+id/friendsBtn" />
 
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+        <Button
+            android:id="@+id/button8"
+            android:layout_width="320dp"
+            android:layout_height="63dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#74A13F"
+            android:drawableLeft="@android:drawable/ic_dialog_alert"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingTop="13dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="16dp"
+            android:text="   Clear session"
+            android:textColor="#383d40"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+            app:layout_constraintTop_toBottomOf="@+id/settingsBtn" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Wellcome,"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
