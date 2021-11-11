@@ -3,16 +3,34 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="../../../../../layout/custom_preview.xml" value="0.2375" />
-        <entry key="app/src/main/res/layout/activity_choose_file.xml" value="0.24" />
-        <entry key="app/src/main/res/layout/activity_credentials.xml" value="0.28020833333333334" />
-        <entry key="app/src/main/res/layout/activity_credentials_add.xml" value="0.21197916666666666" />
+        <entry key="..\:/PM/privacy.manager.android/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.14270833333333333" />
+        <entry key="..\:/PM/privacy.manager.android/app/src/main/res/drawable/encrypted_files_logo.xml" value="0.14270833333333333" />
+        <entry key="..\:/PM/privacy.manager.android/app/src/main/res/drawable/ic_add_icon.xml" value="0.23072916666666668" />
+        <entry key="..\:/PM/privacy.manager.android/app/src/main/res/drawable/ic_launcher_background.xml" value="0.14270833333333333" />
+        <entry key="..\:/PM/privacy.manager.android/app/src/main/res/drawable/ic_notifications.xml" value="0.152" />
+        <entry key="..\:/PM/privacy.manager.android/app/src/main/res/drawable/logo_svg.xml" value="0.14270833333333333" />
+        <entry key="..\:/PM/privacy.manager.android/app/src/main/res/layout/activity_credentials.xml" value="0.3296875" />
+        <entry key="..\:/PM/privacy.manager.android/app/src/main/res/layout/activity_credentials_add.xml" value="0.264" />
+        <entry key="..\:/PM/privacy.manager.android/app/src/main/res/layout/activity_login.xml" value="0.1" />
+        <entry key="..\:/PM/privacy.manager.android/app/src/main/res/layout/activity_main.xml" value="0.176" />
+        <entry key="..\:/PM/privacy.manager.android/app/src/main/res/layout/row_credintials.xml" value="0.536" />
+        <entry key="..\:/PM/privacy.manager.android/app/src/main/res/layout/row_redintials.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/dcamb/StudioProjects/privacy.manager.android/app/src/main/res/layout/activity_main.xml" value="0.15104166666666666" />
+        <entry key="..\:/Users/dcamb/StudioProjects/privacy.manager.android/app/src/main/res/layout/registration.xml" value="0.15104166666666666" />
+        <entry key="app/src/main/res/layout/activity_credentials.xml" value="0.26666666666666666" />
+        <entry key="app/src/main/res/layout/activity_credentials_add.xml" value="0.29333333333333333" />
         <entry key="app/src/main/res/layout/activity_encrypt_choose_file.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_file.xml" value="0.24" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.28072916666666664" />
+        <entry key="app/src/main/res/layout/activity_friends_add.xml" value="0.24" />
+        <entry key="app/src/main/res/layout/activity_friends_list.xml" value="0.26666666666666666" />
+        <entry key="app/src/main/res/layout/activity_notifications.xml" value="0.31431159420289856" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.1431159420289855" />
       </map>
     </option>
   </component>
-  <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
 </project>
