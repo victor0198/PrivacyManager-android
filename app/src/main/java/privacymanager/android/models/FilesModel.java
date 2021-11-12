@@ -24,8 +24,8 @@ public class FilesModel {
         return filesID;
     }
 
-    public void setFilesID(int credentialId) {
-        this.filesID = credentialId;
+    public void setFilesID() {
+        this.filesID += 1;
     }
 
     public String getFilePath() {

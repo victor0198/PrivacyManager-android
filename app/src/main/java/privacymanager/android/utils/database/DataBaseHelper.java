@@ -16,16 +16,21 @@ import java.util.List;
 
 import privacymanager.android.UI.credentials.CredentialsUI;
 import privacymanager.android.models.CredentialsModel;
+import privacymanager.android.models.FilesModel;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
     public final String CREDENTIALS_TABLE = "my_credentials";
     public final String FRIENDSHIP_REQUESTS_SENT_TABLE = "friendship_requests_sent";
+    public final String ENCRYPTED_FILES_TABLE = "encrypted_files";
     public final String COLUMN_CREDENTIAL_ID = "credential_id";
     public final String COLUMN_CREDENTIAL_SERVICE = "service";
     public final String COLUMN_CREDENTIAL_LOGIN = "login";
     public final String COLUMN_CREDENTIAL_PASSWORD = "password";
     public final String COLUMN_RECEIVER_ID = "receiverId";
     public final String COLUMN_PRIVATE_KEY = "privateKey";
+    public final String COLUMN_FILE_ID = "fileID";
+    public final String COLUMN_FILE_PATH = "filePath";
+    public final String COLUMN_FILE_PASSWORD = "filePassword";
 
     public DataBaseHelper(@Nullable Context context) {
         super(context, "privacyManager.db", null, 1);
@@ -44,6 +49,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 " (" + COLUMN_RECEIVER_ID + " TEXT, " +
                 COLUMN_PRIVATE_KEY + " TEXT);";
         db.execSQL(createFriendshipRequestSentTable);
+
+        String createEncryptedFilesTable = "CREATE TABLE " + ENCRYPTED_FILES_TABLE +
+                " (" + COLUMN_FILE_ID + " TEXT, " +
+                COLUMN_FILE_PATH + " TEXT, " +
+                COLUMN_FILE_PASSWORD + " TEXT);";
+        db.execSQL(createEncryptedFilesTable);
+
+
+
     }
 
     @Override
@@ -51,6 +65,24 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public boolean addEncryptedFile(Context ctx, FilesModel filesModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_FILE_ID, filesModel.getFilesID());
+        cv.put(COLUMN_FILE_PASSWORD, filesModel.getFilePassword());
+        cv.put(COLUMN_FILE_PATH, filesModel.getFilePath());
+
+        long insert = db.insert(ENCRYPTED_FILES_TABLE, null, cv);
+
+        db.close();
+
+        if (insert == -1){
+            Toast.makeText(ctx, "Encrypted File data was not added.", Toast.LENGTH_LONG).show();
+        }
+
+        return insert != -1;
+    }
     public boolean addCredential(Context ctx, CredentialsModel credentialModel){
         // check database for already existing credentials
         SQLiteDatabase dbRead = this.getReadableDatabase();
