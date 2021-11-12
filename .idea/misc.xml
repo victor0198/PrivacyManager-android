@@ -17,6 +17,11 @@
         <entry key="..\:/PM/privacy.manager.android/app/src/main/res/layout/row_redintials.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/dcamb/StudioProjects/privacy.manager.android/app/src/main/res/layout/activity_main.xml" value="0.15104166666666666" />
         <entry key="..\:/Users/dcamb/StudioProjects/privacy.manager.android/app/src/main/res/layout/registration.xml" value="0.15104166666666666" />
+        <entry key="..\:/Users/dima/StudioProjects/privacy.manager.android/app/src/main/res/layout/activity_choose_file.xml" value="0.14270833333333333" />
+        <entry key="..\:/Users/dima/StudioProjects/privacy.manager.android/app/src/main/res/layout/activity_credentials.xml" value="0.14270833333333333" />
+        <entry key="..\:/Users/dima/StudioProjects/privacy.manager.android/app/src/main/res/layout/activity_credentials_add.xml" value="0.14270833333333333" />
+        <entry key="..\:/Users/dima/StudioProjects/privacy.manager.android/app/src/main/res/layout/activity_credentials_details.xml" value="0.14270833333333333" />
+        <entry key="..\:/Users/dima/StudioProjects/privacy.manager.android/app/src/main/res/layout/activity_encrypt_choose_file.xml" value="0.14270833333333333" />
         <entry key="app/src/main/res/layout/activity_credentials.xml" value="0.26666666666666666" />
         <entry key="app/src/main/res/layout/activity_credentials_add.xml" value="0.29333333333333333" />
         <entry key="app/src/main/res/layout/activity_encrypt_choose_file.xml" value="0.25" />
