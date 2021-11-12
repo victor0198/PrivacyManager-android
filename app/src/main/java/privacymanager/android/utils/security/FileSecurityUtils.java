@@ -71,10 +71,10 @@ public class FileSecurityUtils {
         //Generate the cipher using pass:
         Cipher cipher = FileSecurityUtils.makeCipher(pass, true);
 
-        //Read in the file:
         FileInputStream inStream = new FileInputStream(inFile);
 
         int blockSize = 8;
+
         //Figure out how many bytes are padded
         int paddedCount = blockSize - ((int) inFile.length() % blockSize);
 
@@ -96,9 +96,7 @@ public class FileSecurityUtils {
         //Encrypt the file data:
         encData = cipher.doFinal(decData);
 
-
-        //Write the encrypted data to a new file:
-        FileOutputStream outStream = new FileOutputStream(new File(destinationPath + ".enc"));
+        FileOutputStream outStream = new FileOutputStream(new File(destinationPath));
         outStream.write(encData);
         outStream.close();
     }
@@ -111,7 +109,7 @@ public class FileSecurityUtils {
             throws GeneralSecurityException, IOException, IllegalBlockSizeException, BadPaddingException {
         byte[] encData;
         byte[] decData;
-        File inFile = new File(sourcePath + ".enc");
+        File inFile = new File(sourcePath);
 
         //Generate the cipher using pass:
         Cipher cipher = FileSecurityUtils.makeCipher(pass, false);
@@ -125,14 +123,12 @@ public class FileSecurityUtils {
         decData = cipher.doFinal(encData);
 
         //Figure out how much padding to remove
-
         int padCount = (int) decData[decData.length - 1];
 
         if (padCount >= 1 && padCount <= 8) {
             decData = Arrays.copyOfRange(decData, 0, decData.length - padCount);
         }
 
-        //Write the decrypted data to a new file:
         FileOutputStream target = new FileOutputStream(new File(destinationPath + ".dec"));
         target.write(decData);
         target.close();

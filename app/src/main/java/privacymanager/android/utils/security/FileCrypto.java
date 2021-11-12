@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import javax.xml.parsers.FactoryConfigurationError;
 
@@ -20,14 +22,13 @@ import privacymanager.android.utils.database.DataBaseHelper;
 
 public class FileCrypto {
 
-    private int fileID = 0;
-
     public boolean encryptFileAddSaveKey(DataBaseHelper dbHelper, Context ctx,
                                          String filePath, String savePath,
-                                         Boolean deleteOriginal) {
-
+                                         Boolean deleteOriginal) throws IOException, NoSuchAlgorithmException {
+        File currentFile = new File(filePath);
         GeneratePassword passwordGenerator = new GeneratePassword();
         String password = passwordGenerator.generateSecurePassword(32, 10, 10, 5, 7);
+
         try {
             FileSecurityUtils.encryptFile(filePath, savePath, password);
         } catch (GeneralSecurityException | IOException e) {
@@ -37,16 +38,16 @@ public class FileCrypto {
 
         if (deleteOriginal) {
             try {
-                File toDelete = new File(filePath);
-                toDelete.delete();
+                currentFile.delete();
             } catch (Exception e) {
                 Log.d("FileCryptoDeletionError", e.toString());
                 return false;
             }
         }
 
-        FilesModel filesModel = new FilesModel(fileID, savePath, password);
-
+        MessageDigest digest = MessageDigest.getInstance("MD5");
+        String md5Hash = CheckSumMD5.checksum(digest, currentFile);
+        FilesModel filesModel = new FilesModel(currentFile.getName(), md5Hash, savePath, password);
         dbHelper.addEncryptedFile(ctx, filesModel);
         dbHelper.close();
 

@@ -1,39 +1,36 @@
 package privacymanager.android.models;
 
 public class FilesModel {
-    private int filesID;
-    private String filePath;
+    private String  fileName;
     private String filePassword;
-
-    public FilesModel(int filesID, String filePath, String filePassword) {
-        this.filesID = filesID;
-        this.filePath = filePath;
+    private String fileMD5;
+    public FilesModel(String fileName, String fileMD5, String filePath, String filePassword) {
+        this.fileName = fileName;
+        this.fileMD5 = fileMD5;
         this.filePassword = filePassword;
     }
 
     @Override
     public String toString() {
         return "CustomerModel{" +
-                "filesID=" + filesID +
-                ", filePath='" + filePath + '\'' +
+                "fileName=" + fileName +
+                ", fileMD5='" + fileMD5 + '\'' +
                 ", filePassword='" + filePassword + '\'' +
                 '}';
     }
 
-    public int getFilesID() {
-        return filesID;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setFilesID() {
-        this.filesID += 1;
+    public void setFileName(String fileName) { this.fileName = fileName; }
+
+    public String getFileMD5() {
+        return fileMD5;
     }
 
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setFileMD5(String fileMD5) {
+        this.fileMD5 = fileMD5;
     }
 
     public String getFilePassword() {

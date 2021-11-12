@@ -16,6 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+
 import privacymanager.android.R;
 import privacymanager.android.utils.database.DataBaseHelper;
 import privacymanager.android.utils.security.FileCrypto;
@@ -53,7 +56,11 @@ public class FIleChooseUI extends AppCompatActivity {
                 return;
             }
         }
-        this.showInfo();
+        try {
+            this.showInfo();
+        } catch (IOException | NoSuchAlgorithmException e) {
+            Log.e("askPermissionAndShowInfo: ", e.toString());
+        }
     }
 
     private ActivityResultLauncher<String> mPermissionResult = registerForActivityResult(
@@ -66,7 +73,7 @@ public class FIleChooseUI extends AppCompatActivity {
                 }
             });
 
-    private void showInfo() {
+    private void showInfo() throws IOException, NoSuchAlgorithmException {
         String fullPath = this.fragment.getPath();
         if (fullPath != null) {
             String fileLocation = fullPath.substring(0, fullPath.lastIndexOf("/") + 1);
@@ -74,7 +81,6 @@ public class FIleChooseUI extends AppCompatActivity {
             boolean deleteOriginal = false;
             if (deleteFileCheckbox.isChecked()) deleteOriginal = true;
 
-            // FIXME: establish db connection
             FileCrypto cryptoUtil = new FileCrypto();
             DataBaseHelper dbHelper = new DataBaseHelper(FIleChooseUI.this);
             Boolean status = cryptoUtil.encryptFileAddSaveKey(dbHelper, ctx, fullPath, fullPath, deleteOriginal);
