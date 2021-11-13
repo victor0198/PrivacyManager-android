@@ -58,7 +58,6 @@ public class SearchUI extends AppCompatActivity {
     private static final String TAG = SearchUI.class.getSimpleName();
     private static final String RECEIVER_ID_PARAM = "receiverId";
     private static final String PUBLIC_KEY_PARAM = "publicKey";
-    private static final String JWT_SP = "JWT";
     private String HOST_ADDRESS;
     private Context ctx;
     private Intent intent;
@@ -104,6 +103,14 @@ public class SearchUI extends AppCompatActivity {
     }
 
     private void searchUsers(String usernameSubstring) {
+        if (intent.getStringExtra("JWT").equals("")){
+            Toast.makeText(ctx,
+                    "Not connected to server",
+                    Toast.LENGTH_LONG)
+                    .show();
+            return;
+        }
+
         Log.d(TAG,"Starting request building");
         JSONObject bodyParameters = new JSONObject();
 
@@ -150,7 +157,7 @@ public class SearchUI extends AppCompatActivity {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headerMap = new HashMap<String, String>();
                 headerMap.put("Content-Type", "application/json");
-                String JWT = SharedPreferencesEditor.getFromSharedPreferences(ctx, JWT_SP);
+                String JWT = intent.getStringExtra("JWT");
                 String authorisationValue = "Bearer " + JWT;
                 headerMap.put("Authorization", authorisationValue);
                 return headerMap;
@@ -173,7 +180,6 @@ public class SearchUI extends AppCompatActivity {
         SearchUI.CustomSearchList customSearchList = new SearchUI.CustomSearchList(this, intent, userIds, usernames);
         this.listView.setAdapter(customSearchList);
     }
-
 
     public static class CustomSearchList extends ArrayAdapter {
         private List<Long> userIds;
@@ -214,7 +220,6 @@ public class SearchUI extends AppCompatActivity {
             holder.searchResultUsername.setText(usernames.get(position));
 
             holder.add.setOnClickListener(view -> {
-                // TODO Auto-generated method stub
                 Log.i("Add Button Clicked", userIds.get(position).toString() + usernames.get(position));
                 sendFriendshipRequest(userIds.get(position));
             });
@@ -256,10 +261,8 @@ public class SearchUI extends AppCompatActivity {
                 Log.d(TAG, "\nSTRING KEY::" + publicKeyString);
 
                 try {
-                    bodyParameters.put(RECEIVER_ID_PARAM, 27);
-                    //TODO: make server app to accept key of length 1600-2000 characters
+                    bodyParameters.put(RECEIVER_ID_PARAM, futureFriendId);
                     bodyParameters.put(PUBLIC_KEY_PARAM, publicKeyString);
-//                bodyParameters.put(PUBLIC_KEY_PARAM, publicKeyString.substring(0, 100));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -287,7 +290,7 @@ public class SearchUI extends AppCompatActivity {
                     public Map<String, String> getHeaders() throws AuthFailureError {
                         Map<String, String> headerMap = new HashMap<String, String>();
                         headerMap.put("Content-Type", "application/json");
-                        String JWT = SharedPreferencesEditor.getFromSharedPreferences(context, JWT_SP);
+                        String JWT = intent.getStringExtra("JWT");
                         String authorisationValue = "Bearer " + JWT;
                         headerMap.put("Authorization", authorisationValue);
                         return headerMap;
@@ -296,8 +299,6 @@ public class SearchUI extends AppCompatActivity {
                 RequestQueue requestQueue = Volley.newRequestQueue(context);
                 requestQueue.add(jsonObjectRequest);
             }
-
-
 
         }
 
@@ -313,9 +314,5 @@ public class SearchUI extends AppCompatActivity {
 
             return true;
         }
-
-
     }
-
-
 }

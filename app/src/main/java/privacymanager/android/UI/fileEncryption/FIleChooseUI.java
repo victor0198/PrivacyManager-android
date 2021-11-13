@@ -40,6 +40,10 @@ public class FIleChooseUI extends AppCompatActivity {
             askPermissionAndShowInfo();
         });
 
+        findViewById(R.id.backEncryptBtn).setOnClickListener(view -> {
+            setResult(RESULT_OK, getIntent());
+            finish();
+        });
     }
 
     private void askPermissionAndShowInfo() {

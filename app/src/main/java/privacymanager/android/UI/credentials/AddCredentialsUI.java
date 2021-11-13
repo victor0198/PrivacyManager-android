@@ -38,8 +38,6 @@ public class AddCredentialsUI extends AppCompatActivity {
     private static final String SERVICE_PARAM = "service";
     private static final String LOGIN_PARAM = "login";
     private static final String PASSWORD_PARAM = "password";
-    private static final String JWT_SP = "JWT";
-    private static final String PASSWORD_SP = "password";
     private static final String USERNAME_SP = "username";
     private String HOST_ADDRESS;
     private EditText serviceET;
@@ -76,7 +74,10 @@ public class AddCredentialsUI extends AppCompatActivity {
                 if (checkJWT()){
                     uploadCredentials();
                 }else{
-                    getJWTAndUpload();
+//                    getJWTAndUpload();
+                    Toast.makeText(ctx, "Not connected to server. Credentials saved only locally.", Toast.LENGTH_LONG).show();
+                    setResult(RESULT_OK, this.intent);
+                    finish();
                 }
             }else if(credentialsModel != null){
                 setResult(RESULT_OK, this.intent);
@@ -93,11 +94,8 @@ public class AddCredentialsUI extends AppCompatActivity {
     private boolean checkJWT() {
         String my_JWT;
         if (checkUpload.isChecked()){
-            try{
-                my_JWT = SharedPreferencesEditor.getFromSharedPreferences(ctx, JWT_SP);
-                my_JWT.equals("");
-                // if previous statement is executed, an JWT does exist
-            }catch (Exception e){
+            my_JWT = this.intent.getStringExtra("JWT");
+            if (my_JWT.equals("")){
                 return false;
             }
         }
@@ -165,11 +163,11 @@ public class AddCredentialsUI extends AppCompatActivity {
         String encryptedService, encryptedLogin, encryptedPassword;
         try{
             encryptedService = Crypto.encrypt(service.getBytes(StandardCharsets.UTF_8),
-                    SharedPreferencesEditor.getFromSharedPreferences(ctx, PASSWORD_SP));
+                    this.intent.getStringExtra("password"));
             encryptedLogin = Crypto.encrypt(login.getBytes(StandardCharsets.UTF_8),
-                    SharedPreferencesEditor.getFromSharedPreferences(ctx, PASSWORD_SP));
+                    this.intent.getStringExtra("password"));
             encryptedPassword = Crypto.encrypt(password.getBytes(StandardCharsets.UTF_8),
-                    SharedPreferencesEditor.getFromSharedPreferences(ctx, PASSWORD_SP));
+                    this.intent.getStringExtra("password"));
         }catch (Exception e){
             Toast.makeText(ctx,
                     "Could not prepare credentials for uploading.",
@@ -189,6 +187,8 @@ public class AddCredentialsUI extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        String JWT = this.intent.getStringExtra("JWT");
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, bodyParameters,
                 response -> {
                     Log.d(AddCredentialsUI.class.toString(), "Credentials uploaded.");
@@ -206,7 +206,6 @@ public class AddCredentialsUI extends AppCompatActivity {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headerMap = new HashMap<String, String>();
                 headerMap.put("Content-Type", "application/json");
-                String JWT = SharedPreferencesEditor.getFromSharedPreferences(ctx, JWT_SP);
                 String authorisationValue = "Bearer " + JWT;
                 headerMap.put("Authorization", authorisationValue);
                 return headerMap;
@@ -215,58 +214,5 @@ public class AddCredentialsUI extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(ctx);
         requestQueue.add(jsonObjectRequest);
-    }
-
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void getJWTAndUpload() {
-        // authentication url
-        String url = HOST_ADDRESS.concat(Props.getAppProperty(ctx,"AUTHENTICATION"));
-
-        // authentication payload
-        JSONObject bodyParameters = new JSONObject();
-        try {
-            bodyParameters.put(USERNAME_SP, SharedPreferencesEditor.getFromSharedPreferences(ctx, USERNAME_SP));
-            bodyParameters.put(PASSWORD_SP, SharedPreferencesEditor.getFromSharedPreferences(ctx, PASSWORD_SP));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        // build the request
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, bodyParameters,
-                response -> {
-                    String jwt;
-                    try {
-                        jwt = response.get("accessToken").toString();
-                        Log.d(AddCredentialsUI.class.toString(), "AuthLogin() :: Got JWT: " + jwt);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        return;
-                    }
-
-                    SharedPreferencesEditor.saveInSharedPreferences(ctx, JWT_SP, jwt);
-
-                    uploadCredentials();
-
-                },
-                error -> {
-                    if (error.networkResponse.statusCode == 401){
-                        Toast.makeText(ctx,
-                                "This account is not registered.",
-                                Toast.LENGTH_LONG)
-                                .show();
-                    }else{
-                        Toast.makeText(ctx,
-                                "Server error.",
-                                Toast.LENGTH_LONG)
-                                .show();
-                    }
-                }
-        );
-
-        // make request
-        RequestQueue requestQueue = Volley.newRequestQueue(ctx);
-        requestQueue.add(jsonObjectRequest);
-
     }
 }
