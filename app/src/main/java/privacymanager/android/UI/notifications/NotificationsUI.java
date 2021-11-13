@@ -34,6 +34,7 @@ import org.json.JSONObject;
 import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyFactory;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.interfaces.ECPublicKey;
 import java.security.spec.X509EncodedKeySpec;
@@ -90,6 +91,14 @@ public class NotificationsUI extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void getMyNotifications() {
+        if (intent.getStringExtra("JWT").equals("")){
+            Toast.makeText(ctx,
+                    "Could not connect to server",
+                    Toast.LENGTH_LONG)
+                    .show();
+            return;
+        }
+
         JSONObject bodyParameters = new JSONObject();
 
         String url = HOST_ADDRESS.concat(Props.getAppProperty(ctx,"MY_NOTIFICATIONS"));
@@ -146,7 +155,7 @@ public class NotificationsUI extends AppCompatActivity {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headerMap = new HashMap<String, String>();
                 headerMap.put("Content-Type", "application/json");
-                String JWT = SharedPreferencesEditor.getFromSharedPreferences(ctx, JWT_SP);
+                String JWT = intent.getStringExtra("JWT");
                 String authorisationValue = "Bearer " + JWT;
                 headerMap.put("Authorization", authorisationValue);
                 return headerMap;
@@ -199,6 +208,7 @@ public class NotificationsUI extends AppCompatActivity {
         public CustomNotificationsList(Activity context, Intent intent, List<Long> notificationsIds, List<String> notificationsKeys, List<String> notificationsTexts, List<String> notificationsUsername) {
             super(context, R.layout.row_credintials, notificationsUsername);
             this.context = context;
+            this.intent = intent;
             this.notificationsIds = notificationsIds;
             this.notificationsKeys = notificationsKeys;
             this.notificationsTexts = notificationsTexts;
@@ -259,7 +269,15 @@ public class NotificationsUI extends AppCompatActivity {
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void sendFriendshipResponse(long frInitiatorId, String publicKey, String status){
+        public void sendFriendshipResponse(Long frInitiatorId, String publicKey, String status){
+
+            if (intent.getStringExtra("JWT").equals("")){
+                Toast.makeText(context,
+                        "Could not connect to server",
+                        Toast.LENGTH_LONG)
+                        .show();
+                return;
+            }
 
             String url = Props.getAppProperty(context,"HOST_ADDRESS").concat(Props.getAppProperty(context,"ANSWER_FRIENDSHIP_REQUEST"));
 
@@ -273,6 +291,8 @@ public class NotificationsUI extends AppCompatActivity {
                     Log.d(AddCredentialsUI.class.toString(), "Could not create symmetric key.");
                     return;
                 }
+
+                saveFriendshihpSymmetricKey(frInitiatorId.intValue(), secretKey);
 
                 byte[] byte_secretKey = secretKey.getEncoded();
                 Log.d(TAG, "\nBYTE FR KEY::: " + Arrays.toString(byte_secretKey));
@@ -340,7 +360,7 @@ public class NotificationsUI extends AppCompatActivity {
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> headerMap = new HashMap<String, String>();
                     headerMap.put("Content-Type", "application/json");
-                    String JWT = SharedPreferencesEditor.getFromSharedPreferences(context, JWT_SP);
+                    String JWT = intent.getStringExtra("JWT");
                     String authorisationValue = "Bearer " + JWT;
                     headerMap.put("Authorization", authorisationValue);
                     return headerMap;
@@ -349,6 +369,19 @@ public class NotificationsUI extends AppCompatActivity {
 
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             requestQueue.add(jsonObjectRequest);
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        private boolean saveFriendshihpSymmetricKey(Integer futureFriendId, SecretKey secretKey) {
+            DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
+
+            byte[] byte_symmetricKey = secretKey.getEncoded();
+            Log.d(TAG, "\nBYTE KEY::: " + Arrays.toString(byte_symmetricKey));
+            String symmetricKeyString = Base64.getEncoder().encodeToString(byte_symmetricKey);
+            Log.d(TAG, "\nSTRING KEY::" + symmetricKeyString);
+            dataBaseHelper.saveFriendshipKey(context, futureFriendId, symmetricKeyString);
+
+            return true;
         }
     }
 
