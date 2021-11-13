@@ -17,10 +17,12 @@ import java.util.List;
 
 import privacymanager.android.UI.credentials.CredentialsUI;
 import privacymanager.android.models.CredentialsModel;
+import privacymanager.android.models.FilesModel;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
     public final String CREDENTIALS_TABLE = "my_credentials";
     public final String FRIENDSHIP_REQUESTS_SENT_TABLE = "friendship_requests_sent";
+    public final String ENCRYPTED_FILES_TABLE = "encrypted_files";
     public final String FRIENDSHIP_KEYS_TABLE = "friendship";
     public final String COLUMN_CREDENTIAL_ID = "credential_id";
     public final String COLUMN_CREDENTIAL_SERVICE = "service";
@@ -28,6 +30,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public final String COLUMN_CREDENTIAL_PASSWORD = "password";
     public final String COLUMN_RECEIVER_ID = "receiverId";
     public final String COLUMN_PRIVATE_KEY = "privateKey";
+    public final String COLUMN_FILE_NAME = "fileName";
+    public final String COLUMN_FILE_MD5 = "fileMD5";
+    public final String COLUMN_FILE_PASSWORD = "filePassword";
     public final String COLUMN_FRIEND_ID = "friendId";
     public final String COLUMN_SYMMETRIC_KEY = "symmetricKey";
 
@@ -49,6 +54,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 COLUMN_PRIVATE_KEY + " TEXT);";
         db.execSQL(createFriendshipRequestSentTable);
 
+        String createEncryptedFilesTable = "CREATE TABLE " + ENCRYPTED_FILES_TABLE +
+                " (" + COLUMN_FILE_MD5 + " TEXT, " +
+                COLUMN_FILE_NAME + " TEXT, " +
+                COLUMN_FILE_PASSWORD + " TEXT);";
+        db.execSQL(createEncryptedFilesTable);
+
         String createFriendshipTable = "CREATE TABLE " + FRIENDSHIP_KEYS_TABLE +
                 " (" + COLUMN_FRIEND_ID + " INTEGER, " +
                 COLUMN_SYMMETRIC_KEY + " TEXT);";
@@ -60,18 +71,37 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean addCredential(Context ctx, CredentialsModel credentialModel){
+    public boolean addEncryptedFile(Context ctx, FilesModel filesModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_FILE_NAME, filesModel.getFileName());
+        cv.put(COLUMN_FILE_MD5, filesModel.getFileMD5());
+        cv.put(COLUMN_FILE_PASSWORD, filesModel.getFilePassword());
+
+        long insert = db.insert(ENCRYPTED_FILES_TABLE, null, cv);
+
+        db.close();
+
+        if (insert == -1) {
+            Toast.makeText(ctx, "Encrypted File data was not added.", Toast.LENGTH_LONG).show();
+        }
+
+        return insert != -1;
+    }
+
+    public boolean addCredential(Context ctx, CredentialsModel credentialModel) {
         // check database for already existing credentials
         SQLiteDatabase dbRead = this.getReadableDatabase();
         String getCredentialsQuery = "SELECT * FROM " + CREDENTIALS_TABLE +
                 " WHERE " + COLUMN_CREDENTIAL_SERVICE + " LIKE \"" + credentialModel.getService() + "\"" +
                 " AND " + COLUMN_CREDENTIAL_LOGIN + " LIKE \"" + credentialModel.getLogin() + "\"" +
-                " AND " + COLUMN_CREDENTIAL_PASSWORD + " LIKE \"" +  credentialModel.getPassword() + "\"";
+                " AND " + COLUMN_CREDENTIAL_PASSWORD + " LIKE \"" + credentialModel.getPassword() + "\"";
         Cursor cursor = dbRead.rawQuery(getCredentialsQuery, null);
 
-        if (cursor.getCount() > 0){
+        if (cursor.getCount() > 0) {
 
-            Toast.makeText(ctx, "These credentials are already registered.",Toast.LENGTH_LONG).show();
+            Toast.makeText(ctx, "These credentials are already registered.", Toast.LENGTH_LONG).show();
             Log.d(DataBaseHelper.class.toString(), "Credentials already registered.");
             Log.d(DataBaseHelper.class.toString(), "Cursor:" + cursor.getCount());
             return false;
@@ -91,24 +121,24 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.close();
 
-        if (insert == -1){
+        if (insert == -1) {
             Toast.makeText(ctx, "Credentials were not added.", Toast.LENGTH_LONG).show();
         }
 
         return insert != -1;
     }
 
-    public Integer getCredentialsId(String service, String login, String password){
+    public Integer getCredentialsId(String service, String login, String password) {
         // check database for already existing credentials
         SQLiteDatabase dbRead = this.getReadableDatabase();
         String getCredentialsQuery = "SELECT * FROM " + CREDENTIALS_TABLE +
                 " WHERE " + COLUMN_CREDENTIAL_SERVICE + " LIKE \"" + service + "\"" +
                 " AND " + COLUMN_CREDENTIAL_LOGIN + " LIKE \"" + login + "\"" +
-                " AND " + COLUMN_CREDENTIAL_PASSWORD + " LIKE \"" +  password + "\"";
+                " AND " + COLUMN_CREDENTIAL_PASSWORD + " LIKE \"" + password + "\"";
         Cursor cursor = dbRead.rawQuery(getCredentialsQuery, null);
 
         Integer credentialsId = 0;
-        if (cursor.getCount() > 0){
+        if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             credentialsId = cursor.getInt(0);
         }
@@ -121,15 +151,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return credentialsId;
     }
 
-    public List<CredentialsModel> getCredentialsList(){
+    public List<CredentialsModel> getCredentialsList() {
         // check database for already existing credentials
         SQLiteDatabase dbRead = this.getReadableDatabase();
         List<CredentialsModel> credentialsList = new ArrayList<>();
         String getCredentialsQuery = "SELECT * FROM " + CREDENTIALS_TABLE;
         Cursor cursor = dbRead.rawQuery(getCredentialsQuery, null);
 
-        if (cursor.moveToFirst()){
-            do{
+        if (cursor.moveToFirst()) {
+            do {
                 int credentialsId = cursor.getInt(0);
                 Log.d(CredentialsUI.class.toString(), "Got id:" + credentialsId);
                 String service = cursor.getString(1);
@@ -142,7 +172,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                         password
                 );
                 credentialsList.add(credential);
-            }while(cursor.moveToNext());
+            } while (cursor.moveToNext());
 
         }
 
@@ -152,7 +182,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return credentialsList;
     }
 
-    public boolean deleteCredential(CredentialsModel credentialModel){
+    public boolean deleteCredential(CredentialsModel credentialModel) {
         // check database for already existing credentials
         SQLiteDatabase dbRead = this.getReadableDatabase();
         String getCredentialsQuery = "DELETE FROM " + CREDENTIALS_TABLE +
@@ -168,7 +198,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    public boolean addFriendshipReqest(Context ctx, Integer futureFriendId, String privateKeyString){
+    public boolean addFriendshipReqest(Context ctx, Integer futureFriendId, String privateKeyString) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -179,7 +209,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.close();
 
-        if (insert == -1){
+        if (insert == -1) {
             Toast.makeText(ctx, "Friendship request wes not added.", Toast.LENGTH_LONG).show();
         }
 

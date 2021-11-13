@@ -1,107 +1,136 @@
 package privacymanager.android.utils.security;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.security.GeneralSecurityException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.PBEParameterSpec;
 
 
 /**
  * Class made for working with encryption/decryption of user files.
  */
 public class FileSecurityUtils {
-    private SecretKey secretKey;
-    private Cipher cipher;
+    //Arbitrarily selected 8-byte salt sequence:
+    private static final byte[] salt = {
+            (byte) 0x43, (byte) 0x76, (byte) 0x95, (byte) 0xc7,
+            (byte) 0x5b, (byte) 0xd7, (byte) 0x45, (byte) 0x17
+    };
 
+    private static Cipher makeCipher(String pass, Boolean decryptMode) throws GeneralSecurityException {
 
-    public FileSecurityUtils() throws NoSuchPaddingException, NoSuchAlgorithmException {
-        this.secretKey = KeyGenerator.getInstance("AES").generateKey();
-        this.cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-    }
+        //Use a KeyFactory to derive the corresponding key from the passphrase:
+        PBEKeySpec keySpec = new PBEKeySpec(pass.toCharArray());
+        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBEWithMD5AndDES");
+        SecretKey key = keyFactory.generateSecret(keySpec);
 
-    /**
-     * @param secretKey KeyGenerator key instance, by default is set to AES
-     * @param cipher    cipher algorithm string, by default is set to AES/CBC/PKCS5Padding
-     */
-    public FileSecurityUtils(SecretKey secretKey, String cipher) throws NoSuchPaddingException, NoSuchAlgorithmException {
-        this.secretKey = secretKey;
-        this.cipher = Cipher.getInstance(cipher);
-    }
+        //Create parameters from the salt and an arbitrary number of iterations:
+        PBEParameterSpec pbeParamSpec = new PBEParameterSpec(salt, 42);
 
-    /**
-     * @param content  encrypted file content
-     * @param fileName target file of encryption
-     */
-    public void encryptFile(String content, String fileName) throws InvalidKeyException, IOException {
-        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-        byte[] iv = cipher.getIV();
+        //Set up the cipher:
+        Cipher cipher = Cipher.getInstance("PBEWithMD5AndDES");
 
-        try (
-                FileOutputStream fileOut = new FileOutputStream(fileName);
-                CipherOutputStream cipherOut = new CipherOutputStream(fileOut, cipher)
-        ) {
-            fileOut.write(iv);
-            cipherOut.write(content.getBytes());
+        //Set the cipher mode to decryption or encryption:
+        if (decryptMode) {
+            cipher.init(Cipher.ENCRYPT_MODE, key, pbeParamSpec);
+        } else {
+            cipher.init(Cipher.DECRYPT_MODE, key, pbeParamSpec);
         }
 
+        return cipher;
     }
+
 
     /**
-     * @param fileName target file of decryption
-     * @return content of the decrypted file
-     */
-    public String decryptFile(String fileName) throws InvalidAlgorithmParameterException, InvalidKeyException, IOException {
+     * Encrypts one file to a second file using a key derived from a passphrase:
+     **/
+    public static void encryptFile(String sourcePath, String destinationPath, String pass)
+            throws IOException, GeneralSecurityException {
+        byte[] decData;
+        byte[] encData;
+        File inFile = new File(sourcePath);
+        //Generate the cipher using pass:
+        Cipher cipher = FileSecurityUtils.makeCipher(pass, true);
 
-        String content;
+        FileInputStream inStream = new FileInputStream(inFile);
 
-        try (FileInputStream fileIn = new FileInputStream(fileName)) {
-            byte[] fileIv = new byte[16];
-            fileIn.read(fileIv);
-            cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(fileIv));
+        int blockSize = 8;
 
-            try (
-                    CipherInputStream cipherIn = new CipherInputStream(fileIn, cipher);
-                    InputStreamReader inputReader = new InputStreamReader(cipherIn);
-                    BufferedReader reader = new BufferedReader(inputReader)
-            ) {
+        //Figure out how many bytes are padded
+        int paddedCount = blockSize - ((int) inFile.length() % blockSize);
 
-                StringBuilder sb = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line);
-                }
-                content = sb.toString();
-            }
+        //Figure out full size including padding
+        int padded = (int) inFile.length() + paddedCount;
 
+        decData = new byte[padded];
+
+
+        inStream.read(decData);
+
+        inStream.close();
+
+        //Write out padding bytes as per PKCS5 algorithm
+        for (int i = (int) inFile.length(); i < padded; ++i) {
+            decData[i] = (byte) paddedCount;
         }
-        return content;
+
+        //Encrypt the file data:
+        encData = cipher.doFinal(decData);
+
+        FileOutputStream outStream = new FileOutputStream(new File(destinationPath));
+        outStream.write(encData);
+        outStream.close();
     }
 
-    public void setSecretKey(SecretKey secret)  {
-        this.secretKey = secret;
-    }
 
-    public void setCipher(String cipherAlgorithm) throws NoSuchPaddingException, NoSuchAlgorithmException {
-        this.cipher = Cipher.getInstance(cipherAlgorithm);
-    }
+    /**
+     * Decrypts one file to a second file using a key derived from a passphrase:
+     **/
+    public static void decryptFile(String sourcePath, String destinationPath, String pass)
+            throws GeneralSecurityException, IOException, IllegalBlockSizeException, BadPaddingException {
+        byte[] encData;
+        byte[] decData;
+        File inFile = new File(sourcePath);
 
-    public SecretKey getSecretKey()  {
-        return this.secretKey;
-    }
+        //Generate the cipher using pass:
+        Cipher cipher = FileSecurityUtils.makeCipher(pass, false);
 
-    public Cipher getCipher() {
-        return this.cipher;
+        //Read in the file:
+        FileInputStream inStream = new FileInputStream(inFile);
+        encData = new byte[(int) inFile.length()];
+        inStream.read(encData);
+        inStream.close();
+        //Decrypt the file data:
+        decData = cipher.doFinal(encData);
+
+        //Figure out how much padding to remove
+        int padCount = (int) decData[decData.length - 1];
+
+        if (padCount >= 1 && padCount <= 8) {
+            decData = Arrays.copyOfRange(decData, 0, decData.length - padCount);
+        }
+
+        FileOutputStream target = new FileOutputStream(new File(destinationPath + ".dec"));
+        target.write(decData);
+        target.close();
     }
 }
