@@ -28,6 +28,7 @@ public class FriendsListUI extends AppCompatActivity {
     private void setListeners() {
         findViewById(R.id.addFriend).setOnClickListener(view -> {
             Intent intent = new Intent(this, SearchUI.class);
+            intent.putExtra("JWT", this.intent.getStringExtra("JWT"));
             launchAddFriend.launch(intent);
         });
 

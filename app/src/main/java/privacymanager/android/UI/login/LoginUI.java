@@ -38,10 +38,10 @@ import privacymanager.android.utils.internet.InternetConnection;
 
 public class LoginUI extends AppCompatActivity {
     private final String USERNAME_SP = "username";
-    private final String PASSWORD_SP = "password";
+    private final String PASSWORD = "password";
     private final String IDENTIFIER_SP = "identifier";
     private final String ID_SP = "id";
-    private final String JWT_SP = "JWT";
+    private final String JWT = "JWT";
     private String HOST_ADDRESS;
     private Intent intent;
     private Context ctx;
@@ -116,6 +116,8 @@ public class LoginUI extends AppCompatActivity {
 
         if (result){
             setResult(RESULT_OK, this.intent);
+            this.intent.putExtra(PASSWORD, pass.getText().toString());
+            this.intent.putExtra(JWT, "");
             finish();
         }
     }
@@ -159,7 +161,7 @@ public class LoginUI extends AppCompatActivity {
             JSONObject bodyParameters = new JSONObject();
             try {
                 bodyParameters.put(USERNAME_SP, username);
-                bodyParameters.put(PASSWORD_SP, password);
+                bodyParameters.put(PASSWORD, password);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -201,13 +203,13 @@ public class LoginUI extends AppCompatActivity {
 
                         SharedPreferencesEditor.saveInSharedPreferences(ctx, USERNAME_SP, username);
                         SharedPreferencesEditor.saveInSharedPreferences(ctx, IDENTIFIER_SP, encryptedIdentifier);
-                        SharedPreferencesEditor.saveInSharedPreferences(ctx, PASSWORD_SP, password);
                         SharedPreferencesEditor.saveInSharedPreferences(ctx, ID_SP, id);
-                        SharedPreferencesEditor.saveInSharedPreferences(ctx, JWT_SP, jwt);
 
                         Log.d(LoginUI.class.toString(), "AuthLogin() :: Account stored.");
 
                         setResult(RESULT_OK, this.intent);
+                        intent.putExtra(JWT, jwt);
+                        intent.putExtra(PASSWORD, password);
                         finish();
 
                     },
@@ -247,8 +249,6 @@ public class LoginUI extends AppCompatActivity {
                         .show();
                 return false;
             }
-
-            SharedPreferencesEditor.saveInSharedPreferences(ctx, PASSWORD_SP, password);
 
             // locally authenticate
             if (decryptedText.equals(username)){

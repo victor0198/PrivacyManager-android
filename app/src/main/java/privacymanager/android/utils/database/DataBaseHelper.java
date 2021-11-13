@@ -1,5 +1,6 @@
 package privacymanager.android.utils.database;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -20,12 +21,15 @@ import privacymanager.android.models.CredentialsModel;
 public class DataBaseHelper extends SQLiteOpenHelper {
     public final String CREDENTIALS_TABLE = "my_credentials";
     public final String FRIENDSHIP_REQUESTS_SENT_TABLE = "friendship_requests_sent";
+    public final String FRIENDSHIP_KEYS_TABLE = "friendship";
     public final String COLUMN_CREDENTIAL_ID = "credential_id";
     public final String COLUMN_CREDENTIAL_SERVICE = "service";
     public final String COLUMN_CREDENTIAL_LOGIN = "login";
     public final String COLUMN_CREDENTIAL_PASSWORD = "password";
     public final String COLUMN_RECEIVER_ID = "receiverId";
     public final String COLUMN_PRIVATE_KEY = "privateKey";
+    public final String COLUMN_FRIEND_ID = "friendId";
+    public final String COLUMN_SYMMETRIC_KEY = "symmetricKey";
 
     public DataBaseHelper(@Nullable Context context) {
         super(context, "privacyManager.db", null, 1);
@@ -44,6 +48,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 " (" + COLUMN_RECEIVER_ID + " TEXT, " +
                 COLUMN_PRIVATE_KEY + " TEXT);";
         db.execSQL(createFriendshipRequestSentTable);
+
+        String createFriendshipTable = "CREATE TABLE " + FRIENDSHIP_KEYS_TABLE +
+                " (" + COLUMN_FRIEND_ID + " INTEGER, " +
+                COLUMN_SYMMETRIC_KEY + " TEXT);";
+        db.execSQL(createFriendshipTable);
     }
 
     @Override
@@ -172,6 +181,24 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         if (insert == -1){
             Toast.makeText(ctx, "Friendship request wes not added.", Toast.LENGTH_LONG).show();
+        }
+
+        return insert != -1;
+    }
+
+    public boolean saveFriendshipKey(Activity context, Integer futureFriendId, String symmetricKey) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_FRIEND_ID, futureFriendId);
+        cv.put(COLUMN_SYMMETRIC_KEY, symmetricKey);
+
+        long insert = db.insert(FRIENDSHIP_KEYS_TABLE, null, cv);
+
+        db.close();
+
+        if (insert == -1){
+            Toast.makeText(context, "Friendship key wes not added.", Toast.LENGTH_LONG).show();
         }
 
         return insert != -1;

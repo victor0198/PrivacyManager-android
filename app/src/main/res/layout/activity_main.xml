@@ -7,17 +7,6 @@
     android:layout_height="match_parent"
     tools:context="privacymanager.android.UI.menu.MenuUI">
 
-    <Button
-        android:id="@+id/deleteAccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="#E5DBDB"
-        android:text="delete account"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="0dp"
@@ -51,7 +40,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/notificationsBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -63,8 +52,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout3"
-        android:layout_width="322dp"
-        android:layout_height="520dp"
+        android:layout_width="340dp"
+        android:layout_height="550dp"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,73 +64,97 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:foregroundTint="#383d40"
             android:text="Username"
+            android:textColor="#d75c23"
             android:textSize="22sp"
             app:layout_constraintStart_toEndOf="@+id/textView10"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/credentialsBtn"
-            android:layout_width="320dp"
+            android:id="@+id/serverConnection"
+            android:layout_width="0dp"
             android:layout_height="63dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#d75c23"
+            android:drawableLeft="@drawable/server_icon"
+            android:drawableRight="@drawable/not"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingTop="13dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="16dp"
+            android:text="   Server connection"
+            android:textColor="#383d40"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewWelcoming" />
+
+        <Button
+            android:id="@+id/credentialsBtn"
+            android:layout_width="0dp"
+            android:layout_height="63dp"
+            android:layout_marginTop="10dp"
             android:backgroundTint="#d75c23"
             android:drawableLeft="@drawable/credintials_logo"
             android:drawableRight="@drawable/ic_arrow_forward"
             android:gravity="left|center_vertical"
-            android:paddingLeft="16dp"
+            android:paddingLeft="15dp"
             android:paddingTop="13dp"
             android:paddingRight="10dp"
             android:paddingBottom="16dp"
             android:text="   Credentials"
             android:textColor="#383d40"
             android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewWelcoming" />
+            app:layout_constraintTop_toBottomOf="@+id/serverConnection" />
 
         <Button
             android:id="@+id/encryptBtn"
-            android:layout_width="320dp"
+            android:layout_width="0dp"
             android:layout_height="63dp"
             android:layout_marginTop="10dp"
             android:backgroundTint="#d75c23"
             android:drawableLeft="@drawable/ic_icon_encryption"
             android:drawableRight="@drawable/ic_arrow_forward"
             android:gravity="left|center_vertical"
-            android:paddingLeft="16dp"
+            android:paddingLeft="20dp"
             android:paddingTop="13dp"
             android:paddingRight="10dp"
             android:paddingBottom="16dp"
-            android:text="    Encrypt file"
+            android:text="   Encrypt file"
             android:textColor="#383d40"
             android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/credentialsBtn" />
 
         <Button
             android:id="@+id/button5"
-            android:layout_width="320dp"
+            android:layout_width="0dp"
             android:layout_height="63dp"
             android:layout_marginTop="10dp"
             android:backgroundTint="#d75c23"
             android:drawableLeft="@drawable/encrypted_files_logo"
             android:drawableRight="@drawable/ic_arrow_forward"
             android:gravity="left|center_vertical"
-            android:paddingLeft="16dp"
+            android:paddingLeft="20dp"
             android:paddingTop="13dp"
             android:paddingRight="10dp"
             android:paddingBottom="16dp"
-            android:text="    Encrypted files"
+            android:text="   Encrypted files"
             android:textColor="#383d40"
             android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/encryptBtn" />
 
         <Button
             android:id="@+id/friendsBtn"
-            android:layout_width="320dp"
+            android:layout_width="0dp"
             android:layout_height="63dp"
             android:layout_marginTop="10dp"
             android:backgroundTint="#d75c23"
@@ -152,37 +165,39 @@
             android:paddingTop="13dp"
             android:paddingRight="10dp"
             android:paddingBottom="16dp"
-            android:text="  Friends list"
+            android:text=" Friends list"
             android:textColor="#383d40"
             android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button5" />
 
         <Button
             android:id="@+id/settingsBtn"
-            android:layout_width="320dp"
+            android:layout_width="0dp"
             android:layout_height="63dp"
             android:layout_marginTop="10dp"
             android:backgroundTint="#d75c23"
             android:drawableLeft="@drawable/settings_logo"
             android:drawableRight="@drawable/ic_arrow_forward"
             android:gravity="left|center_vertical"
-            android:paddingLeft="16dp"
+            android:paddingLeft="19dp"
             android:paddingTop="13dp"
             android:paddingRight="10dp"
             android:paddingBottom="16dp"
-            android:text="    Settings"
+            android:text="  Settings"
             android:textColor="#383d40"
             android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/friendsBtn" />
 
         <Button
             android:id="@+id/button8"
-            android:layout_width="320dp"
+            android:layout_width="0dp"
             android:layout_height="63dp"
             android:layout_marginTop="10dp"
-            android:backgroundTint="#74A13F"
+            android:backgroundTint="#d75c23"
             android:drawableLeft="@android:drawable/ic_dialog_alert"
             android:gravity="left|center_vertical"
             android:paddingLeft="16dp"
@@ -192,6 +207,7 @@
             android:text="   Clear session"
             android:textColor="#383d40"
             android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/settingsBtn" />
 
@@ -199,7 +215,7 @@
             android:id="@+id/textView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:text="Wellcome,"
             android:textSize="22sp"
             app:layout_constraintStart_toStartOf="parent"

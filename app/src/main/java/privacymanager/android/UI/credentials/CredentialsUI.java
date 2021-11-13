@@ -47,6 +47,8 @@ public class CredentialsUI extends AppCompatActivity {
     private void setListeners() {
         findViewById(R.id.addCredentials).setOnClickListener(view -> {
             Intent intent = new Intent(this, AddCredentialsUI.class);
+            intent.putExtra("JWT", this.intent.getStringExtra("JWT"));
+            intent.putExtra("password", this.intent.getStringExtra("password"));
             launchAddCredentials.launch(intent);
         });
 
@@ -133,6 +135,11 @@ public class CredentialsUI extends AppCompatActivity {
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
+                    if (result.getData().getStringExtra("JWT") == null){
+                        Log.d("CredentialsUI result ::", "JWT it is null");
+                    }else{
+                        this.intent.putExtra("JWT", result.getData().getStringExtra("JWT"));
+                    }
                     dispatchPopulateAccessibilityEvent();
                     Log.d(TAG, "StartActivityForResult() :: result -> Back to credentials list.");
                 }
