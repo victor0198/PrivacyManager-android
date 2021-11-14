@@ -57,7 +57,7 @@ public class MenuUI extends AppCompatActivity {
         intent = getIntent();
         HOST_ADDRESS = Props.getAppProperty(ctx,"HOST_ADDRESS");
 
-        //authenticate();
+        authenticate();
 
         setListeners();
     }

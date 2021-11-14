@@ -29,8 +29,9 @@ public class FileCrypto {
         GeneratePassword passwordGenerator = new GeneratePassword();
         String password = passwordGenerator.generateSecurePassword(32, 10, 10, 5, 7);
 
+        String md5HashEncryptedFile = null;
         try {
-            FileSecurityUtils.encryptFile(filePath, savePath, password);
+            md5HashEncryptedFile = FileSecurityUtils.encryptFile(filePath, savePath, password);
         } catch (GeneralSecurityException | IOException e) {
             Log.d("FileCryptoEncryptionError", e.toString());
             return false;
@@ -45,9 +46,7 @@ public class FileCrypto {
             }
         }
 
-        MessageDigest digest = MessageDigest.getInstance("MD5");
-        String md5Hash = CheckSumMD5.checksum(digest, currentFile);
-        FilesModel filesModel = new FilesModel(currentFile.getName(), md5Hash, savePath, password);
+        FilesModel filesModel = new FilesModel(currentFile.getName(), md5HashEncryptedFile, savePath, password);
         dbHelper.addEncryptedFile(ctx, filesModel);
         dbHelper.close();
 

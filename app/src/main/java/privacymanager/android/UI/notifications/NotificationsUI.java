@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.IntegerRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -112,8 +113,6 @@ public class NotificationsUI extends AppCompatActivity {
                         Log.d(TAG,"ERROR: There is no notificationsList field in response.");
                     }
 
-                    String notifications = "";
-
                     try {
                         for (int i = 0 ; i < notificationsList.length(); i++) {
                             NotificationsModel notification = new NotificationsModel();
@@ -204,6 +203,7 @@ public class NotificationsUI extends AppCompatActivity {
         private List<String> notificationsUsername;
         private Activity context;
         private Intent intent;
+        private SecretKey secretKey = null;
 
         public CustomNotificationsList(Activity context, Intent intent, List<Long> notificationsIds, List<String> notificationsKeys, List<String> notificationsTexts, List<String> notificationsUsername) {
             super(context, R.layout.row_credintials, notificationsUsername);
@@ -270,7 +270,6 @@ public class NotificationsUI extends AppCompatActivity {
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         public void sendFriendshipResponse(Long frInitiatorId, String publicKey, String status){
-
             if (intent.getStringExtra("JWT").equals("")){
                 Toast.makeText(context,
                         "Could not connect to server",
@@ -284,15 +283,12 @@ public class NotificationsUI extends AppCompatActivity {
 
             JSONObject bodyParameters = new JSONObject();
             if (status.equals("ACCEPT")) {
-                SecretKey secretKey = null;
                 try{
                     secretKey = CryptoUtils.getAESKeyFromPassword(CryptoUtils.getRandomNonce(128).toString().toCharArray(), CryptoUtils.getRandomNonce(64));
                 }catch (Exception e){
                     Log.d(AddCredentialsUI.class.toString(), "Could not create symmetric key.");
                     return;
                 }
-
-                saveFriendshihpSymmetricKey(frInitiatorId.intValue(), secretKey);
 
                 byte[] byte_secretKey = secretKey.getEncoded();
                 Log.d(TAG, "\nBYTE FR KEY::: " + Arrays.toString(byte_secretKey));
@@ -345,13 +341,35 @@ public class NotificationsUI extends AppCompatActivity {
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, bodyParameters,
                     response -> {
-                        Log.d(AddCredentialsUI.class.toString(), "Credentials uploaded.");
+                        Log.d(AddCredentialsUI.class.toString(), "Friendship response sent: " + status);
+
+                        if (status.equals("ACCEPT")) {
+                            Integer friendshipId;
+                            try {
+                                friendshipId = Integer.decode(response.getString("friendshipId"));
+                            } catch (JSONException e) {
+                                Toast.makeText(context,
+                                        "Could not make a friendship.",
+                                        Toast.LENGTH_LONG)
+                                        .show();
+                                return;
+                            }
+
+                            boolean savedFriendship = saveFriendshihpSymmetricKey(friendshipId, frInitiatorId.intValue(), secretKey);
+                            if (!savedFriendship){
+                                Toast.makeText(context,
+                                        "Friendship was not saved.",
+                                        Toast.LENGTH_LONG)
+                                        .show();
+                            }
+                        }
+
                         context.setResult(RESULT_OK, intent);
                         context.finish();
                     },
                     error -> {
                         Toast.makeText(context,
-                                "Could send friendship response.",
+                                "Could not send friendship response.",
                                 Toast.LENGTH_LONG)
                                 .show();
                     }
@@ -372,16 +390,17 @@ public class NotificationsUI extends AppCompatActivity {
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        private boolean saveFriendshihpSymmetricKey(Integer futureFriendId, SecretKey secretKey) {
+        private boolean saveFriendshihpSymmetricKey(Integer friendshipId, Integer futureFriendId, SecretKey secretKey) {
+            SecretKey sk = secretKey;
             DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
 
-            byte[] byte_symmetricKey = secretKey.getEncoded();
+            byte[] byte_symmetricKey = sk.getEncoded();
             Log.d(TAG, "\nBYTE KEY::: " + Arrays.toString(byte_symmetricKey));
             String symmetricKeyString = Base64.getEncoder().encodeToString(byte_symmetricKey);
             Log.d(TAG, "\nSTRING KEY::" + symmetricKeyString);
-            dataBaseHelper.saveFriendshipKey(context, futureFriendId, symmetricKeyString);
+            boolean savedFiendshipKey = dataBaseHelper.saveFriendshipKey(context, friendshipId, futureFriendId, symmetricKeyString);
 
-            return true;
+            return savedFiendshipKey;
         }
     }
 
