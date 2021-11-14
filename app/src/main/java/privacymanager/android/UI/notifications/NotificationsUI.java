@@ -398,9 +398,9 @@ public class NotificationsUI extends AppCompatActivity {
             Log.d(TAG, "\nBYTE KEY::: " + Arrays.toString(byte_symmetricKey));
             String symmetricKeyString = Base64.getEncoder().encodeToString(byte_symmetricKey);
             Log.d(TAG, "\nSTRING KEY::" + symmetricKeyString);
-            dataBaseHelper.saveFriendshipKey(context, friendshipId, futureFriendId, symmetricKeyString);
+            boolean savedFiendshipKey = dataBaseHelper.saveFriendshipKey(context, friendshipId, futureFriendId, symmetricKeyString);
 
-            return true;
+            return savedFiendshipKey;
         }
     }
 

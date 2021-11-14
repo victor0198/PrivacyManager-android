@@ -131,7 +131,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public Integer getCredentialsId(String service, String login, String password) {
-        // check database for already existing credentials
         SQLiteDatabase dbRead = this.getReadableDatabase();
         String getCredentialsQuery = "SELECT * FROM " + CREDENTIALS_TABLE +
                 " WHERE " + COLUMN_CREDENTIAL_SERVICE + " LIKE \"" + service + "\"" +
@@ -154,7 +153,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public List<CredentialsModel> getCredentialsList() {
-        // check database for already existing credentials
         SQLiteDatabase dbRead = this.getReadableDatabase();
         List<CredentialsModel> credentialsList = new ArrayList<>();
         String getCredentialsQuery = "SELECT * FROM " + CREDENTIALS_TABLE;
@@ -185,7 +183,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean deleteCredential(CredentialsModel credentialModel) {
-        // check database for already existing credentials
         SQLiteDatabase dbRead = this.getReadableDatabase();
         String getCredentialsQuery = "DELETE FROM " + CREDENTIALS_TABLE +
                 " WHERE " + COLUMN_CREDENTIAL_ID + " = " + credentialModel.getCredentialId();
@@ -218,7 +215,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return insert != -1;
     }
 
-    public boolean saveFriendshipKey(Activity context, Integer friendshipId, Integer futureFriendId, String symmetricKey) {
+    public boolean saveFriendshipKey(Context context, Integer friendshipId, Integer futureFriendId, String symmetricKey) {
+        // check database for already existing friendship
+        SQLiteDatabase dbRead = this.getReadableDatabase();
+        String getFriendshipQuery = "SELECT * FROM " + FRIENDSHIP_KEYS_TABLE +
+                " WHERE " + COLUMN_FRIENDSHIP_ID + " = " + friendshipId;
+        Cursor cursor = dbRead.rawQuery(getFriendshipQuery, null);
+
+        if (cursor.getCount() > 0) {
+            Log.d(DataBaseHelper.class.toString(), "Friendship already registered.");
+            return false;
+        }
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -235,5 +242,25 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
 
         return insert != -1;
+    }
+
+    public String getFriendshipPrivateKey(Integer receiverId) {
+        SQLiteDatabase dbRead = this.getReadableDatabase();
+        String getCredentialsQuery = "SELECT * FROM " + FRIENDSHIP_REQUESTS_SENT_TABLE +
+                " WHERE " + COLUMN_RECEIVER_ID + " = " + receiverId;
+        Cursor cursor = dbRead.rawQuery(getCredentialsQuery, null);
+
+        String privateKey = "";
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            privateKey = cursor.getString(1);
+        }
+
+        cursor.close();
+        dbRead.close();
+
+        Log.d(DataBaseHelper.class.toString(), "Extracted private key:".concat(privateKey));
+
+        return privateKey;
     }
 }
