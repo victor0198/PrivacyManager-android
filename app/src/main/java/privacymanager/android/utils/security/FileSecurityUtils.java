@@ -1,5 +1,7 @@
 package privacymanager.android.utils.security;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,6 +11,7 @@ import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
@@ -63,7 +66,7 @@ public class FileSecurityUtils {
     /**
      * Encrypts one file to a second file using a key derived from a passphrase:
      **/
-    public static void encryptFile(String sourcePath, String destinationPath, String pass)
+    public static String encryptFile(String sourcePath, String destinationPath, String pass)
             throws IOException, GeneralSecurityException {
         byte[] decData;
         byte[] encData;
@@ -96,9 +99,16 @@ public class FileSecurityUtils {
         //Encrypt the file data:
         encData = cipher.doFinal(decData);
 
-        FileOutputStream outStream = new FileOutputStream(new File(destinationPath));
+        FileOutputStream outStream = new FileOutputStream(new File(destinationPath+".pm"));
         outStream.write(encData);
         outStream.close();
+
+        File encFile = new File(destinationPath+".pm");
+        MessageDigest digest = MessageDigest.getInstance("MD5");
+        String md5HashEncryptedFile = CheckSumMD5.checksum(digest, encFile);
+        Log.d("FileCryptoDeletionError", "MD5 EnfFile" + md5HashEncryptedFile);
+
+        return md5HashEncryptedFile;
     }
 
 

@@ -33,6 +33,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public final String COLUMN_FILE_NAME = "fileName";
     public final String COLUMN_FILE_MD5 = "fileMD5";
     public final String COLUMN_FILE_PASSWORD = "filePassword";
+    public final String COLUMN_FRIENDSHIP_ID = "friendshipId";
     public final String COLUMN_FRIEND_ID = "friendId";
     public final String COLUMN_SYMMETRIC_KEY = "symmetricKey";
 
@@ -61,7 +62,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(createEncryptedFilesTable);
 
         String createFriendshipTable = "CREATE TABLE " + FRIENDSHIP_KEYS_TABLE +
-                " (" + COLUMN_FRIEND_ID + " INTEGER, " +
+                " (" + COLUMN_FRIENDSHIP_ID + " INTEGER, " +
+                COLUMN_FRIEND_ID + " INTEGER, " +
                 COLUMN_SYMMETRIC_KEY + " TEXT);";
         db.execSQL(createFriendshipTable);
     }
@@ -216,10 +218,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return insert != -1;
     }
 
-    public boolean saveFriendshipKey(Activity context, Integer futureFriendId, String symmetricKey) {
+    public boolean saveFriendshipKey(Activity context, Integer friendshipId, Integer futureFriendId, String symmetricKey) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
+        cv.put(COLUMN_FRIENDSHIP_ID, friendshipId);
         cv.put(COLUMN_FRIEND_ID, futureFriendId);
         cv.put(COLUMN_SYMMETRIC_KEY, symmetricKey);
 
