@@ -173,26 +173,6 @@
             app:layout_constraintTop_toBottomOf="@+id/button5" />
 
         <Button
-            android:id="@+id/settingsBtn"
-            android:layout_width="0dp"
-            android:layout_height="63dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="#d75c23"
-            android:drawableLeft="@drawable/settings_logo"
-            android:drawableRight="@drawable/ic_arrow_forward"
-            android:gravity="left|center_vertical"
-            android:paddingLeft="19dp"
-            android:paddingTop="13dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="16dp"
-            android:text="  Settings"
-            android:textColor="#383d40"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/friendsBtn" />
-
-        <Button
             android:id="@+id/button8"
             android:layout_width="0dp"
             android:layout_height="63dp"
@@ -209,7 +189,7 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settingsBtn" />
+            app:layout_constraintTop_toBottomOf="@+id/friendsBtn" />
 
         <TextView
             android:id="@+id/textView10"

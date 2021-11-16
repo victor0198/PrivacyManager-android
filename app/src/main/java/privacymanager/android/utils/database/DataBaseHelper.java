@@ -18,6 +18,7 @@ import java.util.List;
 import privacymanager.android.UI.credentials.CredentialsUI;
 import privacymanager.android.models.CredentialsModel;
 import privacymanager.android.models.FilesModel;
+import privacymanager.android.models.FriendshipModel;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
     public final String CREDENTIALS_TABLE = "my_credentials";
@@ -215,7 +216,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return insert != -1;
     }
 
-    public boolean saveFriendshipKey(Context context, Integer friendshipId, Integer futureFriendId, String symmetricKey) {
+    public int saveFriendshipKey(Context context, Integer friendshipId, Integer futureFriendId, String symmetricKey) {
         // check database for already existing friendship
         SQLiteDatabase dbRead = this.getReadableDatabase();
         String getFriendshipQuery = "SELECT * FROM " + FRIENDSHIP_KEYS_TABLE +
@@ -224,7 +225,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         if (cursor.getCount() > 0) {
             Log.d(DataBaseHelper.class.toString(), "Friendship already registered.");
-            return false;
+            return 1;
         }
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -239,9 +240,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         if (insert == -1){
             Toast.makeText(context, "Friendship key wes not added.", Toast.LENGTH_LONG).show();
+            return -1;
         }
 
-        return insert != -1;
+        return 0;
     }
 
     public String getFriendshipPrivateKey(Integer receiverId) {
@@ -262,5 +264,33 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Log.d(DataBaseHelper.class.toString(), "Extracted private key:".concat(privateKey));
 
         return privateKey;
+    }
+
+    public List<FriendshipModel> getFriendshipsList() {
+        SQLiteDatabase dbRead = this.getReadableDatabase();
+        List<FriendshipModel> friendshipsList = new ArrayList<>();
+        String getFriendshipsQuery = "SELECT * FROM " + FRIENDSHIP_KEYS_TABLE;
+        Cursor cursor = dbRead.rawQuery(getFriendshipsQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int friendshipId = cursor.getInt(0);
+                Log.d(CredentialsUI.class.toString(), "Got friendshipId:" + friendshipId);
+                int friendId = cursor.getInt(1);
+                String symmetricKey = cursor.getString(2);
+                FriendshipModel friendship = new FriendshipModel(
+                        friendshipId,
+                        friendId,
+                        symmetricKey
+                );
+                friendshipsList.add(friendship);
+            } while (cursor.moveToNext());
+
+        }
+
+        cursor.close();
+        dbRead.close();
+
+        return friendshipsList;
     }
 }

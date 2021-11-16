@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -31,6 +32,7 @@ import privacymanager.android.utils.account.SharedPreferencesEditor;
 import privacymanager.android.utils.database.DataBaseHelper;
 import privacymanager.android.utils.props.Props;
 import privacymanager.android.utils.security.Crypto;
+import privacymanager.android.utils.security.GeneratePassword;
 
 public class AddCredentialsUI extends AppCompatActivity {
     private static final String USER_ID_PARAM = "userId";
@@ -88,6 +90,13 @@ public class AddCredentialsUI extends AppCompatActivity {
         findViewById(R.id.backNewCredintials).setOnClickListener(view -> {
             setResult(RESULT_OK, this.intent);
             finish();
+        });
+
+        findViewById(R.id.generatePasswordBtn).setOnClickListener(view -> {
+            TextView passText = findViewById(R.id.cPassword);
+            GeneratePassword generatePassword = new GeneratePassword();
+            String generatedPassword = generatePassword.generateSecurePassword(12, 3, 3, 3, 3);
+            passText.setText(generatedPassword);
         });
     }
 

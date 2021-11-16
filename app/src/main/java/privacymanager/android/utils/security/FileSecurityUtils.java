@@ -1,5 +1,6 @@
 package privacymanager.android.utils.security;
 
+import android.os.Environment;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -99,11 +100,17 @@ public class FileSecurityUtils {
         //Encrypt the file data:
         encData = cipher.doFinal(decData);
 
-        FileOutputStream outStream = new FileOutputStream(new File(destinationPath+".pm"));
+        String[] pathBits = destinationPath.split("/");
+        String fileName = pathBits[pathBits.length-1];
+        Log.d("ENCRYPTED FILE NAME:", fileName);
+        Log.d("Saving in:", "/PrivacyManager/encrypted/" + fileName + ".pm");
+        File file = new File(Environment.getExternalStorageDirectory()+"/PrivacyManager/encrypted/" + fileName + ".pm");
+        FileOutputStream outStream = new FileOutputStream(file);
         outStream.write(encData);
         outStream.close();
 
-        File encFile = new File(destinationPath+".pm");
+        String encryptedFile = file.toString();
+        File encFile = new File(encryptedFile);
         MessageDigest digest = MessageDigest.getInstance("MD5");
         String md5HashEncryptedFile = CheckSumMD5.checksum(digest, encFile);
         Log.d("FileCryptoDeletionError", "MD5 EnfFile" + md5HashEncryptedFile);
