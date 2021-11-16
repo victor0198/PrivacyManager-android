@@ -183,17 +183,6 @@ public class NotificationsUI extends AppCompatActivity {
 
         NotificationsUI.CustomNotificationsList customCountryList = new NotificationsUI.CustomNotificationsList(this, intent, notificationsIds, notificationsKeys, notificationsTexts, notificationsUsername);
         this.listView.setAdapter(customCountryList);
-//        this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View v,
-//                                    final int position, long id) {
-//                Log.i("List View Clicked", "**********");
-//                Toast.makeText(NotificationsUI.this,
-//                        "List View Clicked:" + position, Toast.LENGTH_LONG)
-//                        .show();
-//            }
-//        });
     }
 
     public static class CustomNotificationsList extends ArrayAdapter {
@@ -398,9 +387,12 @@ public class NotificationsUI extends AppCompatActivity {
             Log.d(TAG, "\nBYTE KEY::: " + Arrays.toString(byte_symmetricKey));
             String symmetricKeyString = Base64.getEncoder().encodeToString(byte_symmetricKey);
             Log.d(TAG, "\nSTRING KEY::" + symmetricKeyString);
-            boolean savedFiendshipKey = dataBaseHelper.saveFriendshipKey(context, friendshipId, futureFriendId, symmetricKeyString);
+            int savedFiendshipKey = dataBaseHelper.saveFriendshipKey(context, friendshipId, futureFriendId, symmetricKeyString);
 
-            return savedFiendshipKey;
+            if (savedFiendshipKey == -1)
+                return false;
+            else
+                return true;
         }
     }
 

@@ -89,8 +89,12 @@ public class FIleChooseUI extends AppCompatActivity {
             DataBaseHelper dbHelper = new DataBaseHelper(FIleChooseUI.this);
             Boolean status = cryptoUtil.encryptFileAddSaveKey(dbHelper, ctx, fullPath, fullPath, deleteOriginal);
 
-            String toastMessage = "File path: " + fullPath + "\n\nOutput in: " + fileLocation + "\n\nDelete original: " + deleteOriginal;
-            Toast.makeText(this, toastMessage, Toast.LENGTH_LONG).show();
+            if (status) {
+                Toast.makeText(this, "File encrypted successfully", Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(this, "Could not encrypt file!", Toast.LENGTH_LONG).show();
+            }
+
         } else {
             Toast.makeText(this, "Choose a file", Toast.LENGTH_LONG).show();
         }

@@ -13,6 +13,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Switch;
@@ -26,6 +27,8 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
 
 import privacymanager.android.R;
 import privacymanager.android.UI.credentials.AddCredentialsUI;
@@ -107,6 +110,43 @@ public class MenuUI extends AppCompatActivity {
             btn.setCompoundDrawablesWithIntrinsicBounds(imgServer, null, imgSync, null);
             getJWT();
         });
+
+        File file = new File(Environment.getExternalStorageDirectory()+"/PrivacyManager");
+
+        if(!file.exists()) {
+            Log.d(TAG, "Directory does not exist, create it");
+        }
+        if (!file.mkdirs()) {
+            file.mkdirs();
+            Log.d(TAG, "Directory already created");
+        }
+
+        file = new File(Environment.getExternalStorageDirectory()+"/PrivacyManager/encrypted");
+        if(!file.exists()) {
+            Log.d(TAG, "Directory 'encrypted' does not exist, create it");
+        }
+        if (!file.mkdirs()) {
+            file.mkdirs();
+            Log.d(TAG, "Directory 'encrypted' already created");
+        }
+
+        file = new File(Environment.getExternalStorageDirectory()+"/PrivacyManager/decrypted");
+        if(!file.exists()) {
+            Log.d(TAG, "Directory 'decrypted' does not exist, create it");
+        }
+        if (!file.mkdirs()) {
+            file.mkdirs();
+            Log.d(TAG, "Directory 'decrypted' already created");
+        }
+
+        file = new File(Environment.getExternalStorageDirectory()+"/PrivacyManager/database");
+        if(!file.exists()) {
+            Log.d(TAG, "Directory 'database' does not exist, create it");
+        }
+        if (!file.mkdirs()) {
+            file.mkdirs();
+            Log.d(TAG, "Directory 'database' already created");
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
