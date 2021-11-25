@@ -2,9 +2,11 @@ package privacymanager.android.UI.login;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +18,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -30,6 +33,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import privacymanager.android.R;
+import privacymanager.android.UI.fileEncryption.FileChooserFragment;
 import privacymanager.android.UI.register.RegisterUI;
 import privacymanager.android.utils.props.Props;
 import privacymanager.android.utils.security.Crypto;
@@ -88,6 +92,31 @@ public class LoginUI extends AppCompatActivity {
         }
     }
 
+    public void checkPermissions(){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) { // Level 23
+
+            // Check if we have Call permission
+            int permission = ActivityCompat.checkSelfPermission(getApplicationContext(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE);
+
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                mPermissionResult.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
+            }
+        }
+    }
+
+    private ActivityResultLauncher<String> mPermissionResult = registerForActivityResult(
+            new ActivityResultContracts.RequestPermission(),
+            result -> {
+                if(result) {
+                    Log.e(FileChooserFragment.class.toString(), "onActivityResult: Permission granted");
+                } else {
+                    Toast.makeText(this, "Don't have permission to save file.", Toast.LENGTH_LONG).show();
+                    setResult(RESULT_OK, getIntent());
+                    finish();
+                }
+            });
+
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -105,6 +134,8 @@ public class LoginUI extends AppCompatActivity {
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void authenticate(View v){
+        checkPermissions();
+
         EditText name = (EditText) findViewById(R.id.editTextPersonName);
         EditText pass = (EditText) findViewById(R.id.editTexPassword);
 

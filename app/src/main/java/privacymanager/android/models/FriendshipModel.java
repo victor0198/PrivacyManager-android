@@ -3,11 +3,16 @@ package privacymanager.android.models;
 public class FriendshipModel {
     private long friendshipId;
     private long friendId;
+    private String friendName;
     private String symmetricKey;
 
-    public FriendshipModel(long friendshipId, long friendId, String symmetricKey) {
+    public FriendshipModel() {
+    }
+
+    public FriendshipModel(long friendshipId, long friendId, String friendName, String symmetricKey) {
         this.friendshipId = friendshipId;
         this.friendId = friendId;
+        this.friendName = friendName;
         this.symmetricKey = symmetricKey;
     }
 
@@ -33,6 +38,14 @@ public class FriendshipModel {
 
     public void setSymmetricKey(String symmetricKey) {
         this.symmetricKey = symmetricKey;
+    }
+
+    public String getFriendName() {
+        return friendName;
+    }
+
+    public void setFriendName(String friendName) {
+        this.friendName = friendName;
     }
 
     @Override

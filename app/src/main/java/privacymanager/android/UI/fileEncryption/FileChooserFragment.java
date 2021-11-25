@@ -31,11 +31,12 @@ public class FileChooserFragment extends Fragment {
     private String path = null;
     private TextView fileNameView;
     private ImageView check_icon;
+    private View rootView;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.activity_choose_file, container, false);
+        rootView = inflater.inflate(R.layout.activity_choose_file, container, false);
 
         Button buttonBrowse = (Button) rootView.findViewById(R.id.button_browse);
         fileNameView = (TextView) rootView.findViewById(R.id.fileName);
@@ -79,7 +80,7 @@ public class FileChooserFragment extends Fragment {
                 mPermissionResult.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
                 return;
             }
-            }
+        }
         this.doBrowseFile();
     }
 

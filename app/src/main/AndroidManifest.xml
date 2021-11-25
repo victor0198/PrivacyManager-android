@@ -4,9 +4,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo_svg"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logo_svg"
         android:supportsRtl="true"
         android:theme="@style/Theme.PasswordManager"
         android:fullBackupContent="true"
@@ -37,6 +37,15 @@
             android:exported="true" />
         <activity
             android:name="privacymanager.android.UI.credentials.CredentialsDetails"
+            android:exported="true" />
+        <activity
+            android:name="privacymanager.android.UI.fileDecryption.SelectDecryptUI"
+            android:exported="true" />
+        <activity
+            android:name="privacymanager.android.UI.fileDecryption.DecryptionUI"
+            android:exported="true" />
+        <activity
+            android:name="privacymanager.android.UI.fileSelection.SelectFileUI"
             android:exported="true" />
         <activity android:name="privacymanager.android.UI.menu.MenuUI"
             android:exported="true">

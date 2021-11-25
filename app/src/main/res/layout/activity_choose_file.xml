@@ -14,11 +14,10 @@
         android:layout_height="56dp"
         android:layout_marginStart="3dp"
         android:backgroundTint="#FFFFFF"
-        android:drawableEnd="@android:drawable/ic_menu_add"
         android:text="Choose file"
         android:textAlignment="viewStart"
         android:textColor="#383d40"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:strokeColor="@color/gray"
         app:strokeWidth="2dp" />
 
