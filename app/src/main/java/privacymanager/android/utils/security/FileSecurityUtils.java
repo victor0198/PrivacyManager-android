@@ -1,20 +1,32 @@
 package privacymanager.android.utils.security;
 
+import android.content.Context;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
+import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.Base64;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -40,7 +52,7 @@ public class FileSecurityUtils {
             (byte) 0x5b, (byte) 0xd7, (byte) 0x45, (byte) 0x17
     };
 
-    private static Cipher makeCipher(String pass, Boolean decryptMode) throws GeneralSecurityException {
+    public static Cipher makeCipher(String pass, Boolean decryptMode) throws GeneralSecurityException {
 
         //Use a KeyFactory to derive the corresponding key from the passphrase:
         PBEKeySpec keySpec = new PBEKeySpec(pass.toCharArray());
@@ -100,14 +112,16 @@ public class FileSecurityUtils {
         //Encrypt the file data:
         encData = cipher.doFinal(decData);
 
-        String[] pathBits = destinationPath.split("/");
-        String fileName = pathBits[pathBits.length-1];
-        Log.d("ENCRYPTED FILE NAME:", fileName);
-        Log.d("Saving in:", "/PrivacyManager/encrypted/" + fileName + ".pm");
-        File file = new File(Environment.getExternalStorageDirectory()+"/PrivacyManager/encrypted/" + fileName + ".pm");
+
+        Log.d("LS STEP: ", "1");
+        File file = new File(destinationPath);
+        Log.d("LS STEP: ", "2");
         FileOutputStream outStream = new FileOutputStream(file);
+        Log.d("LS STEP: ", "3");
         outStream.write(encData);
+        Log.d("LS STEP: ", "4");
         outStream.close();
+        Log.d("LS STEP: ", "5");
 
         String encryptedFile = file.toString();
         File encFile = new File(encryptedFile);
@@ -122,11 +136,18 @@ public class FileSecurityUtils {
     /**
      * Decrypts one file to a second file using a key derived from a passphrase:
      **/
-    public static void decryptFile(String sourcePath, String destinationPath, String pass)
+    public static void decryptFile(Context ctx, String sourcePath, String destinationPath, String pass)
             throws GeneralSecurityException, IOException, IllegalBlockSizeException, BadPaddingException {
         byte[] encData;
         byte[] decData;
         File inFile = new File(sourcePath);
+
+        if (inFile == null){
+            Toast.makeText(ctx,
+                    "Could not find the file!",
+                    Toast.LENGTH_LONG)
+                    .show();
+        }
 
         //Generate the cipher using pass:
         Cipher cipher = FileSecurityUtils.makeCipher(pass, false);
@@ -146,7 +167,7 @@ public class FileSecurityUtils {
             decData = Arrays.copyOfRange(decData, 0, decData.length - padCount);
         }
 
-        FileOutputStream target = new FileOutputStream(new File(destinationPath + ".dec"));
+        FileOutputStream target = new FileOutputStream(new File(destinationPath));
         target.write(decData);
         target.close();
     }

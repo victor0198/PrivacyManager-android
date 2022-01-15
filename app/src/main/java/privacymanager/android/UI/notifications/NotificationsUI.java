@@ -54,6 +54,7 @@ import privacymanager.android.UI.credentials.CredentialsUI;
 import privacymanager.android.UI.friendship.SearchUI;
 import privacymanager.android.models.NotificationsModel;
 import privacymanager.android.utils.account.SharedPreferencesEditor;
+import privacymanager.android.utils.database.DBFacade;
 import privacymanager.android.utils.database.DataBaseHelper;
 import privacymanager.android.utils.props.Props;
 import privacymanager.android.utils.security.AsymmetricCryptography;
@@ -195,7 +196,7 @@ public class NotificationsUI extends AppCompatActivity {
         private SecretKey secretKey = null;
 
         public CustomNotificationsList(Activity context, Intent intent, List<Long> notificationsIds, List<String> notificationsKeys, List<String> notificationsTexts, List<String> notificationsUsername) {
-            super(context, R.layout.row_credintials, notificationsUsername);
+            super(context, R.layout.row_notifications, notificationsUsername);
             this.context = context;
             this.intent = intent;
             this.notificationsIds = notificationsIds;
@@ -236,13 +237,13 @@ public class NotificationsUI extends AppCompatActivity {
             holder.accept.setOnClickListener(view -> {
                 // TODO Auto-generated method stub
                 Log.i("Accept Button Clicked", notificationsIds.get(position).toString() + notificationsUsername.get(position));
-                sendFriendshipResponse(notificationsIds.get(position), notificationsKeys.get(position), "ACCEPT");
+                sendFriendshipResponse(notificationsIds.get(position), notificationsUsername.get(position), notificationsKeys.get(position), "ACCEPT");
             });
 
             holder.decline.setOnClickListener(view -> {
                 // TODO Auto-generated method stub
                 Log.i("Decline Button Clicked", notificationsIds.get(position).toString() + notificationsUsername.get(position));
-                sendFriendshipResponse(notificationsIds.get(position), "", "REJECT");
+                sendFriendshipResponse(notificationsIds.get(position), notificationsUsername.get(position), "", "REJECT");
             });
 
             return  row;
@@ -258,7 +259,7 @@ public class NotificationsUI extends AppCompatActivity {
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void sendFriendshipResponse(Long frInitiatorId, String publicKey, String status){
+        public void sendFriendshipResponse(Long frInitiatorId, String friendName, String publicKey, String status){
             if (intent.getStringExtra("JWT").equals("")){
                 Toast.makeText(context,
                         "Could not connect to server",
@@ -269,11 +270,10 @@ public class NotificationsUI extends AppCompatActivity {
 
             String url = Props.getAppProperty(context,"HOST_ADDRESS").concat(Props.getAppProperty(context,"ANSWER_FRIENDSHIP_REQUEST"));
 
-
             JSONObject bodyParameters = new JSONObject();
             if (status.equals("ACCEPT")) {
                 try{
-                    secretKey = CryptoUtils.getAESKeyFromPassword(CryptoUtils.getRandomNonce(128).toString().toCharArray(), CryptoUtils.getRandomNonce(64));
+                    secretKey = CryptoUtils.getAESKey(512);
                 }catch (Exception e){
                     Log.d(AddCredentialsUI.class.toString(), "Could not create symmetric key.");
                     return;
@@ -291,7 +291,7 @@ public class NotificationsUI extends AppCompatActivity {
                 KeyFactory factory = null;
                 PublicKey public_key = null;
                 try{
-                    factory = KeyFactory.getInstance("RSA", "BC");
+                    factory = KeyFactory.getInstance("RSA");
                     public_key = (PublicKey) factory.generatePublic(new X509EncodedKeySpec(byte_pubkey));
                 }catch (Exception e){
                     Log.d(AddCredentialsUI.class.toString(), "Could not recreate public key from string.");
@@ -344,7 +344,7 @@ public class NotificationsUI extends AppCompatActivity {
                                 return;
                             }
 
-                            boolean savedFriendship = saveFriendshihpSymmetricKey(friendshipId, frInitiatorId.intValue(), secretKey);
+                            boolean savedFriendship = saveFriendshihpSymmetricKey(friendshipId, frInitiatorId.intValue(), friendName, secretKey);
                             if (!savedFriendship){
                                 Toast.makeText(context,
                                         "Friendship was not saved.",
@@ -379,15 +379,16 @@ public class NotificationsUI extends AppCompatActivity {
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        private boolean saveFriendshihpSymmetricKey(Integer friendshipId, Integer futureFriendId, SecretKey secretKey) {
+        private boolean saveFriendshihpSymmetricKey(Integer friendshipId, Integer futureFriendId, String friendName, SecretKey secretKey) {
             SecretKey sk = secretKey;
             DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
+            DBFacade dbFacade = new DBFacade(dataBaseHelper, intent.getStringExtra("password"));
 
             byte[] byte_symmetricKey = sk.getEncoded();
             Log.d(TAG, "\nBYTE KEY::: " + Arrays.toString(byte_symmetricKey));
             String symmetricKeyString = Base64.getEncoder().encodeToString(byte_symmetricKey);
             Log.d(TAG, "\nSTRING KEY::" + symmetricKeyString);
-            int savedFiendshipKey = dataBaseHelper.saveFriendshipKey(context, friendshipId, futureFriendId, symmetricKeyString);
+            int savedFiendshipKey = dbFacade.saveFriendshipKey(context, friendshipId, futureFriendId, friendName, symmetricKeyString);
 
             if (savedFiendshipKey == -1)
                 return false;

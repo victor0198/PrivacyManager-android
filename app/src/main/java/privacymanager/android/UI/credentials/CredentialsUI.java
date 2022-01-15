@@ -23,6 +23,7 @@ import java.util.List;
 
 import privacymanager.android.R;
 import privacymanager.android.models.CredentialsModel;
+import privacymanager.android.utils.database.DBFacade;
 import privacymanager.android.utils.database.DataBaseHelper;
 
 public class CredentialsUI extends AppCompatActivity {
@@ -30,12 +31,14 @@ public class CredentialsUI extends AppCompatActivity {
     private List<CredentialsModel> credentialsList;
     private ListView listView;
     private Intent intent;
+    private DataBaseHelper dataBaseHelper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_credentials);
         intent = getIntent();
+        dataBaseHelper = new DataBaseHelper(CredentialsUI.this);
 
         listView = (ListView) findViewById(R.id.credintialsList);
 
@@ -71,16 +74,20 @@ public class CredentialsUI extends AppCompatActivity {
         intent.putExtra("service", currentCredentials.getService());
         intent.putExtra("login", currentCredentials.getLogin());
         intent.putExtra("passwordToShow", currentCredentials.getPassword());
+        intent.putExtra("password", this.intent.getStringExtra("password"));
+        intent.putExtra("JWT", this.intent.getStringExtra("JWT"));
+        intent.putExtra("uploaded", currentCredentials.getUploaded());
         launchDetails.launch(intent);
     }
 
     public void dispatchPopulateAccessibilityEvent() {
-        DataBaseHelper dataBaseHelper = new DataBaseHelper(CredentialsUI.this);
-        this.credentialsList = dataBaseHelper.getCredentialsList();
+        DBFacade dbFacade = new DBFacade(dataBaseHelper, this.intent.getStringExtra("password"));
+        this.credentialsList = dbFacade.getCredentialsList();
 
         List<String> credintialServices = new ArrayList<String>();
         List<String> credintialNames = new ArrayList<String>();
         List<Integer> imageid = new ArrayList<Integer>();
+        List<Integer> uploaded = new ArrayList<Integer>();
 
         for (int i=0; i<credentialsList.size(); i++){
             credintialServices.add(this.credentialsList.get(i).getService());
@@ -92,10 +99,10 @@ public class CredentialsUI extends AppCompatActivity {
             }else{
                 imageid.add(R.drawable.ic_default_logo);
             }
-
+            uploaded.add(this.credentialsList.get(i).getUploaded());
         }
 
-        CustomCredintialList customCountryList = new CustomCredintialList(this, credintialServices, credintialNames, imageid);
+        CustomCredintialList customCountryList = new CustomCredintialList(this, credintialServices, credintialNames, imageid, uploaded);
         this.listView.setAdapter(customCountryList);
     }
 
@@ -104,14 +111,15 @@ public class CredentialsUI extends AppCompatActivity {
         private List<String> credintialNames;
         private List<Integer> imageid;
         private Activity context;
+        private List<Integer> uploaded;
 
-        public CustomCredintialList(Activity context, List<String> credintialServices, List<String> credintialNames, List<Integer> imageid) {
+        public CustomCredintialList(Activity context, List<String> credintialServices, List<String> credintialNames, List<Integer> imageid, List<Integer> uploaded) {
             super(context, R.layout.row_credintials, credintialNames);
             this.context = context;
             this.credintialServices = credintialServices;
             this.credintialNames = credintialNames;
             this.imageid = imageid;
-
+            this.uploaded = uploaded;
         }
 
         @Override
@@ -123,10 +131,14 @@ public class CredentialsUI extends AppCompatActivity {
             TextView textViewCountry = (TextView) row.findViewById(R.id.textViewCredintialName);
             TextView textViewCapital = (TextView) row.findViewById(R.id.textViewCredintialEmail);
             ImageView imageFlag = (ImageView) row.findViewById(R.id.logoCredintial);
+            ImageView cloud = (ImageView) row.findViewById(R.id.imageViewCloud);
 
             textViewCountry.setText(credintialServices.get(position));
             textViewCapital.setText(credintialNames.get(position));
             imageFlag.setImageResource(imageid.get(position));
+            if (uploaded.get(position) == 0) {
+                cloud.setVisibility(View.INVISIBLE);
+            }
             return  row;
         }
     }

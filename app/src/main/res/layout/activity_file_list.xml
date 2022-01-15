@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout7"
+        android:id="@+id/constraintLayoutFL1"
         android:layout_width="0dp"
         android:layout_height="64dp"
         android:background="#d75c23"
@@ -15,52 +15,30 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textViewNC"
+            android:id="@+id/textViewFL1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="110dp"
+            android:layout_marginStart="105dp"
             android:layout_marginTop="16dp"
-            android:text="My friends"
+            android:text="Encrypted files"
             android:textSize="22sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/addFriend"
-            android:layout_width="43dp"
-            android:layout_height="33dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="#d75c23"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_add_icon" />
-
         <ImageView
-            android:id="@+id/imageViewEnc"
+            android:id="@+id/imageViewSelectEF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/friends_logo" />
-
-        <ImageButton
-            android:id="@+id/refreshFL"
-            android:layout_width="41dp"
-            android:layout_height="34dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="12dp"
-            android:background="#d75c23"
-            app:layout_constraintEnd_toStartOf="@+id/addFriend"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/sync" />
+            app:srcCompat="@drawable/key_list_logo" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
-        android:id="@+id/backFriendsBtn"
+        android:id="@+id/backDecryptSelectFileBtn"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
         android:layout_marginTop="16dp"
@@ -71,24 +49,13 @@
         app:srcCompat="@drawable/arrow_left" />
 
     <ListView
-        android:id="@+id/friendsListView"
+        android:id="@+id/decryptFileListView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="64dp"
-        android:layout_marginBottom="70dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout7" />
-
-    <Button
-        android:id="@+id/toFiles"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="Select Friends"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/constraintLayoutFL1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

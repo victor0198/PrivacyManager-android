@@ -24,20 +24,31 @@
         <entry key="..\:/Users/dima/StudioProjects/privacy.manager.android/app/src/main/res/layout/activity_credentials_details.xml" value="0.14270833333333333" />
         <entry key="..\:/Users/dima/StudioProjects/privacy.manager.android/app/src/main/res/layout/activity_encrypt_choose_file.xml" value="0.14270833333333333" />
         <entry key="app/src/main/res/drawable/friends_logo.xml" value="0.4036458333333333" />
-        <entry key="app/src/main/res/layout/activity_credentials.xml" value="0.26666666666666666" />
+        <entry key="app/src/main/res/drawable/logo_svg.xml" value="0.22916666666666666" />
+        <entry key="app/src/main/res/layout/activity_choose_file.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/layout/activity_credentials.xml" value="0.44" />
         <entry key="app/src/main/res/layout/activity_credentials_add.xml" value="0.29333333333333333" />
-        <entry key="app/src/main/res/layout/activity_credentials_details.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_credentials_details.xml" value="0.26666666666666666" />
         <entry key="app/src/main/res/layout/activity_encrypt_choose_file.xml" value="0.26666666666666666" />
+        <entry key="app/src/main/res/layout/activity_file_decryption.xml" value="0.27999999999999997" />
+        <entry key="app/src/main/res/layout/activity_file_list.xml" value="0.23333333333333334" />
+        <entry key="app/src/main/res/layout/activity_file_share_select.xml" value="0.26556016597510373" />
         <entry key="app/src/main/res/layout/activity_friends_add.xml" value="0.24" />
-        <entry key="app/src/main/res/layout/activity_friends_list.xml" value="0.26666666666666666" />
+        <entry key="app/src/main/res/layout/activity_friends_list.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.39010416666666664" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.16" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="1.2" />
         <entry key="app/src/main/res/layout/activity_notifications.xml" value="0.31431159420289856" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.1431159420289855" />
-        <entry key="app/src/main/res/layout/row_credintials.xml" value="0.2734375" />
+        <entry key="app/src/main/res/layout/row_credintials.xml" value="0.6666666666666666" />
+        <entry key="app/src/main/res/layout/row_decrypt_file.xml" value="0.333786231884058" />
         <entry key="app/src/main/res/layout/row_friends.xml" value="0.16" />
         <entry key="app/src/main/res/layout/row_notifications.xml" value="0.27291666666666664" />
         <entry key="app/src/main/res/layout/row_search.xml" value="0.2942708333333333" />
+        <entry key="app/src/main/res/layout/row_share_file.xml" value="0.21467391304347827" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/confirmation_check.xml" value="0.22916666666666666" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/confirmation_check_round.xml" value="0.22916666666666666" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.22916666666666666" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.22916666666666666" />
       </map>
     </option>
   </component>
@@ -46,5 +57,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.29333333333333333" />
+      </ProjectState>
+    </option>
   </component>
 </project>

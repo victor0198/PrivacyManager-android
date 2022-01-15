@@ -29,6 +29,7 @@ import java.util.Map;
 import privacymanager.android.R;
 import privacymanager.android.models.CredentialsModel;
 import privacymanager.android.utils.account.SharedPreferencesEditor;
+import privacymanager.android.utils.database.DBFacade;
 import privacymanager.android.utils.database.DataBaseHelper;
 import privacymanager.android.utils.props.Props;
 import privacymanager.android.utils.security.Crypto;
@@ -48,6 +49,7 @@ public class AddCredentialsUI extends AppCompatActivity {
     private CheckBox checkUpload;
     private Context ctx;
     private Intent intent;
+    private DBFacade dbFacade;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -65,6 +67,9 @@ public class AddCredentialsUI extends AppCompatActivity {
         loginET = findViewById(R.id.cLogin);
         passwordET = findViewById(R.id.cPassword);
 
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(AddCredentialsUI.this);
+        dbFacade = new DBFacade(dataBaseHelper, this.intent.getStringExtra("password"));
+
         createListeners();
     }
 
@@ -77,7 +82,8 @@ public class AddCredentialsUI extends AppCompatActivity {
                     uploadCredentials();
                 }else{
 //                    getJWTAndUpload();
-                    Toast.makeText(ctx, "Not connected to server. Credentials saved only locally.", Toast.LENGTH_LONG).show();
+                    Log.d(AddCredentialsUI.class.toString(), " :: createListeners() :: cAdd Click :: Not connected to server. Credentials saved only locally..");
+                    Toast.makeText(ctx, "Not connected to the server. Credentials saved only locally.", Toast.LENGTH_LONG).show();
                     setResult(RESULT_OK, this.intent);
                     finish();
                 }
@@ -129,7 +135,7 @@ public class AddCredentialsUI extends AppCompatActivity {
             return newCredentials;
         }
         if (password.equals("")){
-            Toast.makeText(ctx, "Input password name", Toast.LENGTH_LONG).show();
+            Toast.makeText(ctx, "Input password", Toast.LENGTH_LONG).show();
             return newCredentials;
         }
 
@@ -137,11 +143,10 @@ public class AddCredentialsUI extends AppCompatActivity {
                 0,
                 service,
                 login,
-                password);
+                password,
+                0);
 
-        DataBaseHelper dataBaseHelper = new DataBaseHelper(AddCredentialsUI.this);
-
-        boolean additionResult = dataBaseHelper.addCredential(ctx, newCredentials);
+        boolean additionResult = dbFacade.addCredential(ctx, newCredentials);
 
         if (additionResult) {
             Toast.makeText(ctx, "Credentials added.", Toast.LENGTH_LONG).show();
@@ -150,6 +155,8 @@ public class AddCredentialsUI extends AppCompatActivity {
             Log.d(AddCredentialsUI.class.toString(), " :: createListeners() :: cAdd Click :: Could not add credentials to DB.");
             return null;
         }
+
+        Log.d(AddCredentialsUI.class.toString(), " :: createListeners() :: cAdd Click :: Credentials saved.");
 
         return newCredentials;
     }
@@ -160,8 +167,7 @@ public class AddCredentialsUI extends AppCompatActivity {
         String login = loginET.getText().toString();
         String password = passwordET.getText().toString();
 
-        DataBaseHelper dataBaseHelper = new DataBaseHelper(AddCredentialsUI.this);
-        Integer credentialsId = dataBaseHelper.getCredentialsId(service, login, password);
+        Integer credentialsId = dbFacade.getCredentialsId(service, login, password);
         if (credentialsId == 0){
             Log.d(AddCredentialsUI.class.toString(), " :: createListeners() :: cAdd Click :: Could not find credentials in DB.");
             return;
@@ -201,6 +207,8 @@ public class AddCredentialsUI extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, bodyParameters,
                 response -> {
                     Log.d(AddCredentialsUI.class.toString(), "Credentials uploaded.");
+                    int id = dbFacade.getCredentialsId(service, login, password);
+                    dbFacade.patchCredential(ctx, id, 1);
                     setResult(RESULT_OK, this.intent);
                     finish();
                 },

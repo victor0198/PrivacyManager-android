@@ -14,6 +14,7 @@ import privacymanager.android.UI.credentials.AddCredentialsUI;
 import privacymanager.android.UI.credentials.CredentialsDetails;
 import privacymanager.android.UI.credentials.CredentialsUI;
 import privacymanager.android.models.CredentialsModel;
+import privacymanager.android.utils.database.DBFacade;
 import privacymanager.android.utils.database.DataBaseHelper;
 
 public class ConfirmCredentialsDelete extends DialogFragment {
@@ -40,7 +41,8 @@ public class ConfirmCredentialsDelete extends DialogFragment {
                 .setPositiveButton(POSITIVE_MESSAGE, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         DataBaseHelper dataBaseHelper = new DataBaseHelper(ctx);
-                        boolean deletitionResult = dataBaseHelper.deleteCredential(credentialsToDelete);
+                        DBFacade dbFacade = new DBFacade(dataBaseHelper, intent.getStringExtra("password"));
+                        boolean deletitionResult = dbFacade.deleteCredential(credentialsToDelete);
                         if(deletitionResult){
                             Toast.makeText(ctx,
                                     credentialsToDelete.getService() + " credentials removed.",

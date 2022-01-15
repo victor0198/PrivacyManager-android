@@ -5,12 +5,14 @@ public class CredentialsModel {
     private String service;
     private String login;
     private String password;
+    private int uploaded;
 
-    public CredentialsModel(int credentialId, String service, String login, String password) {
+    public CredentialsModel(int credentialId, String service, String login, String password, int uploaded) {
         this.credentialsId = credentialId;
         this.service = service;
         this.login = login;
         this.password = password;
+        this.uploaded = uploaded;
     }
 
     @Override
@@ -53,5 +55,13 @@ public class CredentialsModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getUploaded() {
+        return uploaded;
+    }
+
+    public void setUploaded(int uploaded) {
+        this.uploaded = uploaded;
     }
 }

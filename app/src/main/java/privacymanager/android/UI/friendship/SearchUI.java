@@ -49,6 +49,7 @@ import privacymanager.android.UI.notifications.NotificationsUI;
 import privacymanager.android.models.NotificationsModel;
 import privacymanager.android.models.SearchUsersModel;
 import privacymanager.android.utils.account.SharedPreferencesEditor;
+import privacymanager.android.utils.database.DBFacade;
 import privacymanager.android.utils.database.DataBaseHelper;
 import privacymanager.android.utils.props.Props;
 import privacymanager.android.utils.security.AsymmetricCryptography;
@@ -305,12 +306,13 @@ public class SearchUI extends AppCompatActivity {
         @RequiresApi(api = Build.VERSION_CODES.O)
         private boolean saveFriendshihpPrivateKey(Integer futureFriendId, PrivateKey privateKey) {
             DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
+            DBFacade dbFacade = new DBFacade(dataBaseHelper, this.intent.getStringExtra("password"));
 
             byte[] byte_pubkey = privateKey.getEncoded();
             Log.d(TAG, "\nBYTE KEY::: " + Arrays.toString(byte_pubkey));
             String privateKeyString = Base64.getEncoder().encodeToString(byte_pubkey);
             Log.d(TAG, "\nSTRING KEY::" + privateKeyString);
-            dataBaseHelper.addFriendshipReqest(context, futureFriendId, privateKeyString);
+            dbFacade.addFriendshipReqest(context, futureFriendId, privateKeyString);
 
             return true;
         }

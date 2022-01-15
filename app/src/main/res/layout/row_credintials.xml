@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
 
     <ImageView
@@ -14,43 +15,68 @@
         android:layout_row="0"
         android:layout_rowSpan="2"
         android:layout_column="0"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"/>
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="13dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_columnWeight="1"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:textSize="20dp"
-        android:textColor="#272B2D"
         android:id="@+id/textViewCredintialName"
-        android:layout_row="0"
-        android:layout_column="1" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_row="0"
+        android:layout_column="1"
         android:layout_columnWeight="1"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="10dp"
-        android:textSize="15dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
         android:textColor="#272B2D"
+        android:textSize="20dp"
+        app:layout_constraintStart_toEndOf="@+id/logoCredintial"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/textViewCredintialEmail"
+        android:layout_width="256dp"
+        android:layout_height="wrap_content"
         android:layout_row="1"
-        android:layout_column="1" />
+        android:layout_column="1"
+        android:layout_columnWeight="1"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="37dp"
+        android:textColor="#272B2D"
+        android:textSize="15dp"
+        app:layout_constraintStart_toEndOf="@+id/logoCredintial"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/arrowCredintial"
+        android:layout_width="20dp"
         android:layout_height="30dp"
         android:layout_row="0"
-        android:layout_column="2"
         android:layout_rowSpan="2"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="15dp"
-        app:srcCompat="@drawable/ic_arrow_forward"
-        />
+        android:layout_column="2"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_arrow_forward" />
+
+    <Space
+        android:layout_width="5dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/arrowCredintial"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageViewCloud"
+        android:layout_width="23dp"
+        android:layout_height="12dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/cloud" />
 
 
-</GridLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

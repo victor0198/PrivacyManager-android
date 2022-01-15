@@ -54,8 +54,9 @@
         android:id="@+id/constraintLayout3"
         android:layout_width="340dp"
         android:layout_height="550dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
@@ -64,39 +65,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:foregroundTint="#383d40"
-            android:text="Username"
+            android:text="username"
             android:textColor="#d75c23"
             android:textSize="22sp"
             app:layout_constraintStart_toEndOf="@+id/textView10"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/serverConnection"
-            android:layout_width="0dp"
-            android:layout_height="63dp"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="#d75c23"
-            android:drawableLeft="@drawable/server_icon"
-            android:drawableRight="@drawable/not"
-            android:gravity="left|center_vertical"
-            android:paddingLeft="15dp"
-            android:paddingTop="13dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="16dp"
-            android:text="   Server connection"
-            android:textColor="#383d40"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewWelcoming" />
-
-        <Button
             android:id="@+id/credentialsBtn"
             android:layout_width="0dp"
             android:layout_height="63dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="32dp"
             android:backgroundTint="#d75c23"
             android:drawableLeft="@drawable/credintials_logo"
             android:drawableRight="@drawable/ic_arrow_forward"
@@ -133,7 +114,7 @@
             app:layout_constraintTop_toBottomOf="@+id/credentialsBtn" />
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/mainEncryptedBtn"
             android:layout_width="0dp"
             android:layout_height="63dp"
             android:layout_marginTop="10dp"
@@ -145,7 +126,7 @@
             android:paddingTop="13dp"
             android:paddingRight="10dp"
             android:paddingBottom="16dp"
-            android:text="   Encrypted files"
+            android:text="   Decrypt file"
             android:textColor="#383d40"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -170,21 +151,21 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button5" />
+            app:layout_constraintTop_toBottomOf="@+id/mainEncryptedBtn" />
 
         <Button
-            android:id="@+id/button8"
+            android:id="@+id/clearSessionBtn"
             android:layout_width="0dp"
             android:layout_height="63dp"
             android:layout_marginTop="10dp"
             android:backgroundTint="#d75c23"
-            android:drawableLeft="@android:drawable/ic_dialog_alert"
+            android:drawableLeft="@drawable/dispose_small"
             android:gravity="left|center_vertical"
-            android:paddingLeft="16dp"
+            android:paddingLeft="15dp"
             android:paddingTop="13dp"
             android:paddingRight="10dp"
             android:paddingBottom="16dp"
-            android:text="   Clear session"
+            android:text="   Clear and exit"
             android:textColor="#383d40"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -197,9 +178,53 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Wellcome,"
-            android:textSize="22sp"
+            android:textSize="26sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/serverConnection"
+            android:layout_width="110dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="50dp"
+            android:text="Connect"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="Mode:"
+            android:textSize="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+        <TextView
+            android:id="@+id/textView14Mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="16dp"
+            android:text="offline"
+            android:textColor="#A8A8A8"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/textView9"
+            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+        <ImageView
+            android:id="@+id/imageConnectionStatus"
+            android:layout_width="25dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="8dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/done" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
