@@ -249,9 +249,6 @@ public class MenuUI extends AppCompatActivity {
                 },
                 error -> {
                     Button btn = (Button) findViewById(R.id.serverConnection);
-                    Drawable imgSync = ctx.getResources().getDrawable(R.drawable.not, getApplicationContext().getTheme());
-                    Drawable imgServer = ctx.getResources().getDrawable(R.drawable.server_icon, getApplicationContext().getTheme());
-                    btn.setCompoundDrawablesWithIntrinsicBounds(imgServer, null, imgSync, null);
 
                     if (error.networkResponse != null && error.networkResponse.statusCode == 401){
                         Toast.makeText(ctx,
